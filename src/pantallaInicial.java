@@ -12,13 +12,23 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import com.mysql.jdbc.PreparedStatement;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+//BBDD
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+//BBDD
 
 // Pantalla Inicial - Inicio - Login
 
@@ -40,6 +50,9 @@ public class pantallaInicial extends JFrame {
 				}
 			}
 		});
+		
+		
+ 
 	}
 
 	/**
@@ -74,7 +87,7 @@ public class pantallaInicial extends JFrame {
                 contentPane.remove(logoInicio);
                 
                 logoInicio.setVisible(false);
-                
+                 
                 contentPane.repaint();
                 
                 // Logo en página de login
@@ -110,17 +123,13 @@ public class pantallaInicial extends JFrame {
                 miBoton.setForeground(Color.WHITE); 
                 contentPane.add(miBoton);
                 
-                TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField); // hint
-                TextPrompt contrasenia = new TextPrompt("Contrasenia", contraseniaTextField); // hint
-                
                 // Comprobar si hay datos, sino sale en rojo
-                miBoton.addActionListener((ActionListener) new ActionListener() {
+                miBoton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String usuario = usuarioTextField.getText();
                         char[] contrasenia = contraseniaTextField.getPassword();
 
-                        // Verifica si los campos están vacíos
                         if (usuario.isEmpty()) {
                             usuarioTextField.setBorder(BorderFactory.createLineBorder(Color.RED));
                         } else {
@@ -133,9 +142,110 @@ public class pantallaInicial extends JFrame {
                             contraseniaTextField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
                         }
 
-                        // Ahora puedes realizar la validación del usuario y contraseña aquí
-                        // y realizar otras acciones según tus necesidades
-                    }
+                        boolean conexionExitosa = conectarABaseDeDatos();
+
+                        if (conexionExitosa) {
+                            JOptionPane.showMessageDialog(contentPane, "Conexión a la base de datos exitosa");
+
+                            boolean credencialesValidas = verificarCredencialesEnBaseDeDatos(usuario, new String(contrasenia));
+
+                            if (credencialesValidas) {
+                                // Oculta la ventana actual
+                                setVisible(false);
+
+                                // Crea una instancia de la ventana principal
+                                ventanaPrincipal ventana = new ventanaPrincipal();
+
+                                // Establece operaciones de cierre para la ventana principal
+                                ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                                // Haz que la ventana principal sea visible
+                                ventana.setVisible(true);
+                            } else {
+                                // Credenciales incorrectas, muestra un mensaje de error
+                                JOptionPane.showMessageDialog(contentPane, "Credenciales incorrectas", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(contentPane, "No se pudo conectar a la base de datos", "Error de Conexión", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }  
+
+                    // Conexión a Base de Datos
+					private boolean conectarABaseDeDatos() {
+						
+					    try {
+					    	String url = "jdbc:mysql://localhost:3306/sys?useSSL=false";
+						    String usuario = "root";
+						    String contrasenia = "1234";
+
+						    Connection conexion = null; 
+					        conexion = DriverManager.getConnection(url, usuario, contrasenia);
+					        if (conexion != null) {
+					            conexion.close();
+					        }
+					        return true;
+					    } catch (SQLException e) {
+					        e.printStackTrace();
+					        return false;
+					    } 
+					} 
+
+					// prueba verificar credenciales
+					public boolean verificarCredencialesEnBaseDeDatos(String usuario, String contrasenia) {
+					    Connection connection = null;
+					    PreparedStatement preparedStatement = null;
+					    ResultSet resultSet = null;
+					    boolean credencialesValidas = false;
+
+					    try {
+					        // Establecer la conexión a la base de datos (debes configurar esto según tu base de datos)
+					        String url = "jdbc:mysql://localhost:3306/sys?useSSL=false";
+					        String dbUser = "root";
+					        String dbPassword = "1234";
+					        connection = DriverManager.getConnection(url, dbUser, dbPassword);
+
+					        // Consulta SQL para verificar las credenciales del usuario
+					        String sql = "SELECT * FROM usuario WHERE Nombre = ? AND contraseña = ?";
+					        preparedStatement = (PreparedStatement) connection.prepareStatement(sql);
+					        preparedStatement.setString(1, usuario);
+					        preparedStatement.setString(2, contrasenia);
+					        resultSet = preparedStatement.executeQuery(); 
+
+					        // Si se encuentra un registro, las credenciales son válidas
+					        credencialesValidas = resultSet.next();
+
+					        if (credencialesValidas) {
+					            // Credenciales correctas, muestra un mensaje de bienvenida
+					            JOptionPane.showMessageDialog(null, "Bienvenido", "Inicio de Sesión Exitoso", JOptionPane.INFORMATION_MESSAGE);
+					        } else {
+					            // Credenciales incorrectas, muestra un mensaje de error
+					            JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
+					        }
+					    } catch (SQLException e) {
+					        e.printStackTrace();
+					    } finally {
+					        try {
+					            if (resultSet != null) {
+					                resultSet.close();
+					            }
+					            if (preparedStatement != null) {
+					                preparedStatement.close();
+					            }
+					            if (connection != null) {
+					                connection.close();
+					            }
+					        } catch (SQLException e) {
+					            e.printStackTrace();
+					        }
+					    }
+
+					    return credencialesValidas;
+					}
+					
+					// Hints de Botones
+	                TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField); // hint
+	                TextPrompt contrasenia = new TextPrompt("Contrasenia", contraseniaTextField); // hint
+					
                 });
                 
                 contentPane.repaint();
