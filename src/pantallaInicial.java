@@ -51,8 +51,6 @@ public class pantallaInicial extends JFrame {
 			}
 		});
 		
-		
- 
 	}
 
 	/**
