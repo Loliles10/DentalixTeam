@@ -29,7 +29,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.awt.BorderLayout;
 import mainPack.conectorBBDD;
 
@@ -43,8 +46,9 @@ public class ventanaPrincipal extends JFrame {
 	private JLabel texto1;
 	private JButton playBoton;
 	private conectorBBDD conector = new conectorBBDD();
-	public static JTable tablaPacientes;
-	private DefaultTableModel modeloTabla;
+	public static JTable tablaPacientes = new JTable();  // Nuestra tabla de PACIENTES
+	private TableModel modeloTabla = new tablaPersonalizada();
+	tablaPersonalizada modeloTabla1 = new tablaPersonalizada();
 	
 	
 	/**
@@ -66,7 +70,11 @@ public class ventanaPrincipal extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Autores:
+	 * David Andrade
+	 * Pablo Rodriguez
+	 * Ian Requena
+	 * 2023
 	 */
 	
 	
@@ -76,12 +84,9 @@ public class ventanaPrincipal extends JFrame {
 		// Llama al constructor de la clase base (JFrame)
         super("Dentilax"); 
 
+        // Creamos la tabla (pacientes)
         modeloTabla = new DefaultTableModel();
         tablaPacientes = new JTable(modeloTabla);
-        
-        JScrollPane scrollPane = new JScrollPane(tablaPacientes); // ScrollPane Pacientes	
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
-        // FIN Constructor	
         
 		// Dimensiones
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,130 +99,98 @@ public class ventanaPrincipal extends JFrame {
 	    setContentPane(contentPane);
 	    contentPane.setLayout(null);
 	    
-	    // Código de Ventana Principal...
-	    
-	    // Logo Fondo azul
-    	JLabel logoBlanco = new JLabel("");
+	    // Código de Ventana Principal
+	    // Logo Fondo azul (en el ScrollPane)
+    	JLabel logoBlanco = new JLabel(""); // JLabel
     	logoBlanco.setHorizontalAlignment(SwingConstants.CENTER);
     	contentPane.add(logoBlanco);
-    	ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
-    	int ancho = imagen.getIconWidth();
-    	int alto = imagen.getIconHeight();
+    	
+    	 // Creamos la imagen
+    	ImageIcon imagenLogo = new ImageIcon(getClass().getResource("/logoAzul.png"));
+    	int ancho = imagenLogo.getIconWidth();
+    	int alto = imagenLogo.getIconHeight();
+    	
     	logoBlanco.setBounds(0, 0, ancho, alto);
-
-    	Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+    	
+    	// Con Icon representamos a la imagen creada
+    	Icon icono = new ImageIcon(imagenLogo.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT)); 
+    	 // Ponemos la imagen en la interfaz
     	logoBlanco.setIcon(icono);
 	    
-	    JScrollPane scrollPane1 = new JScrollPane(); //ScrollPane principal
-	    scrollPane1.setBounds(0, 101, 100, 590);
-	    contentPane.add(scrollPane1);
-
-	    JPanel buttonPanel = new JPanel();
-	    buttonPanel.setLayout(new GridLayout(10, 1));
-	    scrollPane.setViewportView(buttonPanel);
-
+    	// Creamos el panel de la izquierda, en el que pondremos los botones
+    	JPanel buttonPanel = new JPanel();
+    	buttonPanel.setLayout(new GridLayout(10, 1));  // GridLayout con 10 filas y 1 columna
     	buttonPanel.setBackground(Color.WHITE);
 
+    	// Creamos el JScrollPane y le asignamos el panel de botones
+    	JScrollPane scrollPane = new JScrollPane(buttonPanel);
+
+    	// Configuramos el JScrollPane para desplazamiento vertical
+    	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+    	// Establecemos el tamaño del JScrollPane
+    	scrollPane.setBounds(0, 101, 100, 590);
+
+    	// Agregamos el JScrollPane al contenido del frame
+    	contentPane.add(scrollPane);
+
+    	// Zona de tablas
+    	JPanel tablasPanel = new JPanel();
+    	tablasPanel.setBackground(new Color(255, 255, 255));
+    	tablasPanel.setBounds(99, 0, 1167, 691);
+    	contentPane.add(tablasPanel);
+
+    	// Configuración de la tabla de pacientes
+    	tablaPacientes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // Ajusta automáticamente las columnas
+    	JScrollPane scrollPane1 = new JScrollPane(tablaPacientes);
+
+    	// Configuración del JScrollPane
+    	scrollPane1.setBounds(99, 0, 1167, 691); // Ajusta el tamaño del JScrollPane al tamaño de tablasPanel
+    	scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // Barra de desplazamiento vertical según sea necesario
+    	scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Barra de desplazamiento horizontal según sea necesario
+
+    	tablasPanel.add(scrollPane1); // Agrega el JScrollPane al panel
+    	tablasPanel.setVisible(false);
+
     	// Botón 1 Pacientes
+    	// Icono
     	java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl1);
     	JButton button1 = new JButton(icon);
     	button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
     	button1.setBackground(Color.WHITE);
+
+    	// Agregamos el botón al panel
     	buttonPanel.add(button1);
-    	
+
+    	// Acción a realizar por el botón
     	button1.addActionListener(new ActionListener() {
     	    @Override
     	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	        
-    	        // Cuando hacemos click, se muestra la tabla de 'paciente'
-    	        // Usamos 'ventanaPrincipal.this' para hacer referencia a la instancia de ventanaPrincipal
-    	        conector.cargarDatosPacientes(ventanaPrincipal.this); 
-    	        
-    	        // Botones Agregar, Eliminar y Actualizar
-    	        // Agregar
-                JButton botonAgregar = new JButton("Agregar");
+    	        try {
+    	            // Ocultamos el contenido de la pantalla de trabajo
+    	            bienvenido.setVisible(false);
+    	            texto1.setVisible(false);
+    	            playBoton.setVisible(false);
+    	            
+    	            tablaPacientes.setModel(modeloTabla);
 
-                botonAgregar.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                    	
-                    	conectorBBDD conectorBBDD = new conectorBBDD();
-                    	
-						conectorBBDD.cargarDatosPacientes(ventanaPrincipal.this);
-                        setVisible(false);
-                        agregarPaciente ventanaAgregarPaciente = new agregarPaciente();
-                        ventanaAgregarPaciente.setVisible(true);
-                        
-                    }
-                }); 
-                
-                // Eliminar
-                JButton botonEliminar = new JButton("Eliminar");
+    	            // Cargamos los datos a mostrar (tabla de pacientes)
+    	            if (conector.conectarConBBDD()) {
+    	                // La conexión se ha establecido correctamente, ahora puedes llamar al método cargarDatosPacientes.
+    	                conector.cargarDatosPacientes(ventanaPrincipal.this);
+    	            } else {
+    	                // Maneja el caso en el que la conexión no se pudo establecer
+    	                JOptionPane.showMessageDialog(ventanaPrincipal.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+    	            }
 
-                botonEliminar.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        setVisible(false);
-
-                        eliminarPaciente ventanaeliminarPaciente = new eliminarPaciente();
-                        ventanaeliminarPaciente.setVisible(true);
-                    }
-                });
-                
-                // Actualizar
-                JButton botonActualizar = new JButton("Actualizar");
-                botonActualizar.setEnabled(false);
-
-                botonActualizar.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) { 
-                    	String url = "jdbc:mysql://localhost:3306/dentilax?useSSL=false";
-                        String usuario = "root";
-                        String contrasena = "1234";
-                    	try {
-                            Connection conexion = DriverManager.getConnection(url, usuario, contrasena);
-
-                            setVisible(false);
-
-                            actualizarPaciente ventanaactualizarPaciente = new actualizarPaciente();
-                            ventanaactualizarPaciente.setVisible(true);
-
-                            conexion.close();
-
-                        } catch (SQLException ex) {
-                            System.err.println("Error al actualizar: " + ex.getMessage());
-                        }
-                    	
-                    }
-                    
-                });
-                
-
-               // Tabla en la que se muestran los pacientes
-               DefaultTableModel modeloTabla = new DefaultTableModel();
-               tablaPacientes = new JTable(modeloTabla); // Problema
-               
-               JPanel panelAgregar = new JPanel(new BorderLayout());
-               panelAgregar.add(new JScrollPane(tablaPacientes), BorderLayout.CENTER);
-               panelAgregar.add(botonAgregar, BorderLayout.SOUTH);
-
-               JPanel panelEliminar = new JPanel(new BorderLayout());
-               panelEliminar.add(botonEliminar, BorderLayout.SOUTH);
-               
-               JPanel panelActualizar = new JPanel(new BorderLayout());
-               panelActualizar.add(botonActualizar, BorderLayout.SOUTH);
-
-               // Crear panel para tabla y botones
-               JPanel panelPrincipal = new JPanel(new GridLayout(1, 2));
-               panelPrincipal.add(panelAgregar);
-               panelPrincipal.add(panelEliminar);
-               panelPrincipal.add(panelActualizar);
-               
-               JOptionPane.showMessageDialog(ventanaPrincipal.this, panelPrincipal, "Tabla de Pacientes", JOptionPane.INFORMATION_MESSAGE);
-                    
+    	            // Muestra la tabla de pacientes en el panel de tablas
+    	            tablasPanel.setVisible(true);
+    	        } catch (Exception ex) {
+    	            ex.printStackTrace();
+    	            JOptionPane.showMessageDialog(ventanaPrincipal.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
+    	        }
     	    }
-    	    
     	});
 
     	// Botón 2 Doctores
@@ -418,11 +391,7 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
     	
-    	// Zona de tablas
-    	JPanel tablasPanel = new JPanel();
-    	tablasPanel.setBackground(new Color(255, 255, 255));
-    	tablasPanel.setBounds(99, 0, 1167, 691);
-    	contentPane.add(tablasPanel);
+    	
     	 
 	}
 	
