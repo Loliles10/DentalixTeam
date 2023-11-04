@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,7 +53,7 @@ public class pantallaInicial extends JFrame {
 		});
 		
 	}
-
+ 
 	/**
 	 * JFrame de la Pantalla Inicial
 	 */
@@ -68,6 +69,9 @@ public class pantallaInicial extends JFrame {
 	    contentPane.setBackground(Color.WHITE);
 	    setContentPane(contentPane);
 	    contentPane.setLayout(null); 
+	    
+	    Font montserratFont = new Font("Montserrat", Font.PLAIN, 20);
+	    contentPane.setFont(montserratFont);
 	    
 	    // Logo en página de inicio
 	    logoInicio = new JLabel("");
@@ -89,24 +93,20 @@ public class pantallaInicial extends JFrame {
 	    		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	            logoInicio.setVisible(false); 
                 contentPane.remove(logoInicio);
-                contentPane.repaint();
+                contentPane.repaint(); 
                 
-             	// Logo en página de login (creamos un JLabel para mostrar el logo)
                 logoLogin = new JLabel("");
-                logoLogin.setHorizontalAlignment(SwingConstants.CENTER); // Centramos la alineación del JLabel
-                logoLogin.setBounds(270, 100, 500, 500);  // Establecemos las coordenadas y dimensiones del JLabel
+                logoLogin.setHorizontalAlignment(SwingConstants.CENTER);
+                logoLogin.setBounds(270, 100, 500, 500);
 
-                // Cargamos una imagen desde un archivo ubicado en el recurso "/logoDentilax.png"
                 ImageIcon imagen = new ImageIcon(getClass().getResource("/logoDentilax.png"));
 
-                // Escalamos la imagen para que se ajuste al tamaño del JLabel
                 Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(logoLogin.getWidth(), logoLogin.getHeight(), Image.SCALE_DEFAULT));
 
-                // Asignamos el icono (imagen) al JLabel
                 logoLogin.setIcon(icono);
 
-                logoLogin.setBounds(222, 100, 500, 500); // Ajustamos nuevamente las coordenadas y dimensiones del JLabel
-                contentPane.add(logoLogin); // Agregamos el JLabel al contenedor principal (contentPane)
+                logoLogin.setBounds(222, 100, 500, 500); 
+                contentPane.add(logoLogin);
 
             	// Formulario de Login
                 // Usuario
@@ -120,7 +120,6 @@ public class pantallaInicial extends JFrame {
                 contraseniaTextField.setBounds(770, 300, 200, 30);
                 contentPane.add(contraseniaTextField);
 
-                // Agregar el JCheckBox debajo de los campos de contraseña
                 JCheckBox recordarCheckBox = new JCheckBox("Recordar mi contraseña");
                 recordarCheckBox.setBounds(770, 350, 200, 30);
                 recordarCheckBox.setOpaque(false);
@@ -133,7 +132,6 @@ public class pantallaInicial extends JFrame {
                 loginBoton.setForeground(Color.WHITE); 
                 contentPane.add(loginBoton);
                 
-                // Comprobar si hay datos, sino sale en rojo
                 loginBoton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -144,7 +142,7 @@ public class pantallaInicial extends JFrame {
                             usuarioTextField.setBorder(BorderFactory.createLineBorder(Color.RED));
                         } else {
                             usuarioTextField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-                        }
+                        } 
 
                         if (contrasenia.length == 0) {
                             contraseniaTextField.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -153,25 +151,25 @@ public class pantallaInicial extends JFrame {
                         }
                         
                         // Conexión
-                        boolean conexionExitosa = conectarABaseDeDatos(); // Variable para controlar la conexión
+                        boolean conexionExitosa = conectarABaseDeDatos(); 
 
                         if (conexionExitosa) {
-                            JOptionPane.showMessageDialog(contentPane, "Conexión a la base de datos exitosa");
-
+                            //JOptionPane.showMessageDialog(contentPane, "Conexión a la base de datos exitosa");
+                        	
+                        	System.out.println("Conexión a la base de datos exitosa");
+                        	
                             boolean credencialesValidas = verificarCredencialesEnBaseDeDatos(usuario, new String(contrasenia));
 
                             if (credencialesValidas) {
-                                // Oculta la ventana actual
                                 setVisible(false);
 
                             } else {
-                                // Credenciales incorrectas, muestra un mensaje de error
                                 JOptionPane.showMessageDialog(contentPane, "Credenciales incorrectas", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
                             JOptionPane.showMessageDialog(contentPane, "No se pudo conectar a la base de datos", "Error de Conexión", JOptionPane.ERROR_MESSAGE);
                         }
-                    }  
+                    }   
 
                     // Conexión a Base de Datos
 					private boolean conectarABaseDeDatos() {
@@ -216,21 +214,17 @@ public class pantallaInicial extends JFrame {
 					            String rol = resultSet.getString("rol");
 					            
 					            if ("admin".equals(rol)) {
-					                // Credenciales correctas y rol 'admin', abre la ventana principal
 					                credencialesValidas = true;
 					                new ventanaPrincipal().setVisible(true);
 					                new ventanaEspectador().setVisible(false);
 					            } else if ("doctor".equals(rol)) {
-					                // Credenciales correctas y rol 'doctor', abre la ventana del espectador
 					                credencialesValidas = true;
 					                new ventanaEspectador().setVisible(true);
 					                new ventanaPrincipal().setVisible(false);
 					            } else {
-					                // Rol no reconocido
 					                JOptionPane.showMessageDialog(null, "Rol no válido", "Error de Rol", JOptionPane.ERROR_MESSAGE);
 					            }
 					        } else {
-					            // Credenciales incorrectas
 					            JOptionPane.showMessageDialog(null, "Credenciales incorrectas", "Error de Inicio de Sesión", JOptionPane.ERROR_MESSAGE);
 					        }
 					    } catch (SQLException e) {
@@ -262,7 +256,7 @@ public class pantallaInicial extends JFrame {
                 
                 contentPane.repaint();
                 
-            }
+            } 
 	    	
 	    	@Override
     	    public void mouseEntered(MouseEvent e) {

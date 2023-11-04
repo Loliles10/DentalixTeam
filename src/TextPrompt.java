@@ -76,7 +76,7 @@ public class TextPrompt extends JLabel implements FocusListener, DocumentListene
 	 */
 	public void changeAlpha(float alpha) {
 		changeAlpha((int) (alpha * 255));
-	}
+	} 
 
 	/**
 	 * Convenience method to change the alpha value of the current foreground
