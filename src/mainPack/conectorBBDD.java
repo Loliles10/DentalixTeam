@@ -72,7 +72,7 @@ public class conectorBBDD {
 	            
 	            // Configura las columnas de la tabla
 	        	modeloTabla.addColumn("PacienteID");
-	        	modeloTabla.addColumn("Nombre");
+	        	modeloTabla.addColumn("NombreUsuario");
 	        	modeloTabla.addColumn("Apellido");
 	        	modeloTabla.addColumn("DNI");
 	        	modeloTabla.addColumn("FechaNacimiento");
@@ -127,7 +127,7 @@ public class conectorBBDD {
 	    	conectarConBBDD();
 	        
 	    	// Sentencia SQL para comprobar usuario y contraseña
-	        String selectSQL = "SELECT * FROM dentilax.usuarios WHERE Nombre = ? AND contraseña = ?";
+	        String selectSQL = "SELECT * FROM dentilax.usuarios WHERE NombreUsuario = ? AND Contrasenia = ?";
 	        preparedStatement = (PreparedStatement) conexion.prepareStatement(selectSQL);
 	        preparedStatement.setString(1, usuario);
 	        preparedStatement.setString(2, contrasenia);
@@ -137,7 +137,7 @@ public class conectorBBDD {
 	        if (resultSet.next()) {
 	            String rol = resultSet.getString("rol");
 	            
-	            if ("admin".equals(rol)) {
+	            if ("administrador".equals(rol)) {
 	                credencialesValidas = true;
 	                new ventanaPrincipal().setVisible(true);
 	                new ventanaEspectador().setVisible(false);
