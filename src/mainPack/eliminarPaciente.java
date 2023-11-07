@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.mysql.jdbc.Statement;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 public class eliminarPaciente extends JFrame {
 

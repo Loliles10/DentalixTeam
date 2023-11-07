@@ -19,7 +19,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.PreparedStatement;
 
 
 public class conectorBBDD {
@@ -127,7 +127,7 @@ public class conectorBBDD {
 	    	conectarConBBDD();
 	        
 	    	// Sentencia SQL para comprobar usuario y contraseña
-	        String selectSQL = "SELECT * FROM sys.usuario WHERE Nombre = ? AND contraseña = ?";
+	        String selectSQL = "SELECT * FROM dentilax.usuarios WHERE Nombre = ? AND contraseña = ?";
 	        preparedStatement = (PreparedStatement) conexion.prepareStatement(selectSQL);
 	        preparedStatement.setString(1, usuario);
 	        preparedStatement.setString(2, contrasenia);
