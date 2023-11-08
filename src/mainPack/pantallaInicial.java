@@ -14,9 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import java.sql.PreparedStatement;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -25,13 +22,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-//BBDD
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import mainPack.conectorBBDD;
-//BBDD
 
 // Pantalla Inicial - Inicio - Login
 
@@ -116,7 +106,6 @@ public class pantallaInicial extends JFrame {
                 // Usuario
                 JTextField usuarioTextField = new JTextField();
                 usuarioTextField.setBounds(770, 250, 200, 30);
-                String usuario = usuarioTextField.getText();      
                 contentPane.add(usuarioTextField);
                 
                 // Contraseña
@@ -177,8 +166,8 @@ public class pantallaInicial extends JFrame {
                     }    
 
 					// Hints de Botones
-	                TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField); // hint
-	                TextPrompt contrasenia = new TextPrompt("Contrasenia", contraseniaTextField); // hint
+	                TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField);
+	                TextPrompt contrasenia = new TextPrompt("Contrasenia", contraseniaTextField); 
 					
                 });
                 

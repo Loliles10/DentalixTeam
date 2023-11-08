@@ -1,9 +1,4 @@
 package mainPack;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 // Imports BBDD
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,13 +6,10 @@ import java.sql.SQLException;
 // Fin Imports BBDD
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javax.swing.JButton;
+import java.util.Vector;
+
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import java.sql.PreparedStatement;
 
@@ -55,66 +47,57 @@ public class conectorBBDD {
         }
     }
 	
-	// Asegúrate de que la tabla de pacientes tenga un DefaultTableModel configurado
-	tablaPersonalizada modeloTabla = new tablaPersonalizada();
-	
-	// Método para cargar los datos de pacientes
-	protected void cargarDatosPacientes(Component componentePrincipal) {
+	public void cargarDatosPacientes(DefaultTableModel modeloTabla) {
 	    try {
-	        // Asegurarse de que la conexión a la base de datos se establezca correctamente
-	        if (conectarConBBDD()) {
-	            // Consulta SQL para obtener datos de la tabla
-	            String consulta = "SELECT * FROM dentilax.pacientes";
-	            Statement statement = conexion.createStatement();
-	            ResultSet resultado = statement.executeQuery(consulta);
-	            
-	            ventanaPrincipal.tablaPacientes.setModel(modeloTabla);
-	            
-	            // Configura las columnas de la tabla
-	        	modeloTabla.addColumn("PacienteID");
-	        	modeloTabla.addColumn("NombreUsuario");
-	        	modeloTabla.addColumn("Apellido");
-	        	modeloTabla.addColumn("DNI");
-	        	modeloTabla.addColumn("FechaNacimiento");
-	        	modeloTabla.addColumn("Direccion");
-	        	modeloTabla.addColumn("Telefono");
-	        	modeloTabla.addColumn("EspecialidadID");
+	        // Define las columnas del modelo de tabla
+	        Vector<String> columnas = new Vector<>();
+	        columnas.add("PacienteID");
+	        columnas.add("Nombre");
+	        columnas.add("Apellido");
+	        columnas.add("DNI");
+	        columnas.add("FechaNacimiento");
+	        columnas.add("Direccion");
+	        columnas.add("Telefono");
+	        columnas.add("EspecialidadID");
 
-	            // Borra filas existentes de la tabla
-	            while (modeloTabla.getRowCount() > 0) {
-	                modeloTabla.removeRow(0);
-	            }
-	            
-	            // Agrega filas con datos desde la base de datos
-	            while (resultado.next()) {
-	                Object[] fila = {
-	                    resultado.getInt("PacienteID"),
-	                    resultado.getString("Nombre"),
-	                    resultado.getString("Apellido"),
-	                    resultado.getString("DNI"),
-	                    resultado.getDate("FechaNacimiento"),
-	                    resultado.getString("Direccion"),
-	                    resultado.getString("Telefono"),
-	                    resultado.getInt("EspecialidadID")
-	                };
-	                modeloTabla.addRow(fila);
-	            }
+	        // Configura el modelo de tabla con las columnas
+	        modeloTabla.setColumnIdentifiers(columnas);
 
-	            // Cierra la conexión
-	            cerrarConexion();
-	        } else {
-	            // Manejar errores de conexión
-	            JOptionPane.showMessageDialog(componentePrincipal, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+	        // Consulta SQL para obtener datos de la tabla dentilax.pacientes
+	        String consulta = "SELECT * FROM dentilax.pacientes";
+	        Statement statement = conexion.createStatement();
+	        ResultSet resultado = statement.executeQuery(consulta);
+
+	        // Borra filas existentes del modelo de tabla
+	        while (modeloTabla.getRowCount() > 0) {
+	            modeloTabla.removeRow(0);
 	        }
-	    } catch (Exception ex) {
+
+	        // Agrega filas con datos desde la base de datos al modelo de tabla
+	        while (resultado.next()) {
+	            Object[] fila = {
+	                resultado.getInt("PacienteID"),
+	                resultado.getString("Nombre"),
+	                resultado.getString("Apellido"),
+	                resultado.getString("DNI"),
+	                resultado.getDate("FechaNacimiento"),
+	                resultado.getString("Direccion"),
+	                resultado.getString("Telefono"),
+	                resultado.getInt("EspecialidadID")
+	            };
+	            modeloTabla.addRow(fila);
+	        }
+
+	        // Cierra la conexión
+	        cerrarConexion();
+
+	    } catch (SQLException ex) {
 	        ex.printStackTrace();
-	        JOptionPane.showMessageDialog(componentePrincipal, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
+	        JOptionPane.showMessageDialog(null, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
 
 
-
-	
 	// Método para verificar credenciales 
 	public boolean verificarCredencialesEnBaseDeDatos(String usuario, String contrasenia) {
 	    

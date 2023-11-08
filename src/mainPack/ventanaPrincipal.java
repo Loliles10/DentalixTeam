@@ -22,34 +22,19 @@ import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
-import java.awt.BorderLayout;
-import mainPack.conectorBBDD;
+import javax.swing.JTable;
 
 public class ventanaPrincipal extends JFrame {
 
-	
-	// Variables
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JLabel bienvenido;
-	private JLabel texto1;
-	private JButton playBoton;
-	private conectorBBDD conector = new conectorBBDD();
-	public static JTable tablaPacientes = new JTable();  // Nuestra tabla de PACIENTES
-	private TableModel modeloTabla = new tablaPersonalizada();
-	tablaPersonalizada modeloTabla1 = new tablaPersonalizada();
-	
+    private JPanel contentPane;
+    private JLabel bienvenido;
+    private JLabel texto1;
+    private JButton playBoton;
+    private conectorBBDD conector = new conectorBBDD();
 	
 	/**
 	 * Launch the application.
@@ -80,120 +65,92 @@ public class ventanaPrincipal extends JFrame {
 	
 	public ventanaPrincipal() {
 		
-		// Constructor
-		// Llama al constructor de la clase base (JFrame)
-        super("Dentilax"); 
+		super("Dentilax"); 
+		ventanaPrincipal.this.setLocationRelativeTo(null);
 
-        // Creamos la tabla (pacientes)
-        modeloTabla = new DefaultTableModel();
-        tablaPacientes = new JTable(modeloTabla);
-        
-		// Dimensiones
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setBounds(100, 100, 1280, 720);
+	    setBounds(100, 100, 1292, 728);
 	            
-	    // Estilos del JPanel
 	    contentPane = new JPanel(); 
 	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    contentPane.setBackground(Color.WHITE);
 	    setContentPane(contentPane);
 	    contentPane.setLayout(null);
 	    
-	    // Código de Ventana Principal
-	    // Logo Fondo azul (en el ScrollPane)
-    	JLabel logoBlanco = new JLabel(""); // JLabel
+    	JLabel logoBlanco = new JLabel("");
     	logoBlanco.setHorizontalAlignment(SwingConstants.CENTER);
     	contentPane.add(logoBlanco);
     	
-    	 // Creamos la imagen
     	ImageIcon imagenLogo = new ImageIcon(getClass().getResource("/logoAzul.png"));
     	int ancho = imagenLogo.getIconWidth();
     	int alto = imagenLogo.getIconHeight();
     	
     	logoBlanco.setBounds(0, 0, ancho, alto);
     	
-    	// Con Icon representamos a la imagen creada
     	Icon icono = new ImageIcon(imagenLogo.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT)); 
-    	 // Ponemos la imagen en la interfaz
     	logoBlanco.setIcon(icono);
 	    
-    	// Creamos el panel de la izquierda, en el que pondremos los botones
     	JPanel buttonPanel = new JPanel();
-    	buttonPanel.setLayout(new GridLayout(10, 1));  // GridLayout con 10 filas y 1 columna
+    	buttonPanel.setLayout(new GridLayout(10, 1)); 
     	buttonPanel.setBackground(Color.WHITE);
 
-    	// Creamos el JScrollPane y le asignamos el panel de botones
     	JScrollPane scrollPane = new JScrollPane(buttonPanel);
-
-    	// Configuramos el JScrollPane para desplazamiento vertical
     	scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-    	// Establecemos el tamaño del JScrollPane
     	scrollPane.setBounds(0, 101, 100, 590);
 
-    	// Agregamos el JScrollPane al contenido del frame
     	contentPane.add(scrollPane);
 
-    	// Zona de tablas
+    	// Tablas
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        
     	JPanel tablasPanel = new JPanel();
-    	tablasPanel.setBackground(new Color(255, 255, 255));
-    	tablasPanel.setBounds(99, 0, 1167, 691);
+    	
+    	tablasPanel.setBounds(99, 0, 1179, 691);
     	contentPane.add(tablasPanel);
+    	tablasPanel.setLayout(null);
 
-    	// Configuración de la tabla de pacientes
-    	tablaPacientes.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); // Ajusta automáticamente las columnas
-    	JScrollPane scrollPane1 = new JScrollPane(tablaPacientes);
-
-    	// Configuración del JScrollPane
-    	scrollPane1.setBounds(99, 0, 1167, 691); // Ajusta el tamaño del JScrollPane al tamaño de tablasPanel
-    	scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); // Barra de desplazamiento vertical según sea necesario
-    	scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); // Barra de desplazamiento horizontal según sea necesario
-
-    	tablasPanel.add(scrollPane1); // Agrega el JScrollPane al panel
+    	Tabla table = new Tabla(modeloTabla); 
+    	table.setBackground(new Color(255, 255, 255));
+    	table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     	tablasPanel.setVisible(false);
 
-    	// Botón 1 Pacientes
-    	// Icono
+    	// table.setBounds(10, 10, 1147, 671);
+    	// tablasPanel.add(table);
+    	
+    	JScrollPane scrollPaneT = new JScrollPane(table);
+    	scrollPaneT.setBounds(0, 0, 1179, 691);
+    	tablasPanel.add(scrollPaneT);
+    
     	java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl1);
     	JButton button1 = new JButton(icon);
     	button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
     	button1.setBackground(Color.WHITE);
 
-    	// Agregamos el botón al panel
     	buttonPanel.add(button1);
 
-    	// Acción a realizar por el botón
     	button1.addActionListener(new ActionListener() {
     	    @Override
     	    public void actionPerformed(ActionEvent e) {
     	        try {
-    	            // Ocultamos el contenido de la pantalla de trabajo
     	            bienvenido.setVisible(false);
     	            texto1.setVisible(false);
     	            playBoton.setVisible(false);
     	            
-    	            tablaPacientes.setModel(modeloTabla);
-
-    	            // Cargamos los datos a mostrar (tabla de pacientes)
     	            if (conector.conectarConBBDD()) {
-    	                // La conexión se ha establecido correctamente, ahora puedes llamar al método cargarDatosPacientes.
-    	                conector.cargarDatosPacientes(ventanaPrincipal.this);
+    	                conector.cargarDatosPacientes(modeloTabla);
+    	                tablasPanel.setVisible(true);
     	            } else {
-    	                // Maneja el caso en el que la conexión no se pudo establecer
     	                JOptionPane.showMessageDialog(ventanaPrincipal.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
     	            }
-
-    	            // Muestra la tabla de pacientes en el panel de tablas
-    	            tablasPanel.setVisible(true);
     	        } catch (Exception ex) {
     	            ex.printStackTrace();
     	            JOptionPane.showMessageDialog(ventanaPrincipal.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
     	        }
     	    }
     	});
-
-    	// Botón 2 Doctores
+    	
     	java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
     	Icon icon2 = new ImageIcon(imgUrl2);
     	JButton button2 = new JButton(icon2);
@@ -210,7 +167,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 3 Consultas
     	java.net.URL imgUrl3 = getClass().getResource("/consultasIcono.png");
     	Icon icon3 = new ImageIcon(imgUrl3);
     	JButton button3 = new JButton(icon3);
@@ -226,8 +182,7 @@ public class ventanaPrincipal extends JFrame {
     	        playBoton.setVisible(false);
     	    }
     	});
-
-    	// Botón 4 Consultas	
+    	
     	java.net.URL imgUrl4 = getClass().getResource("/materialIcono.png");
     	Icon icon4 = new ImageIcon(imgUrl4);
     	JButton button4 = new JButton(icon4);
@@ -244,7 +199,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 5 Consultas
     	java.net.URL imgUrl5 = getClass().getResource("/facturacionIcono.png");
     	Icon icon5 = new ImageIcon(imgUrl5);
     	JButton button5 = new JButton(icon5);
@@ -261,7 +215,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 5 Consultas
     	java.net.URL imgUrl6 = getClass().getResource("/pedidosIcono.png");
     	Icon icon6 = new ImageIcon(imgUrl6);
     	JButton button6 = new JButton(icon6);
@@ -278,7 +231,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 7 Consultas
     	java.net.URL imgUrl7 = getClass().getResource("/proveedoresIcono.png");
     	Icon icon7 = new ImageIcon(imgUrl7);
     	JButton button7 = new JButton(icon7);
@@ -295,7 +247,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 8 Consultas
     	java.net.URL imgUrl8 = getClass().getResource("/tratamientosIcono.png");
     	Icon icon8 = new ImageIcon(imgUrl8);
     	JButton button8 = new JButton(icon8);
@@ -312,7 +263,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 9 Consultas
     	java.net.URL imgUrl9 = getClass().getResource("/especialistasIcono.png");
     	Icon icon9 = new ImageIcon(imgUrl9);
     	JButton button9 = new JButton(icon9);
@@ -329,7 +279,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
 
-    	// Botón 10 Consultas
     	java.net.URL imgUrl10 = getClass().getResource("/usuariosIcono.png");
     	Icon icon10 = new ImageIcon(imgUrl10);
     	JButton button10 = new JButton(icon10);
@@ -346,7 +295,6 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
     	
-    	// Texto de ventana principal
     	bienvenido = new JLabel("<html><font color='#008CCE'>¡Bienvenido</font> admin<font color='#008CCE'>!</font></html>");
     	bienvenido.setFont(new Font("Montserrat Medium", Font.BOLD, 60));
     	bienvenido.setBounds(387, 210, 725, 62);
@@ -358,7 +306,6 @@ public class ventanaPrincipal extends JFrame {
     	texto1.setBounds(499, 282, 421, 109);
     	contentPane.add(texto1);
     	
-    	// Boton de play
     	java.net.URL imgUrl11 = getClass().getResource("/play.png"); 
     	Icon icon11 = new ImageIcon(imgUrl11);
     	playBoton = new JButton(icon11);
@@ -391,8 +338,5 @@ public class ventanaPrincipal extends JFrame {
     	    }
     	});
     	
-    	
-    	 
 	}
-	
 }
