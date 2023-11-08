@@ -9,8 +9,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class Tabla extends JTable {
-    /**
-	 * 
+	/**
+	 * Autores:
+	 * David Andrade
+	 * Pablo Rodriguez
+	 * Ian Requena
+	 * 2023
 	 */
 	private static final long serialVersionUID = 1L;
 

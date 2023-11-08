@@ -13,6 +13,13 @@ import javax.swing.table.DefaultTableModel;
 
 import java.sql.PreparedStatement;
 
+/**
+ * Autores:
+ * David Andrade
+ * Pablo Rodriguez
+ * Ian Requena
+ * 2023
+ */
 
 public class conectorBBDD {
 	

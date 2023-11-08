@@ -26,6 +26,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
+import java.awt.Toolkit;
 
 public class ventanaPrincipal extends JFrame {
 
@@ -36,8 +37,12 @@ public class ventanaPrincipal extends JFrame {
     private JButton playBoton;
     private conectorBBDD conector = new conectorBBDD();
 	
-	/**
-	 * Launch the application.
+    /**
+	 * Autores:
+	 * David Andrade
+	 * Pablo Rodriguez
+	 * Ian Requena
+	 * 2023
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -54,19 +59,13 @@ public class ventanaPrincipal extends JFrame {
 		
 	}
 
-	/**
-	 * Autores:
-	 * David Andrade
-	 * Pablo Rodriguez
-	 * Ian Requena
-	 * 2023
-	 */
-	
-	
 	public ventanaPrincipal() {
 		
 		super("Dentilax"); 
 		ventanaPrincipal.this.setLocationRelativeTo(null);
+		// Icono
+		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); 
+		ventanaPrincipal.this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ianre\\git\\DentalixTeam\\recursos\\logoDentilax.png"));
 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1292, 728);
@@ -111,6 +110,7 @@ public class ventanaPrincipal extends JFrame {
     	tablasPanel.setLayout(null);
 
     	Tabla table = new Tabla(modeloTabla); 
+    	table.setEnabled(false);
     	table.setBackground(new Color(255, 255, 255));
     	table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     	tablasPanel.setVisible(false);

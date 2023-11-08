@@ -51,6 +51,13 @@ public class pantallaInicial extends JFrame {
 	/**
 	 * JFrame de la Pantalla Inicial
 	 */
+	/**
+	 * Autores:
+	 * David Andrade
+	 * Pablo Rodriguez
+	 * Ian Requena
+	 * 2023
+	 */
 	public pantallaInicial() {
 		
 		// Dimensiones
