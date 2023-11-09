@@ -64,8 +64,8 @@ public class ventanaPrincipal extends JFrame {
 		super("Dentilax"); 
 		ventanaPrincipal.this.setLocationRelativeTo(null);
 		// Icono
-		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); 
-		ventanaPrincipal.this.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ianre\\git\\DentalixTeam\\recursos\\logoDentilax.png"));
+		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); // ESTO NO FUNCIONA HAY QUE ARREGLARLO PARA QUE FUNCIONE
+		ventanaPrincipal.this.setIconImage(icono1.getImage()); // TENEMOS QUE AÑADIR LAS IMAGENES, TODAS, EN EL CLASSPATH.
 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1292, 728);
@@ -84,7 +84,7 @@ public class ventanaPrincipal extends JFrame {
     	int ancho = imagenLogo.getIconWidth();
     	int alto = imagenLogo.getIconHeight();
     	
-    	logoBlanco.setBounds(0, 0, ancho, alto);
+    	logoBlanco.setBounds(0, 0, 100, 100);
     	
     	Icon icono = new ImageIcon(imagenLogo.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT)); 
     	logoBlanco.setIcon(icono);
@@ -104,6 +104,7 @@ public class ventanaPrincipal extends JFrame {
         DefaultTableModel modeloTabla = new DefaultTableModel();
         
     	JPanel tablasPanel = new JPanel();
+    	tablasPanel.setBackground(new Color(255, 255, 255));
     	
     	tablasPanel.setBounds(99, 0, 1179, 691);
     	contentPane.add(tablasPanel);
@@ -119,8 +120,9 @@ public class ventanaPrincipal extends JFrame {
     	// tablasPanel.add(table);
     	
     	JScrollPane scrollPaneT = new JScrollPane(table);
-    	scrollPaneT.setBounds(0, 0, 1179, 691);
+    	scrollPaneT.setBounds(10, 0, 1169, 691);
     	tablasPanel.add(scrollPaneT);
+    	scrollPaneT.setBackground(new Color(255, 255, 255));
     
     	java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl1);
