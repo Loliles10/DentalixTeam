@@ -102,26 +102,23 @@ public class ventanaPrincipal extends JFrame {
     	contentPane.add(scrollPane);
 
     	// Tablas
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-        
-    	JPanel tablasPanel = new JPanel(); 
+    	DefaultTableModel modeloTabla = new DefaultTableModel();
+    	Tabla table = new Tabla(modeloTabla);
+
+    	JPanel tablasPanel = new JPanel();
     	tablasPanel.setBackground(new Color(255, 255, 255));
-    	
-    	tablasPanel.setBounds(99, 0, 1179, 691);
+    	tablasPanel.setBounds(99, -1, 1179, 691);
     	contentPane.add(tablasPanel);
     	tablasPanel.setLayout(null);
     	tablasPanel.setVisible(false);
-    	
-    	Tabla table = new Tabla(modeloTabla); 
 
-    	// table.setBounds(10, 10, 1147, 671);
-    	// tablasPanel.add(table);
-    	
+    	tablasPanel.add(table);
+
     	JScrollPane scrollPaneT = new JScrollPane(table);
-    	scrollPaneT.setBounds(0, 0, 1179, 691);
+    	scrollPaneT.setBounds(0, 0, 1180, 691);
     	tablasPanel.add(scrollPaneT);
     	scrollPaneT.setBackground(new Color(255, 255, 255));
-    
+
     	java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl1);
     	JButton button1 = new JButton(icon);
@@ -130,6 +127,7 @@ public class ventanaPrincipal extends JFrame {
 
     	buttonPanel.add(button1);
 
+    	// Acción del botón
     	button1.addActionListener(new ActionListener() {
     	    @Override
     	    public void actionPerformed(ActionEvent e) {
@@ -137,7 +135,7 @@ public class ventanaPrincipal extends JFrame {
     	            bienvenido.setVisible(false);
     	            texto1.setVisible(false);
     	            playBoton.setVisible(false);
-    	            
+
     	            if (conector.conectarConBBDD()) {
     	                conector.cargarDatosPacientes(modeloTabla);
     	                tablasPanel.setVisible(true);

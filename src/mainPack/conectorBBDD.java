@@ -52,42 +52,48 @@ public class conectorBBDD {
 	}
 
 	public void cargarDatosPacientes(DefaultTableModel modeloTabla) {
-		try {
-			Vector<String> columnas = new Vector<>();
-			columnas.add("idPaciente");
-			columnas.add("nombre");
-			columnas.add("apellidos");
-			columnas.add("dirección");
-			columnas.add("teléfono");
+	    try {
+	        Vector<String> columnas = new Vector<>();
+	        columnas.add("Nombre");
+	        columnas.add("Apellidos");
+	        columnas.add("Documento");
+	        columnas.add("Teléfono");
 
-			modeloTabla.setColumnIdentifiers(columnas);
+	        modeloTabla.setColumnIdentifiers(columnas);
 
-			String consulta = "SELECT * FROM dentilax.paciente";
-			Statement statement = conexion.createStatement();
-			ResultSet resultado = statement.executeQuery(consulta);
+	        String consulta = "SELECT * FROM dentilax.paciente";
+	        Statement statement = conexion.createStatement();
+	        ResultSet resultado = statement.executeQuery(consulta);
 
-			while (modeloTabla.getRowCount() > 0) {
-				modeloTabla.removeRow(0);
-			}
+	        // Impresión para verificar la consulta
+	        System.out.println("Ejecutando consulta: " + consulta);
 
-			while (resultado.next()) {
-				Object[] fila = { 
-						resultado.getInt("idPaciente"), 
-						resultado.getString("nombre"),
-						resultado.getString("apellidos"), 
-						resultado.getString("dirección"),
-						resultado.getString("teléfono") 
-						};
-				modeloTabla.addRow(fila);
-			}
+	        while (modeloTabla.getRowCount() > 0) {
+	            modeloTabla.removeRow(0);
+	        }
 
-			cerrarConexion();
+	        while (resultado.next()) {
+	            Object[] fila = {
+	                    resultado.getString("nombre"),
+	                    resultado.getString("apellidos"),
+	                    resultado.getInt("idPaciente"),
+	                    resultado.getString("teléfono")
+	            };
+	            modeloTabla.addRow(fila);
 
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error al cargar los datos de pacientes", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
+	            // Impresión para verificar los datos cargados
+	            System.out.println("Datos cargados: " + resultado.getString("nombre") + " " + resultado.getString("apellidos"));
+	        }
+
+	        cerrarConexion();
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
 
 	public boolean verificarCredencialesEnBaseDeDatos(String usuario, String contrasenia) {

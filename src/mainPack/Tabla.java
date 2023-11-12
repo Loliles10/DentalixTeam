@@ -1,33 +1,29 @@
 package mainPack;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public class Tabla extends JTable {
-	
-	/**
-	 * Autores:
-	 * David Andrade
-	 * Pablo Rodriguez
-	 * Ian Requena
-	 * 2023
-	 */
-	
-	private static final long serialVersionUID = 1L;
 
-	public Tabla(DefaultTableModel modelo) {
+    private static final long serialVersionUID = 1L;
+
+    public Tabla(DefaultTableModel modelo) {
         super(modelo);
-        // Personaliza la apariencia de la tabla aquí, por ejemplo:
-        setRowHeight(70); // Altura de las filas
-        setGridColor(Color.BLACK); 
+        setRowHeight(100);
+        setGridColor(Color.BLACK);
         setEnabled(false);
-    	setBackground(new Color(255, 255, 255));
-    	setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-    	setVisible(false);
+        setBackground(new Color(255, 255, 255));
+        setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        Font montserratFont = new Font("Montserrat", Font.PLAIN, 12);
+        setFont(montserratFont);
+
+        TableCellRenderer headerRenderer = new HeaderTabla();
+        getTableHeader().setDefaultRenderer(headerRenderer);
     }
-} 
+}
