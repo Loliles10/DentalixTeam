@@ -104,24 +104,21 @@ public class ventanaPrincipal extends JFrame {
     	// Tablas
         DefaultTableModel modeloTabla = new DefaultTableModel();
         
-    	JPanel tablasPanel = new JPanel();
+    	JPanel tablasPanel = new JPanel(); 
     	tablasPanel.setBackground(new Color(255, 255, 255));
     	
     	tablasPanel.setBounds(99, 0, 1179, 691);
     	contentPane.add(tablasPanel);
     	tablasPanel.setLayout(null);
-
-    	Tabla table = new Tabla(modeloTabla); 
-    	table.setEnabled(false);
-    	table.setBackground(new Color(255, 255, 255));
-    	table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     	tablasPanel.setVisible(false);
+    	
+    	Tabla table = new Tabla(modeloTabla); 
 
     	// table.setBounds(10, 10, 1147, 671);
     	// tablasPanel.add(table);
     	
     	JScrollPane scrollPaneT = new JScrollPane(table);
-    	scrollPaneT.setBounds(10, 0, 1169, 691);
+    	scrollPaneT.setBounds(0, 0, 1179, 691);
     	tablasPanel.add(scrollPaneT);
     	scrollPaneT.setBackground(new Color(255, 255, 255));
     

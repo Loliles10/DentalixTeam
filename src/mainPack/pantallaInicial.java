@@ -6,17 +6,19 @@ import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -33,6 +35,7 @@ public class pantallaInicial extends JFrame {
 	private JLabel logoInicio;
 	private JLabel logoLogin;
 	private conectorBBDD conector = new conectorBBDD();
+	private static Timer timer;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -47,10 +50,7 @@ public class pantallaInicial extends JFrame {
 		});
 		
 	}
- 
-	/**
-	 * JFrame de la Pantalla Inicial
-	 */
+	
 	/**
 	 * Autores:
 	 * David Andrade
@@ -58,13 +58,12 @@ public class pantallaInicial extends JFrame {
 	 * Ian Requena
 	 * 2023
 	 */
+	
 	public pantallaInicial() {
 		
-		// Dimensiones
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1280, 720);
 	            
-	    // Estilos del JPanel
 	    contentPane = new JPanel();
 	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    contentPane.setBackground(Color.WHITE);
@@ -73,61 +72,90 @@ public class pantallaInicial extends JFrame {
 	    
 	    Font montserratFont = new Font("Montserrat", Font.PLAIN, 20);
 	    contentPane.setFont(montserratFont);
-	    
-	    // Logo en página de inicio
+	   
 	    logoInicio = new JLabel("");
 	    logoInicio.setHorizontalAlignment(SwingConstants.CENTER);
 	    logoInicio.setBounds(370, 100, 500, 500);  // Tamaño
 	    
-	    // Variable de imagen (ImageIcon)
 	    ImageIcon imagen = new ImageIcon(getClass().getResource("/logoDentilax.png"));
 	    Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(logoInicio.getWidth(), logoInicio.getHeight(), Image.SCALE_DEFAULT));
 	    logoInicio.setIcon(icono);
 	    
-	    // Al hacer click en el JLabel (imagen de logo de Dentilax)...
-	    logoInicio.addMouseListener((MouseListener) new MouseAdapter() {
-	    	
-	    	@Override
-            public void mouseClicked(MouseEvent e) {
-	    		
-	    		// Ocultar logo 1 y cambiar forma de cursor
-	    		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-	            logoInicio.setVisible(false); 
-                contentPane.remove(logoInicio);
-                contentPane.repaint(); 
-                
-                logoLogin = new JLabel("");
-                logoLogin.setHorizontalAlignment(SwingConstants.CENTER);
-                logoLogin.setBounds(270, 100, 500, 500);
+	    timer = new Timer(1000, new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	            logoInicio.setVisible(false);
+	            contentPane.remove(logoInicio);
+	            contentPane.repaint();
 
-                ImageIcon imagen = new ImageIcon(getClass().getResource("/logoDentilax.png"));
+	            logoLogin = new JLabel("");
+	            logoLogin.setHorizontalAlignment(SwingConstants.CENTER);
+	            logoLogin.setBounds(222, 100, 500, 500);
 
-                Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(logoLogin.getWidth(), logoLogin.getHeight(), Image.SCALE_DEFAULT));
+	            ImageIcon imagen = new ImageIcon(getClass().getResource("/logoDentilax.png"));
 
-                logoLogin.setIcon(icono);
+	            Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(logoLogin.getWidth(),
+	                    logoLogin.getHeight(), Image.SCALE_DEFAULT));
+
+	            logoLogin.setIcon(icono);
 
                 logoLogin.setBounds(222, 100, 500, 500); 
                 contentPane.add(logoLogin);
-
-            	// Formulario de Login
-                // Usuario
+                timer.stop();
+                
                 JTextField usuarioTextField = new JTextField();
                 usuarioTextField.setBounds(770, 250, 200, 30);
                 contentPane.add(usuarioTextField);
                 
-                // Contraseña
                 JPasswordField contraseniaTextField = new JPasswordField();
                 contraseniaTextField.setBounds(770, 300, 200, 30);
                 contentPane.add(contraseniaTextField);
+                
+                JToggleButton toggleButton = new JToggleButton();
+                toggleButton.setIcon(new ImageIcon(getClass().getResource("/mostrar.png")));
+                toggleButton.setSelectedIcon(new ImageIcon(getClass().getResource("/ocultar.png"))); 
+                toggleButton.setBounds(975, 300, 30, 30); 
 
+                toggleButton.setContentAreaFilled(false);
+                toggleButton.setBorderPainted(false);
+                toggleButton.setFocusPainted(false);
+
+                // Cambia el cursor al hacer hover sobre el botón
+                toggleButton.addMouseListener((MouseListener) new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }
+                });
+
+                contentPane.add(toggleButton);
+
+                toggleButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (toggleButton.isSelected()) {
+                            contraseniaTextField.setEchoChar((char) 0); 
+                        } else {
+                            contraseniaTextField.setEchoChar('\u2022'); 
+                        }
+                    }
+                });
+                
+                /*
                 JCheckBox recordarCheckBox = new JCheckBox("Recordar mi contraseña");
                 recordarCheckBox.setBounds(770, 350, 200, 30);
                 recordarCheckBox.setOpaque(false);
                 contentPane.add(recordarCheckBox);
+                */
                 
-                // Botón Login #008CCE
                 JButton loginBoton = new JButton("Login");
-                loginBoton.setBounds(770, 400, 200, 40); 
+                loginBoton.setBounds(770, 350, 200, 40); 
                 loginBoton.setBackground(new Color(0, 140, 206)); 
                 loginBoton.setForeground(Color.WHITE); 
                 contentPane.add(loginBoton);
@@ -154,6 +182,7 @@ public class pantallaInicial extends JFrame {
                         boolean conexionExitosa = conector.conectarConBBDD(); 
 
                         if (conexionExitosa) {
+                        	
                             //JOptionPane.showMessageDialog(contentPane, "Conexión a la base de datos exitosa");
                         	
                         	System.out.println("Conexión a la base de datos exitosa");
@@ -174,14 +203,25 @@ public class pantallaInicial extends JFrame {
 
 					// Hints de Botones
 	                TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField);
-	                TextPrompt contrasenia = new TextPrompt("Contrasenia", contraseniaTextField); 
-					
+	                TextPrompt contrasenia = new TextPrompt("Contraseña", contraseniaTextField); 
+	               
                 });
                 
                 contentPane.repaint();
+             
+                loginBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseEntered(java.awt.event.MouseEvent evt) {
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    }
+
+                    public void mouseExited(java.awt.event.MouseEvent evt) {
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }
+                });
                 
             } 
-	    	
+	        
+	    	/*
 	    	@Override
     	    public void mouseEntered(MouseEvent e) {
     	        if (logoInicio.isVisible()) {
@@ -195,9 +235,11 @@ public class pantallaInicial extends JFrame {
     	            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     	        }
     	    }
-            
+            */
+	        
         });
 	    
+	    timer.start();
         contentPane.add(logoInicio);
 	    
 	}

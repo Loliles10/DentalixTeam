@@ -24,7 +24,10 @@ public class Tabla extends JTable {
         super(modelo);
         // Personaliza la apariencia de la tabla aquí, por ejemplo:
         setRowHeight(70); // Altura de las filas
-        setGridColor(Color.BLACK); // Color de las líneas de la cuadrícula
-        // Agrega más personalizaciones según tus necesidades
+        setGridColor(Color.BLACK); 
+        setEnabled(false);
+    	setBackground(new Color(255, 255, 255));
+    	setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+    	setVisible(false);
     }
-}
+} 
