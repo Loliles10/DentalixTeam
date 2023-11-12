@@ -104,7 +104,7 @@ public class ventanaPrincipal extends JFrame {
     	// Tablas
     	DefaultTableModel modeloTabla = new DefaultTableModel();
     	Tabla table = new Tabla(modeloTabla);
-
+    	
     	JPanel tablasPanel = new JPanel();
     	tablasPanel.setBackground(new Color(255, 255, 255));
     	tablasPanel.setBounds(99, -1, 1179, 691);

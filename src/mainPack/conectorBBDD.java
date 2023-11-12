@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Vector;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -58,15 +59,13 @@ public class conectorBBDD {
 	        columnas.add("Apellidos");
 	        columnas.add("Documento");
 	        columnas.add("Teléfono");
+	        columnas.add("Búsqueda");
 
 	        modeloTabla.setColumnIdentifiers(columnas);
 
 	        String consulta = "SELECT * FROM dentilax.paciente";
 	        Statement statement = conexion.createStatement();
 	        ResultSet resultado = statement.executeQuery(consulta);
-
-	        // Impresión para verificar la consulta
-	        System.out.println("Ejecutando consulta: " + consulta);
 
 	        while (modeloTabla.getRowCount() > 0) {
 	            modeloTabla.removeRow(0);
@@ -77,12 +76,11 @@ public class conectorBBDD {
 	                    resultado.getString("nombre"),
 	                    resultado.getString("apellidos"),
 	                    resultado.getInt("idPaciente"),
-	                    resultado.getString("teléfono")
+	                    resultado.getString("teléfono"),
+	                    // Aquí se añade el botón de "EDITAR"
+	                    new JButton("EDITAR")
 	            };
 	            modeloTabla.addRow(fila);
-
-	            // Impresión para verificar los datos cargados
-	            System.out.println("Datos cargados: " + resultado.getString("nombre") + " " + resultado.getString("apellidos"));
 	        }
 
 	        cerrarConexion();
@@ -95,6 +93,7 @@ public class conectorBBDD {
 	        JOptionPane.showMessageDialog(null, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
+
 
 	public boolean verificarCredencialesEnBaseDeDatos(String usuario, String contrasenia) {
 
