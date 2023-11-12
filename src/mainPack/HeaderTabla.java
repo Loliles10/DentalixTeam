@@ -23,9 +23,13 @@ public class HeaderTabla extends DefaultTableCellRenderer {
         Font montserratFont = new Font("Montserrat", Font.BOLD, 12);
         label.setFont(montserratFont);
 
+        // Convertir el código hexadecimal a color y añadir 90% de opacidad
+        Color color = new Color(Integer.parseInt("008CCE", 16));
+        color = new Color(color.getRed(), color.getGreen(), color.getBlue(), (int) (255 * 0.9));
+
         label.setOpaque(true);
-        label.setBackground(new Color(0, 140, 206)); 
-        label.setForeground(Color.WHITE); 
+        label.setBackground(color);
+        label.setForeground(Color.WHITE);
 
         // Establecer la altura del encabezado verticalmente
         label.setPreferredSize(new java.awt.Dimension(30, 100));

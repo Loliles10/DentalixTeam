@@ -15,7 +15,6 @@ public class Tabla extends JTable {
     public Tabla(DefaultTableModel modelo) {
         super(modelo);
 
-        // Añade una nueva columna llamada "Búsqueda"
         modelo.addColumn("Búsqueda");
 
         setRowHeight(100);
@@ -30,13 +29,11 @@ public class Tabla extends JTable {
         TableCellRenderer headerRenderer = new HeaderTabla();
         getTableHeader().setDefaultRenderer(headerRenderer);
 
-        // Ajusta el índice de la columna de búsqueda según tu modelo
         int columnaDeBusqueda = getColumnCount() - 1;
 
-        // Configurar renderizador para la columna de "Búsqueda"
         getColumnModel().getColumn(columnaDeBusqueda).setCellRenderer(new BotonEditarRenderer());
 
-        // Configurar editor para la columna de "Búsqueda"
         getColumnModel().getColumn(columnaDeBusqueda).setCellEditor(new BotonEditarEditor(new JCheckBox()));
+        
     }
 }
