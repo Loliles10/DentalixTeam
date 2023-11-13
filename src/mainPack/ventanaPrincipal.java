@@ -42,6 +42,7 @@ public class ventanaPrincipal extends JFrame {
 	 * Ian Requena
 	 * 2023
 	 */
+    
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -64,6 +65,7 @@ public class ventanaPrincipal extends JFrame {
 		super("Dentilax"); 
 		ventanaPrincipal.this.setLocationRelativeTo(null);
 		setResizable(false);
+		
 		// Icono
 		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); 
 		ventanaPrincipal.this.setIconImage(icono1.getImage()); 
