@@ -25,8 +25,11 @@ import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import java.awt.Toolkit;
+import javax.swing.JTextField;
 
-public class ventanaPrincipal extends JFrame {
+public class ventanaDoctorInterna extends JFrame {
 
 	private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -34,6 +37,7 @@ public class ventanaPrincipal extends JFrame {
     private JLabel texto1;
     private JButton playBoton;
     private conectorBBDD conector = new conectorBBDD();
+    private JTextField textField;
 	
     /**
 	 * Autores:
@@ -46,7 +50,7 @@ public class ventanaPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanaPrincipal frame = new ventanaPrincipal();
+					ventanaDoctorInterna frame = new ventanaDoctorInterna();
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -57,16 +61,16 @@ public class ventanaPrincipal extends JFrame {
 		
 	}
 
-	public ventanaPrincipal() {
+	public ventanaDoctorInterna() {
 		
 		// asdasd
 		
 		super("Dentilax"); 
-		ventanaPrincipal.this.setLocationRelativeTo(null);
+		ventanaDoctorInterna.this.setLocationRelativeTo(null);
 		setResizable(false);
 		// Icono
 		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); 
-		ventanaPrincipal.this.setIconImage(icono1.getImage()); 
+		ventanaDoctorInterna.this.setIconImage(icono1.getImage()); 
 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1292, 728);
@@ -118,6 +122,13 @@ public class ventanaPrincipal extends JFrame {
     	scrollPaneT.setBounds(-2, 0, 1180, 691);
     	tablasPanel.add(scrollPaneT);
     	scrollPaneT.setBackground(new Color(255, 255, 255));
+    	
+    	JLabel lblNewLabel = new JLabel("Nuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+    	scrollPaneT.setColumnHeaderView(lblNewLabel);
+    	
+    	textField = new JTextField();
+    	scrollPaneT.setColumnHeaderView(textField);
+    	textField.setColumns(10);
 
     	java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl1);
@@ -140,11 +151,11 @@ public class ventanaPrincipal extends JFrame {
     	                conector.cargarDatosPacientes(modeloTabla);
     	                tablasPanel.setVisible(true);
     	            } else {
-    	                JOptionPane.showMessageDialog(ventanaPrincipal.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+    	                JOptionPane.showMessageDialog(ventanaDoctorInterna.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
     	            }
     	        } catch (Exception ex) {
     	            ex.printStackTrace();
-    	            JOptionPane.showMessageDialog(ventanaPrincipal.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
+    	            JOptionPane.showMessageDialog(ventanaDoctorInterna.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
     	        }
     	    }
     	});
