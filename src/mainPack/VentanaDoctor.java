@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class ventanaEspectador extends JFrame {
+public class VentanaDoctor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -63,7 +63,7 @@ public class ventanaEspectador extends JFrame {
 	 */
 	
 	
-	public ventanaEspectador() {
+	public VentanaDoctor() {
 		
 		// Dimensiones
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

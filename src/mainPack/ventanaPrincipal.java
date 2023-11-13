@@ -65,8 +65,8 @@ public class ventanaPrincipal extends JFrame {
 		ventanaPrincipal.this.setLocationRelativeTo(null);
 		setResizable(false);
 		// Icono
-		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); // ESTO NO FUNCIONA HAY QUE ARREGLARLO PARA QUE FUNCIONE
-		ventanaPrincipal.this.setIconImage(icono1.getImage()); // TENEMOS QUE AÑADIR LAS IMAGENES, TODAS, EN EL CLASSPATH.
+		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); 
+		ventanaPrincipal.this.setIconImage(icono1.getImage()); 
 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1292, 728);

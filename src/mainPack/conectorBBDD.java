@@ -120,10 +120,10 @@ public class conectorBBDD {
 				if ("administrador".equals(rol)) {
 					credencialesValidas = true;
 					new ventanaPrincipal().setVisible(true);
-					new ventanaEspectador().setVisible(false);
+					new VentanaDoctor().setVisible(false);
 				} else if ("doctor".equals(rol)) {
 					credencialesValidas = true;
-					new ventanaEspectador().setVisible(true);
+					new VentanaDoctor().setVisible(true);
 					new ventanaPrincipal().setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Rol no válido", "Error de Rol", JOptionPane.ERROR_MESSAGE);
