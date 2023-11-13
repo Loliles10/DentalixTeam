@@ -25,8 +25,6 @@ import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import java.awt.Toolkit;
 
 public class ventanaPrincipal extends JFrame {
 

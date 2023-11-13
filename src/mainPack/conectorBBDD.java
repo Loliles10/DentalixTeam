@@ -58,12 +58,13 @@ public class conectorBBDD {
 	        columnas.add("Nombre");
 	        columnas.add("Apellidos");
 	        columnas.add("Documento");
-	        columnas.add("Teléfono");
+	        columnas.add("Última Consulta");
 	        columnas.add("Búsqueda");
 
 	        modeloTabla.setColumnIdentifiers(columnas);
 
-	        String consulta = "SELECT * FROM dentilax.paciente";
+	        // Ajusta la consulta SQL para seleccionar solo los campos deseados
+	        String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente";
 	        Statement statement = conexion.createStatement();
 	        ResultSet resultado = statement.executeQuery(consulta);
 
@@ -76,7 +77,7 @@ public class conectorBBDD {
 	                    resultado.getString("nombre"),
 	                    resultado.getString("apellidos"),
 	                    resultado.getInt("idPaciente"),
-	                    resultado.getString("teléfono"),
+	                    resultado.getString("ultimaConsulta"),
 	                    // Aquí se añade el botón de "EDITAR"
 	                    new JButton("EDITAR")
 	            };
