@@ -61,6 +61,8 @@ public class ventanaPrincipal extends JFrame {
 
 	public ventanaPrincipal() {
 		
+		// asdasd
+		
 		super("Dentilax"); 
 		ventanaPrincipal.this.setLocationRelativeTo(null);
 		setResizable(false);
