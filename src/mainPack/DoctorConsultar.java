@@ -1,10 +1,10 @@
 package mainPack;
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionListener;
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,30 +14,32 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.Dimension;
-import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import java.awt.Cursor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
+import javax.print.DocFlavor.URL;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
+
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+import java.awt.Label;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 public class DoctorConsultar extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	 private static final Font fuenteLabel = new Font("Montserrat", Font.PLAIN, 20);
+	 private static final Font fuenteGrande = new Font("Montserrat", Font.PLAIN, 50);
+		int yPosition = 30;
+    	int separacionVertical = 70;
+    	
+	 private JTextField textField_salario;
+	 private JTextField textField_idespecialidad;
+	 private JTextField textField_email;
+	 private JTextField textField_id;
+	 ImageIcon icono = new ImageIcon("images/nombre_de_tu_imagen.png");
 	
 	/**
 	 * Launch the application.
@@ -98,7 +100,17 @@ public class DoctorConsultar extends JFrame {
 	    scrollPane.setViewportView(buttonPanel); 
 
     	buttonPanel.setBackground(Color.WHITE);
+    	
+    	
+    	
+    	
+    	
+    	 
 
+
+    	
+    	//BOTONES
+    	
     	// Botón 1 
     	java.net.URL imgUrl = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl);
@@ -193,85 +205,160 @@ public class DoctorConsultar extends JFrame {
     	
     
     	
-    	// Boton de play
-    	java.net.URL imgUrl11 = getClass().getResource("/play.png");
-    	Icon icon11 = new ImageIcon(imgUrl11);
+    	
+    	
+    	//Panel Principal 
+    
     	JScrollPane editarPanel = new JScrollPane();
     	editarPanel.setBounds(100, 0, 1164, 670);
     	contentPane.add(editarPanel);
 
+    	//Panel donde están los labels
     	JPanel panel = new JPanel();
     	editarPanel.setViewportView(panel);
     	panel.setLayout(null);
-
-    	JLabel label = new JLabel("ID:");
-    	label.setBounds(0, 1, 576, 65);
-    	panel.add(label);
-    	JTextField idField = new JTextField();
-    	idField.setBounds(586, 1, 576, 65);
-    	panel.add(idField);
-
-    	JLabel label_1 = new JLabel("Nombre:");
-    	label_1.setBounds(0, 76, 576, 65);
-    	panel.add(label_1);
-    	JTextField nombreField = new JTextField();
-    	nombreField.setBounds(586, 76, 576, 65);
-    	panel.add(nombreField);
-
-    	JLabel label_2 = new JLabel("Apellidos:");
-    	label_2.setBounds(0, 151, 576, 65);
-    	panel.add(label_2);
-    	JTextField apellidosField = new JTextField();
-    	apellidosField.setBounds(586, 151, 576, 65);
-    	panel.add(apellidosField);
-
-    	JLabel label_3 = new JLabel("Teléfono:");
-    	label_3.setBounds(0, 226, 576, 65);
-    	panel.add(label_3);
+    	panel.setBackground(Color.decode("#008cce"));
     	
-    	JTextField telefonoField = new JTextField();
-    	telefonoField.setBounds(586, 226, 576, 65);
-    	panel.add(telefonoField);
+    	// Cargar la imagen desde la carpeta de recursos
+    	String rutaImagen = "/doctorIcono.png";  // Ajusta la ruta según la ubicación de tu recurso
+    	java.net.URL urlImagen = getClass().getResource(rutaImagen);
+    	ImageIcon imagen1 = new ImageIcon(urlImagen);
 
-    	JLabel label_4 = new JLabel("Dirección:");
-    	label_4.setBounds(0, 301, 576, 65);
-    	panel.add(label_4);
-    	JTextField direccionField = new JTextField();
-    	direccionField.setBounds(586, 301, 576, 65);
-    	panel.add(direccionField);
-
-    	JLabel label_5 = new JLabel("ID Especialidad:");
-    	label_5.setBounds(0, 376, 576, 65);
-    	panel.add(label_5);
-    	JTextField idEspecialidadField = new JTextField();
-    	idEspecialidadField.setBounds(586, 376, 576, 65);
-    	panel.add(idEspecialidadField);
-
-    	JLabel label_6 = new JLabel("Salario:");
-    	label_6.setBounds(0, 451, 576, 65);
-    	panel.add(label_6);
-    	JTextField salarioField = new JTextField();
-    	salarioField.setBounds(586, 451, 576, 65);
-    	panel.add(salarioField);
-
-    	JLabel label_7 = new JLabel("Email:");
-    	label_7.setBounds(0, 526, 576, 65);
-    	panel.add(label_7);
-    	JTextField emailField = new JTextField();
-    	emailField.setBounds(586, 526, 576, 65);
-    	panel.add(emailField);
-
-    	JButton guardarButton = new JButton("Guardar");
-    	guardarButton.setBounds(0, 601, 576, 65);
-    	panel.add(guardarButton);
-    	guardarButton.addActionListener(new ActionListener() {
-    	    public void actionPerformed(ActionEvent e) {
-    	        // Aquí puedes agregar el código para guardar los cambios
-    	    }
-    	});
-
-    	// Unicamente espectador
+    	// Añadir la imagen al panel
+    	JLabel labelImagen = new JLabel(imagen1);
+    	labelImagen.setBounds(10, 115, 512, 512);
+    	panel.add(labelImagen);
     	
+    	
+    	// COLOR DEL PANEL(FONDO)
+    	
+    	// ID
+    	JLabel label_ID = new JLabel("ID:");
+    	label_ID.setBackground(new Color(0, 128, 192));
+    	label_ID.setBounds(630, 511, 36, 55);
+    	panel.add(label_ID);
+
+    	
+    	//Establecemos el tamaño y su fuente
+        label_ID.setFont(fuenteLabel);
+        label_ID.setBackground(Color.decode("#008cce"));
+        
+        
+        //L NOMBRE
+    	JLabel label_Nombre = new JLabel("Nombre:");
+    	label_Nombre.setBounds(591, 13, 85, 65);
+    	panel.add(label_Nombre);
+    	
+    	
+        label_Nombre.setFont(fuenteLabel);
+        label_Nombre.setBackground(Color.decode("#008cce"));
+
+        
+        //APELLIDOS
+        
+    	JLabel label_Apellidos = new JLabel("Apellidos:");
+    	label_Apellidos.setBounds(591, 83, 85, 65);
+    	panel.add(label_Apellidos);
+    	
+    	label_Apellidos.setFont(fuenteLabel);
+
+    	
+    	// TELEFONO
+    	
+    	JLabel label_Telefono = new JLabel("Teléfono:");
+    	label_Telefono.setBounds(591, 223, 82, 65);
+    	panel.add(label_Telefono);
+    	
+    	label_Telefono.setFont(fuenteLabel);
+    	
+    	
+    	// DIRECCION
+    	
+    	JLabel label_Direccion = new JLabel("Dirección:");
+    	label_Direccion.setBounds(583, 159, 93, 65);
+    	panel.add(label_Direccion);
+    	
+    	label_Direccion.setFont(fuenteLabel);
+    	
+    	// ID ESPECIALIDAD
+
+    	JLabel label_IDEspecialidad = new JLabel("ID Especialidad:");
+    	label_IDEspecialidad.setBounds(526, 435, 150, 65);
+    	panel.add(label_IDEspecialidad);
+    	
+    	label_IDEspecialidad.setFont(fuenteLabel);
+
+    	//SALARIO
+    	
+    	JLabel label_Salario = new JLabel("Salario:");
+    	label_Salario.setBounds(602, 359, 74, 65);
+    	panel.add(label_Salario);
+
+    	label_Salario.setFont(fuenteLabel);
+
+    	
+    	//EMAIL
+    	
+    	JLabel label_Email = new JLabel("Email:");
+    	label_Email.setBounds(606, 299, 62, 65);
+    	panel.add(label_Email);
+
+    	label_Email.setFont(fuenteLabel);
+
+    	String rutaImagen2 = "/guardarIcono.png";  // Ajusta la ruta según la ubicación de tu recurso
+    	java.net.URL urlImagen2 = getClass().getResource(rutaImagen2);
+    	ImageIcon imagen2 = new ImageIcon(urlImagen2);
+    
+    	
+    	
+    	//TextFields separados equitativamente
+    	
+    	
+    
+    	
+
+    	JTextField textField_nombre = new JTextField();
+    	textField_nombre.setBounds(673, yPosition, 379, 38);
+    	panel.add(textField_nombre);
+
+    	Component textField_apellidos = new JTextField();
+    	textField_apellidos.setBounds(673, yPosition + separacionVertical, 379, 38);
+    	panel.add(textField_apellidos);
+
+    	JTextField textField_telefono = new JTextField();
+    	textField_telefono.setBounds(673, yPosition + separacionVertical * 2, 379, 38);
+    	panel.add(textField_telefono);
+
+    	JTextField textField_direccion = new JTextField();
+    	textField_direccion.setBounds(673, yPosition + separacionVertical * 3, 379, 38);
+    	panel.add(textField_direccion);
+
+    	textField_salario = new JTextField();
+    	textField_salario.setBounds(673, yPosition + separacionVertical * 4, 379, 38);
+    	panel.add(textField_salario);
+
+    	textField_idespecialidad = new JTextField();
+    	textField_idespecialidad.setBounds(673, yPosition + separacionVertical * 5, 379, 38);
+    	panel.add(textField_idespecialidad);
+
+    	textField_email = new JTextField();
+    	textField_email.setBounds(673, yPosition + separacionVertical * 6, 379, 38);
+    	panel.add(textField_email);
+    	
+    	textField_id = new JTextField();
+    	textField_id.setBounds(673, yPosition + separacionVertical * 7, 379, 38);
+    	panel.add(textField_id);
+    	
+    	JLabel labelDoctor = new JLabel("DR.REQUENA");
+    	labelDoctor.setBounds(113, 45, 468, 47);
+    	panel.add(labelDoctor);
+    labelDoctor.setFont(fuenteGrande);
+    	
+    
+    	
+    	
+    	
+    	
+
 	}
-	
 }
