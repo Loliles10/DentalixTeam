@@ -29,7 +29,7 @@ public class Tabla extends JTable {
         setFont(montserratFont);
         setOpaque(true);
 
-        TableCellRenderer headerRenderer = new BuscarColumna();
+        TableCellRenderer headerRenderer = new ColumnaBuscar();
         getTableHeader().setDefaultRenderer(headerRenderer);
 
         int columnaDeBusqueda = getColumnCount() - 1;
@@ -38,7 +38,7 @@ public class Tabla extends JTable {
 
         getColumnModel().getColumn(columnaDeBusqueda).setCellEditor(new BotonEditarEditor(new JCheckBox()));
         getColumnModel().getColumn(columnaDeBusqueda).setCellRenderer(new DatosTablaRenderer());
-        getColumnModel().getColumn(columnaDeBusqueda).setHeaderRenderer(new BuscarColumna());
+        getColumnModel().getColumn(columnaDeBusqueda).setHeaderRenderer(new ColumnaBuscar());
 
         // Ajuste de la altura de las filas del encabezado
         getTableHeader().setPreferredSize(new java.awt.Dimension(30, 100));

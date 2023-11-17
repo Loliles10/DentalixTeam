@@ -34,7 +34,7 @@ public class pantallaInicial extends JFrame {
 	private JPanel contentPane;
 	private JLabel logoInicio;
 	private JLabel logoLogin;
-	private conectorBBDD conector = new conectorBBDD();
+	private ConectorBBDD conector = new ConectorBBDD();
 	private static Timer timer;
 
 	public static void main(String[] args) {

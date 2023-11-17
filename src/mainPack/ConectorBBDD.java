@@ -19,7 +19,7 @@ import java.sql.PreparedStatement;
  * Autores: David Andrade Pablo Rodriguez Ian Requena 2023
  */
 
-public class conectorBBDD {
+public class ConectorBBDD {
 
 	// Variables
 	String url = "jdbc:mysql://localhost:3306/dentilax?useSSL=false";
@@ -120,12 +120,12 @@ public class conectorBBDD {
 
 				if ("administrador".equals(rol)) {
 					credencialesValidas = true;
-					new ventanaPrincipal().setVisible(true);
+					new VentanaPrincipal().setVisible(true);
 					new VentanaDoctor().setVisible(false);
 				} else if ("doctor".equals(rol)) {
 					credencialesValidas = true;
 					new VentanaDoctor().setVisible(true);
-					new ventanaPrincipal().setVisible(false);
+					new VentanaPrincipal().setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, "Rol no válido", "Error de Rol", JOptionPane.ERROR_MESSAGE);
 				}

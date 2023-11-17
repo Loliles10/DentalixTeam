@@ -12,6 +12,7 @@ public class DatosTablaRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
             int row, int column) {
+    	
         JLabel label = new JLabel(value != null ? value.toString() : "");
         label.setHorizontalAlignment(JLabel.LEFT); 
         label.setVerticalAlignment(JLabel.CENTER);

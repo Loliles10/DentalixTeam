@@ -29,14 +29,14 @@ import javax.swing.JTable;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
 
-public class ventanaDoctorInterna extends JFrame {
+public class VentanaDoctorInterna extends JFrame {
 
 	private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JLabel bienvenido;
     private JLabel texto1;
     private JButton playBoton;
-    private conectorBBDD conector = new conectorBBDD();
+    private ConectorBBDD conector = new ConectorBBDD();
     private JTextField textField;
 	
     /**
@@ -50,7 +50,7 @@ public class ventanaDoctorInterna extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ventanaDoctorInterna frame = new ventanaDoctorInterna();
+					VentanaDoctorInterna frame = new VentanaDoctorInterna();
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -61,16 +61,16 @@ public class ventanaDoctorInterna extends JFrame {
 		
 	}
 
-	public ventanaDoctorInterna() {
+	public VentanaDoctorInterna() {
 		
 		// asdasd
 		
 		super("Dentilax"); 
-		ventanaDoctorInterna.this.setLocationRelativeTo(null);
+		VentanaDoctorInterna.this.setLocationRelativeTo(null);
 		setResizable(false);
 		// Icono
 		ImageIcon icono1 = new ImageIcon("/logoDentilax.png"); 
-		ventanaDoctorInterna.this.setIconImage(icono1.getImage()); 
+		VentanaDoctorInterna.this.setIconImage(icono1.getImage()); 
 
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1292, 728);
@@ -151,11 +151,11 @@ public class ventanaDoctorInterna extends JFrame {
     	                conector.cargarDatosPacientes(modeloTabla);
     	                tablasPanel.setVisible(true);
     	            } else {
-    	                JOptionPane.showMessageDialog(ventanaDoctorInterna.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+    	                JOptionPane.showMessageDialog(VentanaDoctorInterna.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
     	            }
     	        } catch (Exception ex) {
     	            ex.printStackTrace();
-    	            JOptionPane.showMessageDialog(ventanaDoctorInterna.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
+    	            JOptionPane.showMessageDialog(VentanaDoctorInterna.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
     	        }
     	    }
     	});
