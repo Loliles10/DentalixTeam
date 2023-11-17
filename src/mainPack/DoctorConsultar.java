@@ -104,7 +104,7 @@ public class DoctorConsultar extends JFrame {
     	
     	
     	
-    	
+     	JPanel panel = new JPanel(); //PANEL DONDE ESTAN LOS LABELS
     	
     	 
 
@@ -204,6 +204,25 @@ public class DoctorConsultar extends JFrame {
     	button10.setBackground(Color.WHITE);
     	buttonPanel.add(button10);
     	
+    	//BOTON GUARDAR
+    	
+    	java.net.URL imgUrl11 = getClass().getResource("/saveIcono3.png");
+    	Icon icon11= new ImageIcon(imgUrl11);
+    	  JButton btnGuardar = new JButton(icon11);
+    	  btnGuardar.setPreferredSize(new Dimension(icon11.getIconWidth(), icon11.getIconHeight()));
+    	   btnGuardar.setBounds(640, 577, 164, 80);
+    	    panel.add(btnGuardar);
+    	    	
+    	    
+    	    //BOTON ELIMINAR 
+    	
+        	java.net.URL imgUrl12 = getClass().getResource("/eliminarIcono1.png");
+        	Icon icon12= new ImageIcon(imgUrl12);
+            JButton btnEliminar = new JButton(icon12);
+        	btnEliminar.setPreferredSize(new Dimension(96, 96));
+        	btnEliminar.setBounds(819, 577, 164, 80);
+    	    panel.add(btnEliminar);
+    	 
     
     	
     	
@@ -215,7 +234,7 @@ public class DoctorConsultar extends JFrame {
     	contentPane.add(editarPanel);
 
     	//Panel donde están los labels
-    	JPanel panel = new JPanel();
+   
     	editarPanel.setViewportView(panel);
     	panel.setLayout(null);
     	panel.setBackground(Color.decode("#008cce"));
@@ -354,7 +373,9 @@ public class DoctorConsultar extends JFrame {
     	labelDoctor.setBounds(113, 45, 468, 47);
     	panel.add(labelDoctor);
     labelDoctor.setFont(fuenteGrande);
-    	
+    
+  
+ 
     
     	
     	
