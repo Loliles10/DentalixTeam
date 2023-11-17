@@ -48,8 +48,9 @@ public class DoctorConsultar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					/*
 					ventanaPrincipal frame = new ventanaPrincipal();
-					frame.setVisible(true);
+					frame.setVisible(true);*/ // Comenté estas líneas solo mientras tanto para ejecutar el programa
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
