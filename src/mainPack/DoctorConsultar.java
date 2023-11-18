@@ -48,9 +48,9 @@ public class DoctorConsultar extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					/*
-					ventanaPrincipal frame = new ventanaPrincipal();
-					frame.setVisible(true);*/ // Comenté estas líneas solo mientras tanto para ejecutar el programa
+					
+				DoctorConsultar frame = new DoctorConsultar();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -76,6 +76,7 @@ public class DoctorConsultar extends JFrame {
 	    contentPane.setBackground(Color.WHITE);
 	    setContentPane(contentPane);
 	    contentPane.setLayout(null);
+         contentPane.setBackground(Color.decode("#008cce"));
 	    
 	    // Código de Ventana Principal...
 	    
@@ -87,7 +88,7 @@ public class DoctorConsultar extends JFrame {
     	ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
     	int ancho = imagen.getIconWidth();
     	int alto = imagen.getIconHeight();
-    	logoBlanco.setBounds(0, 0, ancho, alto);
+    	logoBlanco.setBounds(0, 0, 100, 107);
 
     	Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
     	logoBlanco.setIcon(icono);
@@ -95,19 +96,19 @@ public class DoctorConsultar extends JFrame {
 	    JScrollPane scrollPane = new JScrollPane();
 	    scrollPane.setBounds(0, 101, 100, 590); 
 	    contentPane.add(scrollPane);
-
+	
+	    
+	    //PANEL CON LOS BOTONES DEL MENU
+	    
 	    JPanel buttonPanel = new JPanel();
-	    buttonPanel.setLayout(new GridLayout(10, 1));
 	    scrollPane.setViewportView(buttonPanel); 
-
-    	buttonPanel.setBackground(Color.WHITE);
+    	buttonPanel.setBackground(Color.decode("#008cce"));
     	
     	
     	
+     	JPanel panel = new JPanel(); //PANEL DONDE ESTAN LOS LABELS
     	
     	
-    	 
-
 
     	
     	//BOTONES
@@ -115,10 +116,13 @@ public class DoctorConsultar extends JFrame {
     	// Botón 1 
     	java.net.URL imgUrl = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl);
+    	buttonPanel.setLayout(null);
     	JButton button1 = new JButton(icon);
+    	button1.setBounds(0, 18, 98, 40);
     	button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
     	button1.setBackground(Color.WHITE);
     	buttonPanel.add(button1);
+    	button1.setContentAreaFilled(false);
     	
     	
 
@@ -126,26 +130,32 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
     	Icon icon2 = new ImageIcon(imgUrl2);
     	JButton button2 = new JButton(icon2);
+    	button2.setBounds(0, 77, 98, 40);
     	button2.setPreferredSize(new Dimension(icon2.getIconWidth(), icon2.getIconHeight()));
     	button2.setBackground(Color.WHITE);
     	buttonPanel.add(button2);
+    	button2.setContentAreaFilled(false);
     	
     	
     	// Botón 3
     	java.net.URL imgUrl3 = getClass().getResource("/consultasIcono.png");
     	Icon icon3 = new ImageIcon(imgUrl3);
     	JButton button3 = new JButton(icon3);
+    	button3.setBounds(0, 135, 98, 40);
     	button3.setPreferredSize(new Dimension(icon3.getIconWidth(), icon3.getIconHeight()));
     	button3.setBackground(Color.WHITE);
     	buttonPanel.add(button3);
-    
+    	button3.setContentAreaFilled(false);
+    	
     	// Botón 4 
     	java.net.URL imgUrl4 = getClass().getResource("/materialIcono.png");
     	Icon icon4 = new ImageIcon(imgUrl4);
     	JButton button4 = new JButton(icon4);
+    	button4.setBounds(0, 191, 98, 40);
     	button4.setPreferredSize(new Dimension(icon4.getIconWidth(), icon4.getIconHeight()));
     	button4.setBackground(Color.WHITE);
     	buttonPanel.add(button4);
+    	button4.setContentAreaFilled(false);
     	
     
 
@@ -153,9 +163,11 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl5 = getClass().getResource("/facturacionIcono.png");
     	Icon icon5 = new ImageIcon(imgUrl5);
     	JButton button5 = new JButton(icon5);
+    	button5.setBounds(0, 249, 98, 40);
     	button5.setPreferredSize(new Dimension(icon5.getIconWidth(), icon5.getIconHeight()));
     	button5.setBackground(Color.WHITE);
     	buttonPanel.add(button5);
+    	button5.setContentAreaFilled(false);
     	
     	
 
@@ -163,9 +175,11 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl6 = getClass().getResource("/pedidosIcono.png");
     	Icon icon6 = new ImageIcon(imgUrl6);
     	JButton button6 = new JButton(icon6);
+    	button6.setBounds(-2, 308, 98, 40);
     	button6.setPreferredSize(new Dimension(icon6.getIconWidth(), icon6.getIconHeight()));
     	button6.setBackground(Color.WHITE);
     	buttonPanel.add(button6);
+    	button6.setContentAreaFilled(false);
     	
     
 
@@ -173,37 +187,104 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl7 = getClass().getResource("/proveedoresIcono.png");
     	Icon icon7 = new ImageIcon(imgUrl7);
     	JButton button7 = new JButton(icon7);
+    	button7.setBounds(0, 365, 98, 40);
     	button7.setPreferredSize(new Dimension(icon7.getIconWidth(), icon7.getIconHeight()));
     	button7.setBackground(Color.WHITE);
     	buttonPanel.add(button7);
+    	button7.setContentAreaFilled(false);
+    	
     	
     	
     	// Botón 8 
     	java.net.URL imgUrl8 = getClass().getResource("/tratamientosIcono.png");
     	Icon icon8 = new ImageIcon(imgUrl8);
     	JButton button8 = new JButton(icon8);
+    	button8.setBounds(0, 420, 98, 40);
     	button8.setPreferredSize(new Dimension(icon8.getIconWidth(), icon8.getIconHeight()));
     	button8.setBackground(Color.WHITE);
     	buttonPanel.add(button8);
+    	button8.setContentAreaFilled(false);
+    	
     	
 
     	// Botón 9 
     	java.net.URL imgUrl9 = getClass().getResource("/especialistasIcono.png");
     	Icon icon9 = new ImageIcon(imgUrl9);
     	JButton button9 = new JButton(icon9);
+    	button9.setBounds(0, 487, 98, 40);
     	button9.setPreferredSize(new Dimension(icon9.getIconWidth(), icon9.getIconHeight()));
     	button9.setBackground(Color.WHITE);
     	buttonPanel.add(button9);
+    	button9.setContentAreaFilled(false);
+    	
     	
     	
     	// Botón 10 
     	java.net.URL imgUrl10 = getClass().getResource("/usuariosIcono.png");
     	Icon icon10 = new ImageIcon(imgUrl10);
     	JButton button10 = new JButton(icon10);
+    	button10.setContentAreaFilled(false);
+    	button10.setBounds(0, 537, 98, 40);
     	button10.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
     	button10.setBackground(Color.WHITE);
     	buttonPanel.add(button10);
     	
+    	
+    	//LABELS DE LOS BOTONES MENÚ
+    	
+    	JLabel lblNewLabel = new JLabel("PACIENTE");
+    	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblNewLabel.setBounds(26, 0, 62, 14);
+    	buttonPanel.add(lblNewLabel);
+    	
+    	JLabel lblDoctor = new JLabel("DOCTOR");
+    	lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblDoctor.setBounds(26, 59, 62, 20);
+    	buttonPanel.add(lblDoctor);
+    	
+    	JLabel lblCita = new JLabel("CITA");
+    	lblCita.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblCita.setBounds(34, 121, 27, 14);
+    	buttonPanel.add(lblCita);
+    	
+    	JLabel lblFactura = new JLabel("FACTURA");
+    	lblFactura.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblFactura.setBounds(24, 233, 54, 14);
+    	buttonPanel.add(lblFactura);
+    	
+    	JLabel lblSrock = new JLabel("STOCK");
+    	lblSrock.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblSrock.setBounds(28, 350, 47, 14);
+    	buttonPanel.add(lblSrock);
+    	
+    	JLabel lblTratamiento = new JLabel("TRATAMIENTO");
+    	lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblTratamiento.setBounds(10, 470, 88, 14);
+    	buttonPanel.add(lblTratamiento);
+    	
+    	JLabel lblPedido = new JLabel("PEDIDO");
+    	lblPedido.setBounds(30, 292, 47, 14);
+    	buttonPanel.add(lblPedido);
+    	lblPedido.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	
+    	//BOTON GUARDAR
+    	
+    	java.net.URL imgUrl11 = getClass().getResource("/save.png");
+    	Icon icon11= new ImageIcon(imgUrl11);
+    	  panel.setLayout(null);
+    	    	
+    	    
+    	    //BOTON ELIMINAR 
+    	
+        	java.net.URL imgUrl12 = getClass().getResource("/eliminar.png");
+        	Icon icon12= new ImageIcon(imgUrl12);
+    	 
+    	    //BOTON VOLVER
+    	    
+    	    
+    	    java.net.URL imgUrl13 = getClass().getResource("/volverIcono.png");
+    	    Icon icon13=new ImageIcon(imgUrl13);
+    	    
     
     	
     	
@@ -215,9 +296,8 @@ public class DoctorConsultar extends JFrame {
     	contentPane.add(editarPanel);
 
     	//Panel donde están los labels
-    	JPanel panel = new JPanel();
+   
     	editarPanel.setViewportView(panel);
-    	panel.setLayout(null);
     	panel.setBackground(Color.decode("#008cce"));
     	
     	// Cargar la imagen desde la carpeta de recursos
@@ -235,8 +315,8 @@ public class DoctorConsultar extends JFrame {
     	
     	// ID
     	JLabel label_ID = new JLabel("ID:");
-    	label_ID.setBackground(new Color(0, 128, 192));
     	label_ID.setBounds(630, 511, 36, 55);
+    	label_ID.setBackground(new Color(0, 128, 192));
     	panel.add(label_ID);
 
     	
@@ -258,7 +338,7 @@ public class DoctorConsultar extends JFrame {
         //APELLIDOS
         
     	JLabel label_Apellidos = new JLabel("Apellidos:");
-    	label_Apellidos.setBounds(591, 83, 85, 65);
+    	label_Apellidos.setBounds(583, 89, 85, 65);
     	panel.add(label_Apellidos);
     	
     	label_Apellidos.setFont(fuenteLabel);
@@ -319,42 +399,76 @@ public class DoctorConsultar extends JFrame {
     	
 
     	JTextField textField_nombre = new JTextField();
-    	textField_nombre.setBounds(673, yPosition, 379, 38);
+    	textField_nombre.setBounds(673, 30, 379, 38);
     	panel.add(textField_nombre);
+    	
+ 
+    	
 
     	Component textField_apellidos = new JTextField();
-    	textField_apellidos.setBounds(673, yPosition + separacionVertical, 379, 38);
+    	textField_apellidos.setBounds(673, 100, 379, 38);
     	panel.add(textField_apellidos);
 
     	JTextField textField_telefono = new JTextField();
-    	textField_telefono.setBounds(673, yPosition + separacionVertical * 2, 379, 38);
+    	textField_telefono.setBounds(673, 170, 379, 38);
     	panel.add(textField_telefono);
 
     	JTextField textField_direccion = new JTextField();
-    	textField_direccion.setBounds(673, yPosition + separacionVertical * 3, 379, 38);
+    	textField_direccion.setBounds(673, 240, 379, 38);
     	panel.add(textField_direccion);
 
     	textField_salario = new JTextField();
-    	textField_salario.setBounds(673, yPosition + separacionVertical * 4, 379, 38);
+    	textField_salario.setBounds(673, 310, 379, 38);
     	panel.add(textField_salario);
 
     	textField_idespecialidad = new JTextField();
-    	textField_idespecialidad.setBounds(673, yPosition + separacionVertical * 5, 379, 38);
+    	textField_idespecialidad.setBounds(673, 380, 379, 38);
     	panel.add(textField_idespecialidad);
 
     	textField_email = new JTextField();
-    	textField_email.setBounds(673, yPosition + separacionVertical * 6, 379, 38);
+    	textField_email.setBounds(673, 450, 379, 38);
     	panel.add(textField_email);
     	
     	textField_id = new JTextField();
-    	textField_id.setBounds(673, yPosition + separacionVertical * 7, 379, 38);
+    	textField_id.setBounds(673, 520, 379, 38);
     	panel.add(textField_id);
     	
     	JLabel labelDoctor = new JLabel("DR.REQUENA");
     	labelDoctor.setBounds(113, 45, 468, 47);
     	panel.add(labelDoctor);
     labelDoctor.setFont(fuenteGrande);
-    	
+    
+    JPanel panel_1 = new JPanel();
+    panel_1.setBackground(new Color(70, 130, 180));
+    panel_1.setBounds(591, 593, 592, 75);
+    panel.add(panel_1);
+    panel_1.setLayout(null);
+    panel_1.setBackground(Color.decode("#008cce")); 	
+    
+    //BOTON GUARDAR
+    JButton btnGuardar = new JButton(icon11);
+    btnGuardar.setBounds(28, 11, 76, 59);
+    panel_1.add(btnGuardar);
+    btnGuardar.setPreferredSize(new Dimension(icon11.getIconWidth(), icon11.getIconHeight()));
+    btnGuardar.setContentAreaFilled(false);
+    
+    //BOTON VOLVER
+    JButton btnVolver = new JButton(icon13) ;
+    btnVolver.setBounds(391, 0, 164, 80);
+    panel_1.add(btnVolver); 
+    btnVolver.setPreferredSize(new Dimension(96, 96));
+    btnVolver.setContentAreaFilled(false);
+    
+    //BOTÓN ELIMINAR
+    JButton btnEliminar = new JButton(icon12);
+    btnEliminar.setBounds(192, 0, 164, 80);
+    panel_1.add(btnEliminar);
+    btnEliminar.setPreferredSize(new Dimension(96, 96));
+    btnEliminar.setContentAreaFilled(false);
+    
+ 
+  
+ 
     
     	
     	
