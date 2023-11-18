@@ -30,6 +30,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class DoctorConsultar extends JFrame {
@@ -41,12 +44,12 @@ public class DoctorConsultar extends JFrame {
 		int yPosition = 30;
     	int separacionVertical = 70;
     	
-	 private JTextField textField_salario;
-	 private JTextField textField_idespecialidad;
 	 private JTextField textField_email;
+	 private JTextField textField_Salario;
+	 private JTextField textField_especialidad;
 	 private JTextField textField_id;
-	 
-	 ImageIcon icono = new ImageIcon("images/nombre_de_tu_imagen.png");
+	 private JOptionPane joptionPane;
+
 	
 	/**
 	 * Launch the application.
@@ -68,6 +71,8 @@ public class DoctorConsultar extends JFrame {
 			}
 		});
 		
+		
+		
 	}
 
 	/**
@@ -81,41 +86,16 @@ public class DoctorConsultar extends JFrame {
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1280, 720);
 	    
-	    JPopupMenu popupMenu = new JPopupMenu();
-	    addPopup(this, popupMenu);
-	    
-	    JMenu mnNewMenu = new JMenu("Menu");
-	    popupMenu.add(mnNewMenu);
-	    
-	    JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
-	    mnNewMenu.add(mntmNewMenuItem);
-	    
-	    JMenuItem mntmNewMenuItem_1 = new JMenuItem("Doctor");
-	    mnNewMenu.add(mntmNewMenuItem_1);
-	    
-	    JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cita");
-	    mnNewMenu.add(mntmNewMenuItem_2);
-	    
-	    JMenuItem mntmNewMenuItem_3 = new JMenuItem("Factura");
-	    mnNewMenu.add(mntmNewMenuItem_3);
-	    
-	    JMenuItem mntmNewMenuItem_4 = new JMenuItem("Pedido");
-	    mnNewMenu.add(mntmNewMenuItem_4);
-	    
-	    JMenuItem mntmNewMenuItem_5 = new JMenuItem("Stock");
-	    mnNewMenu.add(mntmNewMenuItem_5);
-	    
-	    JMenuItem mntmNewMenuItem_6 = new JMenuItem("Tratamiento");
-	    mnNewMenu.add(mntmNewMenuItem_6);
 	            
-	    addPopup(this, popupMenu);
+	
 	    // Estilos del JPanel
 	    contentPane = new JPanel();
 	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	    contentPane.setBackground(Color.WHITE);
 	    setContentPane(contentPane);
 	    contentPane.setLayout(null);
-         contentPane.setBackground(Color.decode("#008cce"));
+	    contentPane.setBackground(Color.decode("#008cce"));
+     
 	    
 	    // Código de Ventana Principal...
 	    
@@ -127,7 +107,7 @@ public class DoctorConsultar extends JFrame {
     	ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
     	int ancho = imagen.getIconWidth();
     	int alto = imagen.getIconHeight();
-    	logoBlanco.setBounds(0, 0, 100, 107);
+    	logoBlanco.setBounds(0, 0, 116, 107);
 
     	Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
     	logoBlanco.setIcon(icono);
@@ -310,7 +290,6 @@ public class DoctorConsultar extends JFrame {
     	
     	java.net.URL imgUrl11 = getClass().getResource("/save.png");
     	Icon icon11= new ImageIcon(imgUrl11);
-    	  panel.setLayout(null);
     	    	
     	    
     	    //BOTON ELIMINAR 
@@ -343,6 +322,7 @@ public class DoctorConsultar extends JFrame {
     	String rutaImagen = "/doctorIcono.png";  // Ajusta la ruta según la ubicación de tu recurso
     	java.net.URL urlImagen = getClass().getResource(rutaImagen);
     	ImageIcon imagen1 = new ImageIcon(urlImagen);
+    	panel.setLayout(null);
 
     	// Añadir la imagen al panel
     	JLabel labelImagen = new JLabel(imagen1);
@@ -444,32 +424,100 @@ public class DoctorConsultar extends JFrame {
  
     	
 
-    	Component textField_apellidos = new JTextField();
+    	JTextField textField_apellidos = new JTextField();
     	textField_apellidos.setBounds(673, 100, 379, 38);
     	panel.add(textField_apellidos);
 
-    	JTextField textField_telefono = new JTextField();
-    	textField_telefono.setBounds(673, 170, 379, 38);
-    	panel.add(textField_telefono);
-
     	JTextField textField_direccion = new JTextField();
-    	textField_direccion.setBounds(673, 240, 379, 38);
+    	textField_direccion.setBounds(673, 170, 379, 38);
     	panel.add(textField_direccion);
 
-    	textField_salario = new JTextField();
-    	textField_salario.setBounds(673, 310, 379, 38);
-    	panel.add(textField_salario);
-
-    	textField_idespecialidad = new JTextField();
-    	textField_idespecialidad.setBounds(673, 380, 379, 38);
-    	panel.add(textField_idespecialidad);
+    	JTextField textField_tlf = new JTextField();
+    	textField_tlf.setBounds(673, 240, 379, 38);
+    	textField_tlf.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c = e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+    			if (!Character.isDigit(c)) {
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+    			
+    			
+    		}
+    	});
+    	
+    	panel.add(textField_tlf);
 
     	textField_email = new JTextField();
-    	textField_email.setBounds(673, 450, 379, 38);
+    	textField_email.setBounds(673, 310, 379, 38);
     	panel.add(textField_email);
+
+    	textField_Salario = new JTextField();
+    	textField_Salario.setBounds(673, 380, 379, 38);
+    	
+    	//ERRORES
+    	
+    	textField_Salario.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c=e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+    			if(!Character.isDigit(c)) {	
+    			e.consume();	
+    			 JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    				
+    				
+    			}
+    			
+    			
+    			
+    		}
+    	});
+    	panel.add(textField_Salario);
+
+    	textField_especialidad = new JTextField();
+    	textField_especialidad.setBounds(673, 450, 379, 38);
+    	textField_especialidad.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c=e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+    				
+    			if(!Character.isDigit(c)) {
+    			e.consume();
+    			 JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    			}
+    			
+    			
+    			
+    		}
+    	});
+    	panel.add(textField_especialidad);
     	
     	textField_id = new JTextField();
     	textField_id.setBounds(673, 520, 379, 38);
+    	textField_id.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c=e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+				
+    			if(!Character.isDigit(c)) {
+    			e.consume();
+    	 JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    			}
+    		}
+    	});
     	panel.add(textField_id);
     	
     	JLabel labelDoctor = new JLabel("DR.REQUENA");
@@ -478,36 +526,84 @@ public class DoctorConsultar extends JFrame {
     labelDoctor.setFont(fuenteGrande);
     
     JPanel panel_1 = new JPanel();
+    panel_1.setBounds(591, 593, 592, 75);
+    panel_1.setForeground(Color.BLACK);
     panel_1.setBorder(null);
     panel_1.setBackground(new Color(70, 130, 180));
-    panel_1.setBounds(591, 593, 592, 75);
     panel.add(panel_1);
     panel_1.setLayout(null);
     panel_1.setBackground(Color.decode("#008cce")); 	
     
-    //BOTON GUARDAR
+ // BOTÓN GUARDAR
     JButton btnGuardar = new JButton(icon11);
     btnGuardar.setBounds(28, 11, 76, 59);
     panel_1.add(btnGuardar);
     btnGuardar.setPreferredSize(new Dimension(icon11.getIconWidth(), icon11.getIconHeight()));
     btnGuardar.setContentAreaFilled(false);
+    btnGuardar.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            // Obtener los valores de los campos
+            String nombre = textField_nombre.getText();
+            String apellidos = textField_apellidos.getText();
+            String telefono = textField_direccion.getText();
+            String direccion = textField_tlf.getText();
+            String salario = textField_email.getText();
+            String idEspecialidad = textField_Salario.getText();
+            String email = textField_especialidad.getText();
+            String id = textField_id.getText();
+
+            // Verificar que todos los campos estén llenos
+            if (nombre.isEmpty() || apellidos.isEmpty() || telefono.isEmpty() || direccion.isEmpty()
+                    || salario.isEmpty() || idEspecialidad.isEmpty() || email.isEmpty() || id.isEmpty()) {
+                // Mostrar un mensaje de error si algún campo está vacío
+                JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!email.contains("@")) {
+                // Mostrar un mensaje de error si el correo electrónico no contiene '@'
+                JOptionPane.showMessageDialog(null, "Ingrese un correo electrónico válido", "Error", JOptionPane.ERROR_MESSAGE);
+            } 
+        }
+    });
     
-    //BOTON VOLVER
-    JButton btnVolver = new JButton(icon13) ;
-    btnVolver.setBounds(391, 0, 164, 80);
-    panel_1.add(btnVolver); 
-    btnVolver.setPreferredSize(new Dimension(96, 96));
-    btnVolver.setContentAreaFilled(false);
-    
-    //BOTÓN ELIMINAR
-    JButton btnEliminar = new JButton(icon12);
-    btnEliminar.setBounds(192, 0, 164, 80);
-    panel_1.add(btnEliminar);
-    btnEliminar.setPreferredSize(new Dimension(96, 96));
-    btnEliminar.setContentAreaFilled(false);
-    
- 
-  
+
+ // Establecer el botón como predeterminado para la tecla "Enter"
+ 		getRootPane().setDefaultButton(btnGuardar);
+
+ 		// Agrega el ActionListener para la tecla "Enter" en el JFrame
+ 		addKeyListener(new KeyAdapter() {
+ 		    @Override
+ 		    public void keyTyped(KeyEvent e) {
+ 		        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+ 		            // Simular el clic en el botón al presionar "Enter"
+ 		            btnGuardar.doClick();
+ 		        }
+ 		    }
+ 		});
+ 		
+	
+
+    // Resto del código...
+
+    	// BOTÓN VOLVER
+    	JButton btnVolver = new JButton(icon13);
+    	btnVolver.setBounds(391, 0, 164, 80);
+    	panel_1.add(btnVolver);
+    	btnVolver.setPreferredSize(new Dimension(96, 96));
+    	btnVolver.setContentAreaFilled(false);
+
+    	// BOTÓN ELIMINAR
+    	JButton btnEliminar = new JButton(icon12);
+    	btnEliminar.setBounds(192, 0, 164, 80);
+    	panel_1.add(btnEliminar);
+    	btnEliminar.setPreferredSize(new Dimension(96, 96));
+    	btnEliminar.setContentAreaFilled(false);
+
+	
+	}
+	
+	}
+
+
+
  
     
     	
@@ -515,22 +611,7 @@ public class DoctorConsultar extends JFrame {
     	
     	
 
-	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-	}
-}
+	
+
+
+	

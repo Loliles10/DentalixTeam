@@ -18,6 +18,8 @@ import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -30,6 +32,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaCitaCRUD extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -281,7 +285,10 @@ public class VentanaCitaCRUD extends JFrame {
 
 		// Añadir la imagen al panel
 		JLabel labelImagen = new JLabel(imagen1);
-		labelImagen.setBounds(-54, 40, 730, 707);
+		
+		
+		
+		labelImagen.setBounds(-226, -110, 1012, 865);
 		panel.add(labelImagen);
 
 		// L NOMBRE
@@ -326,46 +333,100 @@ public class VentanaCitaCRUD extends JFrame {
 
 		String rutaImagen2 = "/guardarIcono.png"; // Ajusta la ruta según la ubicación de tu recurso
 		java.net.URL urlImagen2 = getClass().getResource(rutaImagen2);
-		ImageIcon imagen2 = new ImageIcon(urlImagen2);
-
 		JTextField textField_IDCita = new JTextField();
-		textField_IDCita.setBounds(696, 56, 379, 38);
+		textField_IDCita.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+				 }
+    			if (!Character.isDigit(c)) {
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+			}
+		});
+		textField_IDCita.setBounds(673, 55, 379, 38);
 		panel.add(textField_IDCita);
-		textField_IDCita.setBounds(673, yPosition + separacionVertical * 1, 379, 38);
 
 		JTextField textField_IDPaciente = new JTextField();
-		textField_IDPaciente.setBounds(696, 56, 379, 38);
+		textField_IDPaciente.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c=e.getKeyChar();
+				 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+			        }
+				 if (!Character.isDigit(c)) {
+				        e.consume();
+				        JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+				    }
+				}
+				
+			
+		});
+		textField_IDPaciente.setBounds(673, 150, 379, 38);
 		panel.add(textField_IDPaciente);
-		textField_IDPaciente.setBounds(673, yPosition + separacionVertical * 2, 379, 38);
 
 		JTextField textField_IDDoctor = new JTextField();
-		textField_IDDoctor.setBounds(696, 56, 379, 38);
+		textField_IDDoctor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+				 }
+				
+    			if (!Character.isDigit(c)&& c != '-') {
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+				
+			}
+		});
+		textField_IDDoctor.setBounds(673, 245, 379, 38);
 		panel.add(textField_IDDoctor);
-		textField_IDDoctor.setBounds(673, yPosition + separacionVertical * 3, 379, 38);
 		
 		
 		JTextField textField_Motivo = new JTextField();
-		textField_Motivo.setBounds(696, 56, 379, 38);
+		textField_Motivo.setBounds(673, 340, 379, 38);
 		panel.add(textField_Motivo);
-		textField_Motivo.setBounds(673, yPosition + separacionVertical * 4, 379, 38);
 		
 		JTextField textField_Fecha = new JTextField();
-		textField_Fecha.setBounds(696, 56, 379, 38);
+		textField_Fecha.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				char c = e.getKeyChar();
+				 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+				 }
+    			if (!Character.isDigit(c)&& c != '-') {
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "El formato de la fecha es AÑO-MES-DÍA", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+			}
+		});
+		textField_Fecha.setBounds(673, 435, 379, 38);
 		panel.add(textField_Fecha);
-		textField_Fecha.setBounds(673, yPosition + separacionVertical * 5, 379, 38);
 		
 		JTextField textField_Hora = new JTextField();
-		textField_Hora.setBounds(696, 56, 379, 38);
+		textField_Hora.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+					char c=e.getKeyChar();
+					 if (c == KeyEvent.VK_BACK_SPACE) {
+				            return;
+					 }
+					 if (!Character.isDigit(c)&& c !=':') {
+					        e.consume();
+					        JOptionPane.showMessageDialog(null, "Solo se pueden introducir números y ':' ", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					    }
+					}
+		});
+		textField_Hora.setBounds(673, 530, 379, 38);
 		panel.add(textField_Hora);
-		textField_Hora.setBounds(673, yPosition + separacionVertical * 6, 379, 38);
-		
-		
-		
-		
-		JLabel labelCita = new JLabel("CITA");
-		labelCita.setBounds(180, 30, 240, 91);
-		panel.add(labelCita);
-		labelCita.setFont(new Font("Dialog", Font.PLAIN, 90));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(591, 593, 592, 75);
@@ -374,13 +435,82 @@ public class VentanaCitaCRUD extends JFrame {
 		panel_1.setLayout(null);
 		panel_1.setBackground(Color.decode("#008cce"));
 
+	
+		// BOTON GUARDAR
+		// BOTON GUARDAR
+		// BOTON GUARDAR
 		// BOTON GUARDAR
 		JButton btnGuardar = new JButton(icon11);
+		btnGuardar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            String idCita = textField_IDCita.getText();
+		            String idPaciente = textField_IDPaciente.getText();
+		            String idDoctor = textField_IDDoctor.getText();
+		            String motivo = textField_Motivo.getText();
+		            String fecha = textField_Fecha.getText();
+		            String hora = textField_Hora.getText();
+
+		            // Verificar que todos los campos estén llenos
+		            if (idCita.isEmpty() || idPaciente.isEmpty() || idDoctor.isEmpty() || motivo.isEmpty()
+		                    || fecha.isEmpty() || hora.isEmpty()) {
+		                // Mostrar un mensaje de error si algún campo está vacío
+		                JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+		                return;  // Salir del método para evitar el segundo mensaje de error
+		            }
+
+		            // Realizar la lógica de guardar aquí
+
+		        } catch (Exception ex) {
+		            // Capturar cualquier excepción no manejada
+		            JOptionPane.showMessageDialog(null, "Error al procesar la información", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		});
+
+		// Agrega el botón al panel_1
 		btnGuardar.setBounds(28, 11, 76, 59);
 		panel_1.add(btnGuardar);
 		btnGuardar.setPreferredSize(new Dimension(icon11.getIconWidth(), icon11.getIconHeight()));
 		btnGuardar.setContentAreaFilled(false);
 
+		// Establecer el botón como predeterminado para la tecla "Enter"
+		getRootPane().setDefaultButton(btnGuardar);
+
+		// Agrega el ActionListener para la tecla "Enter" en el JFrame
+		addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+		            // Simular el clic en el botón al presionar "Enter"
+		            btnGuardar.doClick();
+		        }
+		    }
+		});
+
+		// Agrega el botón al panel_1
+		btnGuardar.setBounds(28, 11, 76, 59);
+		panel_1.add(btnGuardar);
+		btnGuardar.setPreferredSize(new Dimension(icon11.getIconWidth(), icon11.getIconHeight()));
+		btnGuardar.setContentAreaFilled(false);
+
+		// Establecer el botón como predeterminado para la tecla "Enter"
+		getRootPane().setDefaultButton(btnGuardar);
+
+		// Agrega el ActionListener para la tecla "Enter" en el JFrame
+		addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyTyped(KeyEvent e) {
+		        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+		            // Simular el clic en el botón al presionar "Enter"
+		            btnGuardar.doClick();
+		        }
+		    }
+		});
+
+
+
+		
 		// BOTON VOLVER
 		JButton btnVolver = new JButton(icon13);
 		btnVolver.setBounds(391, 0, 164, 80);
@@ -396,10 +526,15 @@ public class VentanaCitaCRUD extends JFrame {
 		btnEliminar.setContentAreaFilled(false);
 		
 		JLabel label_IDPaciente = new JLabel("ID Paciente:");
-		label_IDPaciente.setFont(new Font("Dialog", Font.PLAIN, 20));
 		label_IDPaciente.setBounds(562, 135, 115, 65);
+		label_IDPaciente.setFont(new Font("Dialog", Font.PLAIN, 20));
 		panel.add(label_IDPaciente);
 
+	}
+	boolean isDate(String date) {
+	    Pattern pattern = Pattern.compile("^\\d{4}-\\d{1,2}-\\d{1,2}$");
+	    Matcher matcher = pattern.matcher(date);
+	    return matcher.matches();
 	}
 
 }
