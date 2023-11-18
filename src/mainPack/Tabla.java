@@ -18,7 +18,7 @@ public class Tabla extends JTable {
 
 		setShowVerticalLines(false);
 
-		modelo.addColumn(""); // No se agrega texto para la columna
+		modelo.addColumn(""); 
 
 		setRowHeight(100);
 		setGridColor(Color.BLACK);
