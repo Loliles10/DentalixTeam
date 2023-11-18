@@ -51,6 +51,9 @@ public class VentanaDoctorInterna extends JFrame {
 			public void run() {
 				try {
 					VentanaDoctorInterna frame = new VentanaDoctorInterna();
+					
+					 frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+	                            pantallaInicial.class.getResource("/logoDentilax.png")));
 					frame.setVisible(true);
 					
 				} catch (Exception e) {

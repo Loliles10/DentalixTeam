@@ -5,6 +5,8 @@ import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
@@ -42,7 +44,13 @@ public class pantallaInicial extends JFrame {
 			public void run() {
 				try {
 					pantallaInicial frame = new pantallaInicial();
+					
+					 frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+	                            pantallaInicial.class.getResource("/logoAzul.png")));
+
+					
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

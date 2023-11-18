@@ -22,8 +22,14 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPopupMenu;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 
 public class DoctorConsultar extends JFrame {
@@ -39,6 +45,7 @@ public class DoctorConsultar extends JFrame {
 	 private JTextField textField_idespecialidad;
 	 private JTextField textField_email;
 	 private JTextField textField_id;
+	 
 	 ImageIcon icono = new ImageIcon("images/nombre_de_tu_imagen.png");
 	
 	/**
@@ -50,7 +57,11 @@ public class DoctorConsultar extends JFrame {
 				try {
 					
 				DoctorConsultar frame = new DoctorConsultar();
-					frame.setVisible(true);
+				 frame.setVisible(true);
+				 frame.setResizable(false);
+				 /*frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+                         pantallaInicial.class.getResource("/logo.png")));
+					frame.setVisible(true);*/
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,7 +80,35 @@ public class DoctorConsultar extends JFrame {
 		// Dimensiones
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 1280, 720);
+	    
+	    JPopupMenu popupMenu = new JPopupMenu();
+	    addPopup(this, popupMenu);
+	    
+	    JMenu mnNewMenu = new JMenu("Menu");
+	    popupMenu.add(mnNewMenu);
+	    
+	    JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
+	    mnNewMenu.add(mntmNewMenuItem);
+	    
+	    JMenuItem mntmNewMenuItem_1 = new JMenuItem("Doctor");
+	    mnNewMenu.add(mntmNewMenuItem_1);
+	    
+	    JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cita");
+	    mnNewMenu.add(mntmNewMenuItem_2);
+	    
+	    JMenuItem mntmNewMenuItem_3 = new JMenuItem("Factura");
+	    mnNewMenu.add(mntmNewMenuItem_3);
+	    
+	    JMenuItem mntmNewMenuItem_4 = new JMenuItem("Pedido");
+	    mnNewMenu.add(mntmNewMenuItem_4);
+	    
+	    JMenuItem mntmNewMenuItem_5 = new JMenuItem("Stock");
+	    mnNewMenu.add(mntmNewMenuItem_5);
+	    
+	    JMenuItem mntmNewMenuItem_6 = new JMenuItem("Tratamiento");
+	    mnNewMenu.add(mntmNewMenuItem_6);
 	            
+	    addPopup(this, popupMenu);
 	    // Estilos del JPanel
 	    contentPane = new JPanel();
 	    contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -388,7 +427,7 @@ public class DoctorConsultar extends JFrame {
 
     	String rutaImagen2 = "/guardarIcono.png";  // Ajusta la ruta según la ubicación de tu recurso
     	java.net.URL urlImagen2 = getClass().getResource(rutaImagen2);
-    	ImageIcon imagen2 = new ImageIcon(urlImagen2);
+    	
     
     	
     	
@@ -439,6 +478,7 @@ public class DoctorConsultar extends JFrame {
     labelDoctor.setFont(fuenteGrande);
     
     JPanel panel_1 = new JPanel();
+    panel_1.setBorder(null);
     panel_1.setBackground(new Color(70, 130, 180));
     panel_1.setBounds(591, 593, 592, 75);
     panel.add(panel_1);
@@ -475,5 +515,22 @@ public class DoctorConsultar extends JFrame {
     	
     	
 
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }

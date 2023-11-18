@@ -22,9 +22,9 @@ import java.sql.PreparedStatement;
 public class ConectorBBDD {
 
 	// Variables
-	String url = "jdbc:mysql://localhost:3306/dentilax?useSSL=false";
+	String url = "jdbc:mysql://localhost:3306/dentilax";
 	String usuario = "root";
-	String contrasenia = "1234";
+	String contrasenia = "pass";
 	private Connection conexion; // Conexión
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;

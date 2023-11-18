@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -48,6 +49,8 @@ public class VentanaPrincipal extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipal frame = new VentanaPrincipal();
+					 frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+	                            pantallaInicial.class.getResource("/logoDentilax.png")));
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
