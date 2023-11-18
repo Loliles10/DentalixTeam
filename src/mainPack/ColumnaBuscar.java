@@ -1,4 +1,5 @@
 package mainPack;
+
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -31,33 +32,37 @@ public class ColumnaBuscar extends DefaultTableCellRenderer {
         panel.setBorder(BorderFactory.createEtchedBorder());
 
         // Componentes
-        textField = new JTextField("Buscar... ");
         button = new JButton();
         URL imgUrl = getClass().getResource("/añadir.png");
         Icon icon = new ImageIcon(imgUrl);
         button.setIcon(icon);
         button.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
-        button.setContentAreaFilled(false); 
-        button.setBorderPainted(false); 
-        panel.add(textField);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
         panel.add(button);
+
+        textField = new JTextField("Buscar... ");
+        panel.add(textField);
 
         // TextField
         textField.setBackground(Color.WHITE);
         textField.setForeground(Color.GRAY);
         textField.setFont(new Font("Montserrat", Font.PLAIN, 12));
         textField.setHorizontalAlignment(JTextField.LEFT);
+        
+        // Cambia el color del borde del textField a negro con un 20% de opacidad
+        Color borderColor = new Color(0, 0, 0, 51); // RGBA: 0, 0, 0, 51 (20% de opacidad)
         textField.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(Color.BLACK, 1),
+                new LineBorder(borderColor, 1),
                 new EmptyBorder(0, 10, 0, 0)
         ));
+        
         textField.setPreferredSize(new Dimension(150, 35));
 
         // Personalizaciones adicionales para el botón
         button.setBackground(Color.WHITE);
         button.setPreferredSize(new Dimension(40, 35)); // Aumenta el tamaño del botón
         button.setBorderPainted(false); // Quita el borde pintado del botón
-
     }
 
     @Override
