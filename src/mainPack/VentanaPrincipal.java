@@ -2,14 +2,20 @@ package mainPack;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -18,15 +24,23 @@ import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextField;
+
+//import mainPack.ColumnaBuscar;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -36,6 +50,7 @@ public class VentanaPrincipal extends JFrame {
 	private JLabel texto1;
 	private JButton playBoton;
 	private ConectorBBDD conector = new ConectorBBDD();
+	private JTextField fieldBuscar;
 
 	/**
 	 * Autores: David Andrade Pablo Rodriguez Ian Requena 2023
@@ -46,8 +61,8 @@ public class VentanaPrincipal extends JFrame {
 			public void run() {
 				try {
 					VentanaPrincipal frame = new VentanaPrincipal();
-					 frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-	                            pantallaInicial.class.getResource("/logoDentilax.png")));
+					frame.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(pantallaInicial.class.getResource("/logoDentilax.png")));
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -93,33 +108,116 @@ public class VentanaPrincipal extends JFrame {
 		logoBlanco.setIcon(icono);
 
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBorder(null);
+		buttonPanel.setForeground(new Color(255, 255, 255));
 		buttonPanel.setBackground(Color.WHITE);
 
 		JScrollPane scrollPane = new JScrollPane(buttonPanel);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
 		scrollPane.setBounds(0, 101, 100, 590);
-
+		scrollPane.setBorder(null);
 		contentPane.add(scrollPane);
 
-		// Tablas
+		// Tabla
 		DefaultTableModel modeloTabla = new DefaultTableModel();
 		Tabla table = new Tabla(modeloTabla);
+		// table.getColumnModel().getColumn(modeloTabla.getColumnCount() -
+		// 1).setCellRenderer(new ColumnaBuscar());
 
+		// Esto es como si fuera el <div> que encierra al componente JTable
 		JPanel tablasPanel = new JPanel();
 		tablasPanel.setBackground(new Color(255, 255, 255));
 		tablasPanel.setBounds(99, -1, 1179, 691);
 		contentPane.add(tablasPanel);
 		tablasPanel.setLayout(null);
 		tablasPanel.setVisible(false);
-
 		tablasPanel.add(table);
 
+		// El JScrollPane es necesario para añadir una tabla de forma correcta en Java.
+		// Para scrolear.
 		JScrollPane scrollPaneT = new JScrollPane(table);
-		scrollPaneT.setBounds(-2, 0, 1180, 691);
+		scrollPaneT.setBounds(-2, 0, 1040, 691);
 		tablasPanel.add(scrollPaneT);
 		scrollPaneT.setBackground(new Color(255, 255, 255));
 
+		// --------------------------------------------- //
+		// Panel derecho de botones y field
+		JPanel panelMenuDer = new JPanel();
+		tablasPanel.add(panelMenuDer);
+		panelMenuDer.setLayout(null);
+		// ---- Componentes ---- //
+		JPanel panelComponentes = new JPanel();
+		panelComponentes.setBounds(0, 0, 141, 101);
+		panelMenuDer.add(panelComponentes);
+		panelComponentes.setLayout(null);
+		// Campo de búsqueda
+		fieldBuscar = new JTextField("Buscar...");
+		fieldBuscar.setBounds(10, 10, 121, 25);
+		panelComponentes.add(fieldBuscar);
+		// Botón Añadir
+		JButton botonAñadir = new JButton("AÑADIR");
+		botonAñadir.setBounds(22, 40, 97, 21);
+		panelComponentes.add(botonAñadir);
+		// Botón Editar
+		JButton botonEditar = new JButton("EDITAR");
+		botonEditar.setBounds(22, 66, 97, 21);
+		panelComponentes.add(botonEditar);
+		// Estilos componentes //
+		panelMenuDer.setBackground(Color.WHITE);
+		panelMenuDer.setBounds(1038, 0, 141, 691);
+		panelComponentes.setBackground(new Color(0, 140, 206));
+		botonAñadir.setBackground(Color.WHITE);
+		botonAñadir.setForeground(new Color(0, 140, 206));
+		botonAñadir.setFont(new Font("Montserrat", Font.BOLD, 12));
+		botonEditar.setBackground(Color.WHITE);
+		botonEditar.setForeground(new Color(0, 140, 206));
+		botonEditar.setFont(new Font("Montserrat", Font.BOLD, 12));
+		fieldBuscar.setBackground(Color.WHITE);
+		fieldBuscar.setForeground(Color.GRAY);
+		fieldBuscar.setFont(new Font("Montserrat", Font.PLAIN, 12)); // Ajusta el tamaño de la fuente según tus
+																		// necesidades
+		fieldBuscar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		// Estilos componentes //
+		// Funcionalidad componentes //
+		fieldBuscar.addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyPressed(KeyEvent e) {
+		        String criterio = fieldBuscar.getText().trim();
+        		boolean retrocesoRealizado = true;
+		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            if (!criterio.isEmpty()) {
+		                System.out.println("\nResultado de la búsqueda:");
+		                conector.realizarBusqueda(criterio, modeloTabla);
+		                retrocesoRealizado = false;
+		            }
+		        } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && retrocesoRealizado) {
+		            conector.cargarDatosPacientes(modeloTabla);
+		        }
+		    }
+		});
+		fieldBuscar.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (fieldBuscar.getText().equals("Buscar...")) {
+					fieldBuscar.setText("");
+					fieldBuscar.setForeground(Color.BLACK); // Cambia el color del texto cuando se borra "Buscar..."
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (fieldBuscar.getText().isEmpty()) {
+					fieldBuscar.setText("Buscar...");
+					fieldBuscar.setForeground(Color.GRAY); // Restaura el color del texto si no se ha ingresado nada
+				}
+			}
+		});
+
+		// Funcionalidad componentes //
+		// ---- Componentes ---- //
+		// --------------------------------------------- //
+
+		// Botón de Pacientes, que está en la barra lateral izquierda del JFrame.
 		java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
 		Icon icon = new ImageIcon(imgUrl1);
 		buttonPanel.setLayout(null);
@@ -129,21 +227,24 @@ public class VentanaPrincipal extends JFrame {
 		button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		button1.setBackground(Color.WHITE);
 		button1.setBorderPainted(false);
-
 		buttonPanel.add(button1);
 
-		// Acción del botón
+		// Cuando se le hace click al botón, se muestra la tabla, se cargan los datos de
+		// la bbdd en la tabla, etc.
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					// Se oculta lo que estaba antes en el "panel principal", por llamarlo así
 					bienvenido.setVisible(false);
 					texto1.setVisible(false);
 					playBoton.setVisible(false);
 
+					// Si la conexión a la base de datos es correcta, se cargan los datos de la
+					// tabla paciente de la bbdd en nuestra tabla
 					if (conector.conectarConBBDD()) {
 						conector.cargarDatosPacientes(modeloTabla);
-						tablasPanel.setVisible(true);
+						tablasPanel.setVisible(true); // se muestra la tabla
 					} else {
 						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al conectar con la base de datos",
 								"Error", JOptionPane.ERROR_MESSAGE);
@@ -158,9 +259,10 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 
+		// ...Demás botones
+
 		java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
 		Icon icon2 = new ImageIcon(imgUrl2);
-
 		JButton button2 = new JButton(icon2);
 		button2.setBounds(20, 85, 50, 58);
 		button2.setPreferredSize(new Dimension(icon2.getIconWidth(), icon2.getIconHeight()));
@@ -198,7 +300,7 @@ public class VentanaPrincipal extends JFrame {
 		java.net.URL imgUrl4 = getClass().getResource("/materialIcono.png");
 		Icon icon4 = new ImageIcon(imgUrl4);
 		JButton button4 = new JButton(icon4);
-		button4.setBounds(20, 217, 50, 58);
+		button4.setBounds(20, 228, 50, 58);
 		button4.setPreferredSize(new Dimension(icon4.getIconWidth(), icon4.getIconHeight()));
 		button4.setBackground(Color.WHITE);
 		button4.setBorderPainted(false);
@@ -216,7 +318,7 @@ public class VentanaPrincipal extends JFrame {
 		java.net.URL imgUrl5 = getClass().getResource("/facturacionIcono.png");
 		Icon icon5 = new ImageIcon(imgUrl5);
 		JButton button5 = new JButton(icon5);
-		button5.setBounds(20, 275, 50, 58);
+		button5.setBounds(20, 296, 50, 58);
 		button5.setPreferredSize(new Dimension(icon5.getIconWidth(), icon5.getIconHeight()));
 		button5.setBackground(Color.WHITE);
 		button5.setBorderPainted(false);
@@ -234,7 +336,7 @@ public class VentanaPrincipal extends JFrame {
 		java.net.URL imgUrl6 = getClass().getResource("/pedidosIcono.png");
 		Icon icon6 = new ImageIcon(imgUrl6);
 		JButton button6 = new JButton(icon6);
-		button6.setBounds(20, 332, 50, 58);
+		button6.setBounds(20, 373, 50, 58);
 		button6.setPreferredSize(new Dimension(icon6.getIconWidth(), icon6.getIconHeight()));
 		button6.setBackground(Color.WHITE);
 		button6.setBorderPainted(false);
@@ -252,7 +354,7 @@ public class VentanaPrincipal extends JFrame {
 		java.net.URL imgUrl7 = getClass().getResource("/proveedoresIcono.png");
 		Icon icon7 = new ImageIcon(imgUrl7);
 		JButton button7 = new JButton(icon7);
-		button7.setBounds(20, 390, 50, 58);
+		button7.setBounds(20, 441, 50, 58);
 		button7.setPreferredSize(new Dimension(icon7.getIconWidth(), icon7.getIconHeight()));
 		button7.setBackground(Color.WHITE);
 		button7.setBorderPainted(false);
@@ -270,7 +372,7 @@ public class VentanaPrincipal extends JFrame {
 		java.net.URL imgUrl8 = getClass().getResource("/tratamientosIcono.png");
 		Icon icon8 = new ImageIcon(imgUrl8);
 		JButton button8 = new JButton(icon8);
-		button8.setBounds(20, 448, 50, 58);
+		button8.setBounds(20, 509, 50, 58);
 		button8.setPreferredSize(new Dimension(icon8.getIconWidth(), icon8.getIconHeight()));
 		button8.setBackground(Color.WHITE);
 		button8.setBorderPainted(false);
@@ -285,23 +387,8 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 
-		java.net.URL imgUrl9 = getClass().getResource("/especialistasIcono.png");
-		Icon icon9 = new ImageIcon(imgUrl9);
-		JButton button9 = new JButton(icon9);
-		button9.setBounds(20, 504, 50, 58);
-		button9.setPreferredSize(new Dimension(icon9.getIconWidth(), icon9.getIconHeight()));
-		button9.setBackground(Color.WHITE);
-		button9.setBorderPainted(false);
-		buttonPanel.add(button9);
-
-		button9.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				bienvenido.setVisible(false);
-				texto1.setVisible(false);
-				playBoton.setVisible(false);
-			}
-		});
+		// java.net.URL imgUrl9 = getClass().getResource("/especialistasIcono.png");
+		// Icon icon9 = new ImageIcon(imgUrl9);
 
 		java.net.URL imgUrl10 = getClass().getResource("/usuariosIcono.png");
 		Icon icon10 = new ImageIcon(imgUrl10);
@@ -318,21 +405,41 @@ public class VentanaPrincipal extends JFrame {
 		labeltiDoctores.setBounds(20, 145, 50, 13);
 		buttonPanel.add(labeltiDoctores);
 
-		JButton button10 = new JButton(icon10);
-		button10.setBounds(20, 559, 50, 58);
-		button10.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
-		button10.setBackground(Color.WHITE);
-		button10.setBorderPainted(false);
-		buttonPanel.add(button10);
+		JLabel labeltiCitas = new JLabel("Citas");
+		labeltiCitas.setHorizontalAlignment(SwingConstants.CENTER);
+		labeltiCitas.setFont(new Font("Montserrat", Font.PLAIN, 10));
+		labeltiCitas.setBounds(20, 216, 50, 13);
+		buttonPanel.add(labeltiCitas);
 
-		button10.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				bienvenido.setVisible(false);
-				texto1.setVisible(false);
-				playBoton.setVisible(false);
-			}
-		});
+		JLabel labeltiMaterial = new JLabel("Material");
+		labeltiMaterial.setHorizontalAlignment(SwingConstants.CENTER);
+		labeltiMaterial.setFont(new Font("Montserrat", Font.PLAIN, 10));
+		labeltiMaterial.setBounds(20, 284, 50, 13);
+		buttonPanel.add(labeltiMaterial);
+
+		JLabel labeltiFacturas = new JLabel("Facturas");
+		labeltiFacturas.setHorizontalAlignment(SwingConstants.CENTER);
+		labeltiFacturas.setFont(new Font("Montserrat", Font.PLAIN, 10));
+		labeltiFacturas.setBounds(20, 353, 50, 13);
+		buttonPanel.add(labeltiFacturas);
+
+		JLabel labeltiPedidos = new JLabel("Pedidos");
+		labeltiPedidos.setHorizontalAlignment(SwingConstants.CENTER);
+		labeltiPedidos.setFont(new Font("Montserrat", Font.PLAIN, 10));
+		labeltiPedidos.setBounds(20, 429, 50, 13);
+		buttonPanel.add(labeltiPedidos);
+
+		JLabel labeltiStock = new JLabel("Stock");
+		labeltiStock.setHorizontalAlignment(SwingConstants.CENTER);
+		labeltiStock.setFont(new Font("Montserrat", Font.PLAIN, 10));
+		labeltiStock.setBounds(20, 498, 50, 13);
+		buttonPanel.add(labeltiStock);
+
+		JLabel labeltiTratamientos = new JLabel("Tratamientos");
+		labeltiTratamientos.setHorizontalAlignment(SwingConstants.CENTER);
+		labeltiTratamientos.setFont(new Font("Montserrat", Font.PLAIN, 10));
+		labeltiTratamientos.setBounds(10, 565, 68, 13);
+		buttonPanel.add(labeltiTratamientos);
 
 		bienvenido = new JLabel(
 				"<html><font color='#008CCE'>¡Bienvenido</font> admin<font color='#008CCE'>!</font></html>");
