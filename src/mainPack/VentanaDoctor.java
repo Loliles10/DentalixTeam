@@ -102,183 +102,196 @@ public class VentanaDoctor extends JFrame {
 	    JPanel buttonPanel = new JPanel();
 	    buttonPanel.setLayout(new GridLayout(10, 1));
 	    scrollPane.setViewportView(buttonPanel); 
+	    
 
-    	buttonPanel.setBackground(Color.WHITE);
-
+    	buttonPanel.setBackground(Color.decode("#008cce"));
     	// Botón 1 
     	java.net.URL imgUrl = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl);
+    	buttonPanel.setLayout(null);
     	JButton button1 = new JButton(icon);
+    	button1.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			PacienteCRUD pacienteCRUD= new PacienteCRUD();
+    			pacienteCRUD.setVisible(true);
+    			
+    		}
+    	});
+    	button1.setBounds(0, 18, 98, 40);
     	button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
     	button1.setBackground(Color.WHITE);
     	buttonPanel.add(button1);
+    	button1.setContentAreaFilled(false);
     	
-    	button1.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	        cargarDatosPacientes();
-    	    }
-    	});
+    	
 
     	// Botón 2 
     	java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
     	Icon icon2 = new ImageIcon(imgUrl2);
     	JButton button2 = new JButton(icon2);
+    	button2.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    		DoctorConsultar doctorConsultar= new DoctorConsultar();
+    		doctorConsultar.setVisible(true);
+    		}
+    	});
+    	button2.setBounds(0, 77, 98, 40);
     	button2.setPreferredSize(new Dimension(icon2.getIconWidth(), icon2.getIconHeight()));
     	button2.setBackground(Color.WHITE);
     	buttonPanel.add(button2);
+    	button2.setContentAreaFilled(false);
     	
-    	button2.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        // Oculta los JLabels 'bienvenido' y 'texto1'
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
-
+    	
     	// Botón 3
     	java.net.URL imgUrl3 = getClass().getResource("/consultasIcono.png");
     	Icon icon3 = new ImageIcon(imgUrl3);
     	JButton button3 = new JButton(icon3);
+    	button3.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			VentanaCitaCRUD ventanaCitaCRUD= new VentanaCitaCRUD();
+    			ventanaCitaCRUD.setVisible(true);
+    		}
+    	});
+    	button3.setBounds(0, 135, 98, 40);
     	button3.setPreferredSize(new Dimension(icon3.getIconWidth(), icon3.getIconHeight()));
     	button3.setBackground(Color.WHITE);
     	buttonPanel.add(button3);
+    	button3.setContentAreaFilled(false);
     	
-    	button3.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        // Oculta los JLabels 'bienvenido' y 'texto1'
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
-
     	// Botón 4 
     	java.net.URL imgUrl4 = getClass().getResource("/materialIcono.png");
     	Icon icon4 = new ImageIcon(imgUrl4);
     	JButton button4 = new JButton(icon4);
+    	button4.setBounds(0, 191, 98, 40);
     	button4.setPreferredSize(new Dimension(icon4.getIconWidth(), icon4.getIconHeight()));
     	button4.setBackground(Color.WHITE);
     	buttonPanel.add(button4);
+    	button4.setContentAreaFilled(false);
     	
-    	button4.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        // Oculta los JLabels 'bienvenido' y 'texto1'
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    
 
     	// Botón 5
     	java.net.URL imgUrl5 = getClass().getResource("/facturacionIcono.png");
     	Icon icon5 = new ImageIcon(imgUrl5);
     	JButton button5 = new JButton(icon5);
+    	button5.setBounds(0, 249, 98, 40);
     	button5.setPreferredSize(new Dimension(icon5.getIconWidth(), icon5.getIconHeight()));
     	button5.setBackground(Color.WHITE);
     	buttonPanel.add(button5);
+    	button5.setContentAreaFilled(false);
     	
-    	button5.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    	
 
     	// Botón 6
     	java.net.URL imgUrl6 = getClass().getResource("/pedidosIcono.png");
     	Icon icon6 = new ImageIcon(imgUrl6);
     	JButton button6 = new JButton(icon6);
+    	button6.setBounds(-3, 308, 98, 40);
     	button6.setPreferredSize(new Dimension(icon6.getIconWidth(), icon6.getIconHeight()));
     	button6.setBackground(Color.WHITE);
     	buttonPanel.add(button6);
+    	button6.setContentAreaFilled(false);
     	
-    	button6.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    
 
     	// Botón 7 
     	java.net.URL imgUrl7 = getClass().getResource("/proveedoresIcono.png");
     	Icon icon7 = new ImageIcon(imgUrl7);
     	JButton button7 = new JButton(icon7);
+    	button7.setBounds(2, 365, 98, 40);
     	button7.setPreferredSize(new Dimension(icon7.getIconWidth(), icon7.getIconHeight()));
     	button7.setBackground(Color.WHITE);
     	buttonPanel.add(button7);
+    	button7.setContentAreaFilled(false);
     	
-    	button7.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
-
+    	
+    	
     	// Botón 8 
     	java.net.URL imgUrl8 = getClass().getResource("/tratamientosIcono.png");
     	Icon icon8 = new ImageIcon(imgUrl8);
     	JButton button8 = new JButton(icon8);
+    	button8.setBounds(3, 426, 98, 40);
     	button8.setPreferredSize(new Dimension(icon8.getIconWidth(), icon8.getIconHeight()));
     	button8.setBackground(Color.WHITE);
     	buttonPanel.add(button8);
+    	button8.setContentAreaFilled(false);
     	
-    	button8.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    	
 
     	// Botón 9 
     	java.net.URL imgUrl9 = getClass().getResource("/especialistasIcono.png");
     	Icon icon9 = new ImageIcon(imgUrl9);
     	JButton button9 = new JButton(icon9);
+    	button9.setBounds(0, 487, 98, 40);
     	button9.setPreferredSize(new Dimension(icon9.getIconWidth(), icon9.getIconHeight()));
     	button9.setBackground(Color.WHITE);
     	buttonPanel.add(button9);
+    	button9.setContentAreaFilled(false);
     	
-    	button9.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
-
+    	
+    	
     	// Botón 10 
     	java.net.URL imgUrl10 = getClass().getResource("/usuariosIcono.png");
     	Icon icon10 = new ImageIcon(imgUrl10);
     	JButton button10 = new JButton(icon10);
+    	button10.setContentAreaFilled(false);
+    	button10.setBounds(0, 540, 98, 40);
     	button10.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
     	button10.setBackground(Color.WHITE);
     	buttonPanel.add(button10);
     	
-    	button10.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
     	
+    	//LABELS DE LOS BOTONES MENÚ
+    	
+    	JLabel lblNewLabel = new JLabel("PACIENTE");
+    	lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblNewLabel.setBounds(26, 0, 62, 14);
+    	buttonPanel.add(lblNewLabel);
+    	
+    	JLabel lblDoctor = new JLabel("DOCTOR");
+    	lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblDoctor.setBounds(26, 59, 62, 20);
+    	buttonPanel.add(lblDoctor);
+    	
+    	JLabel lblCita = new JLabel("CITA");
+    	lblCita.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblCita.setBounds(34, 121, 27, 14);
+    	buttonPanel.add(lblCita);
+    	
+    	JLabel lblFactura = new JLabel("FACTURA");
+    	lblFactura.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblFactura.setBounds(24, 235, 54, 14);
+    	buttonPanel.add(lblFactura);
+    	
+    	JLabel lblSrock = new JLabel("STOCK");
+    	lblSrock.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblSrock.setBounds(28, 350, 47, 14);
+    	buttonPanel.add(lblSrock);
+    	
+    	JLabel lblTratamiento = new JLabel("TRATAMIENTO");
+    	lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblTratamiento.setBounds(10, 472, 88, 14);
+    	buttonPanel.add(lblTratamiento);
+    	
+    	JLabel lblPedido = new JLabel("PEDIDO");
+    	lblPedido.setBounds(28, 292, 47, 14);
+    	buttonPanel.add(lblPedido);
+    	lblPedido.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	
+    	JLabel lblUsuarios = new JLabel("USUARIOS");
+    	lblUsuarios.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblUsuarios.setBounds(23, 528, 88, 14);
+    	buttonPanel.add(lblUsuarios);
+    	
+    	JLabel lblMaterial = new JLabel("MATERIAL");
+    	lblMaterial.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblMaterial.setBounds(23, 176, 88, 14);
+    	buttonPanel.add(lblMaterial);
+    	
+    	JLabel lblEspecialidad = new JLabel("ESPECIALIDAD");
+    	lblEspecialidad.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblEspecialidad.setBounds(10, 409, 88, 14);
+    	buttonPanel.add(lblEspecialidad);
     	// Texto de ventana principal
     	bienvenido = new JLabel("<html><font color='#008CCE'>¡Bienvenido</font> doctor<font color='#008CCE'>!</font></html>");
     	bienvenido.setFont(new Font("Montserrat Medium", Font.BOLD, 60));
