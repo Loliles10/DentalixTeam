@@ -166,11 +166,6 @@ public class DoctorConsultar extends JFrame {
 	    mntmNewMenuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
 	    mnNewMenu_2.add(mntmNewMenuItem_10);
 	    
-	    
-	    
-	    
-	    
-	    
 	    JMenuItem mntmNewMenuItem_11 = new JMenuItem("Borrar");
 	    mntmNewMenuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.SHIFT_DOWN_MASK));
 	    mnNewMenu_2.add(mntmNewMenuItem_11);

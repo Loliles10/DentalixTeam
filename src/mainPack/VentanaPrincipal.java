@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.print.attribute.standard.Media;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -42,6 +44,7 @@ public class VentanaPrincipal extends JFrame {
 	 */
 
 	public static void main(String[] args) {
+		//--launch(args);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -60,7 +63,7 @@ public class VentanaPrincipal extends JFrame {
 
 	public VentanaPrincipal() {
 
-		// asdasd
+	
 
 		super("Dentilax");
 		VentanaPrincipal.this.setLocationRelativeTo(null);
@@ -104,22 +107,63 @@ public class VentanaPrincipal extends JFrame {
 
 		// Tablas
 		DefaultTableModel modeloTabla = new DefaultTableModel();
-		Tabla table = new Tabla(modeloTabla);
 
 		JPanel tablasPanel = new JPanel();
 		tablasPanel.setBackground(new Color(255, 255, 255));
 		tablasPanel.setBounds(99, -1, 1179, 691);
 		contentPane.add(tablasPanel);
-		tablasPanel.setLayout(null);
 		tablasPanel.setVisible(false);
+		tablasPanel.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0x008cce));
+		panel.setBounds(0, 0, 1179, 103);
+		tablasPanel.add(panel);
+		
+		JPanel panelVideo = new JPanel();
+		panelVideo.setBounds(0, 103, 1179, 588);
+		tablasPanel.add(panelVideo);
+		/*
+		private static final String MEDIA_URL = "/tutorial1.mkv"; // Reemplaza con la ruta correcta
 
-		tablasPanel.add(table);
+	
 
-		JScrollPane scrollPaneT = new JScrollPane(table);
-		scrollPaneT.setBounds(-2, 0, 1180, 691);
-		tablasPanel.add(scrollPaneT);
-		scrollPaneT.setBackground(new Color(255, 255, 255));
+	    @Override
+	    public void start(Stage primaryStage) {
+	        primaryStage.setTitle("JavaFX Video Player");
 
+	        // Crear el reproductor de medios
+	        Media media = new Media(MEDIA_URL);
+	        MediaPlayer mediaPlayer = new MediaPlayer(media);
+	        MediaView mediaView = new MediaView(mediaPlayer);
+
+	        // Crear un contenedor para el reproductor de medios
+	        StackPane root = new StackPane();
+	        root.getChildren().add(mediaView);
+
+	        // Configurar la escena
+	        Scene scene = new Scene(root, 800, 600);
+
+	        // Configurar el escenario
+	        primaryStage.setScene(scene);
+
+	        // Configurar la acción al cerrar la ventana
+	        primaryStage.setOnCloseRequest(e -> mediaPlayer.stop());
+
+	        // Mostrar la ventana
+	        primaryStage.show();
+
+	        // Iniciar la reproducción del video
+	        mediaPlayer.play();
+	    }
+
+	    public static void main(String[] args) {
+	        launch(args);
+	    }
+	
+		
+		
+*/
 		java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
 		Icon icon = new ImageIcon(imgUrl1);
 		buttonPanel.setLayout(null);
@@ -380,4 +424,5 @@ public class VentanaPrincipal extends JFrame {
 		});
 
 	}
+	
 }

@@ -4,6 +4,9 @@ import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,11 +37,11 @@ public class VentanaPacienteInterna extends JFrame {
 	private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private ConectorBBDD conector = new ConectorBBDD();
-    private JTextField textField;
-    private JTextField textField_1;
-    private JTextField textField_2;
-    private JTextField textField_3;
-    private JTextField textField_4;
+    private JTextField tfNombre;
+    private JTextField tfApellido;
+    private JTextField tfDireccion;
+    private JTextField tfTelefono;
+    private JTextField tfUltimaConsulta;
     private JTextField textField_5;
 	
     /**
@@ -48,6 +51,8 @@ public class VentanaPacienteInterna extends JFrame {
 	 * Ian Requena
 	 * 2023
 	 */
+    
+    
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,7 +73,7 @@ public class VentanaPacienteInterna extends JFrame {
 
 	public VentanaPacienteInterna() {
 		
-		// asdasd
+		//Manejo botones botones
 		
 		super("Dentilax"); 
 		VentanaPacienteInterna.this.setLocationRelativeTo(null);
@@ -115,7 +120,7 @@ public class VentanaPacienteInterna extends JFrame {
     	
     	JPanel tablasPanel = new JPanel();
     	tablasPanel.setBackground(new Color(255, 255, 255));
-    	tablasPanel.setBounds(99, -1, 1179, 691);
+    	tablasPanel.setBounds(97, 0, 1179, 691);
     	contentPane.add(tablasPanel);
     	tablasPanel.setLayout(null);
     	
@@ -185,51 +190,85 @@ public class VentanaPacienteInterna extends JFrame {
     	lblNewLabel_2_5.setBounds(858, 150, 111, 56);
     	tablasPanel.add(lblNewLabel_2_5);
     	
-    	textField = new JTextField();
-    	textField.setBounds(474, 236, 128, 40);
-    	tablasPanel.add(textField);
-    	textField.setColumns(10);
+    	tfNombre = new JTextField();
+    	tfNombre.setBounds(474, 236, 128, 40);
+    	tablasPanel.add(tfNombre);
+    	tfNombre.setColumns(10);
+    	tfNombre.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c=e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+				
+    			if(!Character.isDigit(c)) {
+    			e.consume();
+    	 JOptionPane.showMessageDialog(null, "Solo se pueden introducir letras", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    			}
+    		}
+    	});
     	
-    	textField_1 = new JTextField();
-    	textField_1.setColumns(10);
-    	textField_1.setBounds(474, 303, 128, 40);
-    	tablasPanel.add(textField_1);
+    	tfApellido = new JTextField();
+    	tfApellido.setColumns(10);
+    	tfApellido.setBounds(474, 303, 128, 40);
+    	tablasPanel.add(tfApellido);
+    	tfApellido.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c=e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+				
+    			if(!Character.isDigit(c)) {
+    			e.consume();
+    	 JOptionPane.showMessageDialog(null, "Solo se pueden introducir letras", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    			}
+    		}
+    	});
     	
-    	textField_2 = new JTextField();
-    	textField_2.setColumns(10);
-    	textField_2.setBounds(474, 370, 128, 40);
-    	tablasPanel.add(textField_2);
+    	tfDireccion = new JTextField();
+    	tfDireccion.setColumns(10);
+    	tfDireccion.setBounds(474, 370, 128, 40);
+    	tablasPanel.add(tfDireccion);
     	
-    	textField_3 = new JTextField();
-    	textField_3.setColumns(10);
-    	textField_3.setBounds(474, 447, 128, 40);
-    	tablasPanel.add(textField_3);
+    	tfTelefono = new JTextField();
+    	tfTelefono.setColumns(10);
+    	tfTelefono.setBounds(474, 447, 128, 40);
+    	tablasPanel.add(tfTelefono);
+    	tfTelefono.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyTyped(KeyEvent e) {
+    			char c = e.getKeyChar();
+    			 if (c == KeyEvent.VK_BACK_SPACE) {
+			            return;
+    			 }
+    			if (!Character.isDigit(c)) {
+                    e.consume(); 
+                    JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                }
+    			
+    			
+    		}
+    	});
     	
-    	textField_4 = new JTextField();
-    	textField_4.setColumns(10);
-    	textField_4.setBounds(474, 514, 128, 40);
-    	tablasPanel.add(textField_4);
+    	
+    	tfUltimaConsulta = new JTextField();
+    	tfUltimaConsulta.setColumns(10);
+    	tfUltimaConsulta.setBounds(474, 514, 128, 40);
+    	tablasPanel.add(tfUltimaConsulta);
     	
     	textField_5 = new JTextField();
     	textField_5.setBounds(732, 246, 369, 314);
     	tablasPanel.add(textField_5);
     	textField_5.setColumns(10);
     	
-    	JButton btnNewButton = new JButton("Listo");
-    	btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
-    	btnNewButton.setBounds(487, 603, 115, 48);
-    	tablasPanel.add(btnNewButton);
     	
-    	JButton btnCancelar = new JButton("Cancelar");
-    	btnCancelar.setFont(new Font("Tahoma", Font.BOLD, 15));
-    	btnCancelar.setBounds(707, 603, 115, 48);
-    	tablasPanel.add(btnCancelar);
     	
-    	JButton btnBorrarPerfil = new JButton("Borrar perfil\r\n");
-    	btnBorrarPerfil.setFont(new Font("Tahoma", Font.BOLD, 13));
-    	btnBorrarPerfil.setBounds(919, 603, 115, 48);
-    	tablasPanel.add(btnBorrarPerfil);
-    	tablasPanel.setVisible(false);
+    	
+    	
+    	
 
     	java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
     	Icon icon = new ImageIcon(imgUrl1);
@@ -239,28 +278,8 @@ public class VentanaPacienteInterna extends JFrame {
 
     	buttonPanel.add(button1);
 
-    	// Acción del botón
-    	button1.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        try {
-    	            bienvenido.setVisible(false);
-    	            texto1.setVisible(false);
-    	            playBoton.setVisible(false);
 
-    	            if (conector.conectarConBBDD()) {
-    	                conector.cargarDatosPacientes(modeloTabla);
-    	                tablasPanel.setVisible(true);
-    	            } else {
-    	                JOptionPane.showMessageDialog(VentanaPacienteInterna.this, "Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-    	            }
-    	        } catch (Exception ex) {
-    	            ex.printStackTrace();
-    	            JOptionPane.showMessageDialog(VentanaPacienteInterna.this, "Error al cargar los datos de pacientes", "Error", JOptionPane.ERROR_MESSAGE);
-    	        }
-    	    }
-    	});
-    	
+
     	java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
     	Icon icon2 = new ImageIcon(imgUrl2);
     	JButton button2 = new JButton(icon2);
@@ -268,14 +287,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button2.setBackground(Color.WHITE);
     	buttonPanel.add(button2);
     	
-    	button2.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+  
 
     	java.net.URL imgUrl3 = getClass().getResource("/consultasIcono.png");
     	Icon icon3 = new ImageIcon(imgUrl3);
@@ -284,30 +296,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button3.setBackground(Color.WHITE);
     	buttonPanel.add(button3);
     	
-    	button3.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
     	
-    	java.net.URL imgUrl4 = getClass().getResource("/materialIcono.png");
-    	Icon icon4 = new ImageIcon(imgUrl4);
-    	JButton button4 = new JButton(icon4);
-    	button4.setPreferredSize(new Dimension(icon4.getIconWidth(), icon4.getIconHeight()));
-    	button4.setBackground(Color.WHITE);
-    	buttonPanel.add(button4);
-    	
-    	button4.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
 
     	java.net.URL imgUrl5 = getClass().getResource("/facturacionIcono.png");
     	Icon icon5 = new ImageIcon(imgUrl5);
@@ -316,14 +305,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button5.setBackground(Color.WHITE);
     	buttonPanel.add(button5);
     	
-    	button5.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    	
 
     	java.net.URL imgUrl6 = getClass().getResource("/pedidosIcono.png");
     	Icon icon6 = new ImageIcon(imgUrl6);
@@ -332,14 +314,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button6.setBackground(Color.WHITE);
     	buttonPanel.add(button6);
     	
-    	button6.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    
 
     	java.net.URL imgUrl7 = getClass().getResource("/proveedoresIcono.png");
     	Icon icon7 = new ImageIcon(imgUrl7);
@@ -348,14 +323,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button7.setBackground(Color.WHITE);
     	buttonPanel.add(button7);
     	
-    	button7.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+ 
 
     	java.net.URL imgUrl8 = getClass().getResource("/tratamientosIcono.png");
     	Icon icon8 = new ImageIcon(imgUrl8);
@@ -364,14 +332,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button8.setBackground(Color.WHITE);
     	buttonPanel.add(button8);
     	
-    	button8.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+    
 
     	java.net.URL imgUrl9 = getClass().getResource("/especialistasIcono.png");
     	Icon icon9 = new ImageIcon(imgUrl9);
@@ -380,14 +341,7 @@ public class VentanaPacienteInterna extends JFrame {
     	button9.setBackground(Color.WHITE);
     	buttonPanel.add(button9);
     	
-    	button9.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
-    	});
+
 
     	java.net.URL imgUrl10 = getClass().getResource("/usuariosIcono.png");
     	Icon icon10 = new ImageIcon(imgUrl10);
@@ -396,17 +350,90 @@ public class VentanaPacienteInterna extends JFrame {
     	button10.setBackground(Color.WHITE);
     	buttonPanel.add(button10);
     	
-    	button10.addActionListener(new ActionListener() {
-    	    @Override
-    	    public void actionPerformed(ActionEvent e) {
-    	        bienvenido.setVisible(false);
-    	        texto1.setVisible(false);
-    	        playBoton.setVisible(false);
-    	    }
+    	
+    	//BOTON GUARDAR
+    	
+    	java.net.URL imgUrl11 = getClass().getResource("/save.png");
+    	Icon icon11= new ImageIcon(imgUrl11);
+    	
+    	
+    	// BOTÓN GUARDAR
+    	JButton btnGuardar = new JButton("Guardar");
+    	btnGuardar.setFont(new Font("Tahoma", Font.BOLD, 15));
+    	btnGuardar.setBounds(487, 603, 115, 48);
+    	tablasPanel.add(btnGuardar);
+    	
+        
+        
+        
+       
+        //btnGuardar.setContentAreaFilled(false);
+        btnGuardar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Obtener los valores de los campos
+                String nombre = tfNombre.getText();
+                String apellidos = tfApellido.getText();
+                String telefono = tfTelefono.getText();
+                String direccion = tfDireccion.getText();
+                String consulta = tfUltimaConsulta.getText();
+                
+
+                // Verificar que todos los campos estén llenos
+                if (nombre.isEmpty() || apellidos.isEmpty() || telefono.isEmpty() || direccion.isEmpty()
+                        || consulta.isEmpty()) {
+                    // Mostrar un mensaje de error si algún campo está vacío
+                    JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+                } 
+            }
+        });
+     // Establecer el botón como predeterminado para la tecla "Enter"
+      		getRootPane().setDefaultButton(btnGuardar);
+    	    
+      	// Agrega el ActionListener para la tecla "Enter" en el JFrame
+     		addKeyListener(new KeyAdapter() {
+     		    @Override
+     		    public void keyTyped(KeyEvent e) {
+     		        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+     		            // Simular el clic en el botón al presionar "Enter"
+     		            btnGuardar.doClick();
+     		        }
+     		    }
+     		});
+    	    
+    	//BOTON ELIMINAR 
+     		
+     	JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 15));
+        btnEliminar.setBounds(919, 603, 115, 48);
+        tablasPanel.add(btnEliminar);
+        	
+    	
+        java.net.URL imgUrl12 = getClass().getResource("/eliminar.png");
+        
+ 
+    	btnEliminar.setPreferredSize(new Dimension(96, 96));
+    	//btnEliminar.setContentAreaFilled(false);
+
+    	 
+    	//BOTON VOLVER
+    	JButton btnVolver = new JButton("volver");
+    	btnVolver.setFont(new Font("Tahoma", Font.BOLD, 15));
+    	btnVolver.setBounds(707, 603, 115, 48);
+    	tablasPanel.add(btnVolver);
+    	    
+    	java.net.URL imgUrl13 = getClass().getResource("/volverIcono.png");
+    	//btnVolver.setContentAreaFilled(false);
+    	
+    	
+    	
+    	btnVolver.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			
+    			VentanaPrincipal ventanaPrincipal= new VentanaPrincipal();
+    			ventanaPrincipal.setVisible(true);
+    		}
     	});
     	
-    	java.net.URL imgUrl11 = getClass().getResource("/play.png"); 
-    	Icon icon11 = new ImageIcon(imgUrl11);
     	
 	}
 }
