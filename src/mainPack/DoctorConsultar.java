@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import java.awt.Dimension;
 
 import javax.print.DocFlavor.URL;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -33,6 +34,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JMenuBar;
+import javax.swing.KeyStroke;
+import java.awt.event.InputEvent;
 
 
 public class DoctorConsultar extends JFrame {
@@ -84,7 +88,96 @@ public class DoctorConsultar extends JFrame {
 		
 		// Dimensiones
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setBounds(100, 100, 1280, 720);
+		setBounds(100, 100, 1280, 748);
+	    JMenuBar menuBar = new JMenuBar();
+	    setJMenuBar(menuBar);
+	    
+	    JMenu mnNewMenu = new JMenu("Menú");
+	    menuBar.add(mnNewMenu);
+	    
+	    JMenu mnNewMenu_1 = new JMenu("Clases");
+	    mnNewMenu.add(mnNewMenu_1);
+	    
+	    
+	    JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
+	    mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+	    mnNewMenu_1.add(mntmNewMenuItem);
+	    
+	    mntmNewMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Crear una instancia de la ventana del paciente y mostrarla
+                PacienteCRUD ventanaPaciente = new PacienteCRUD();
+                ventanaPaciente.setVisible(true);
+	    		
+	    		
+	    		
+	    		
+	    		
+	    		
+	    	}
+	    });
+	    JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cita");
+	    mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+	    mnNewMenu_1.add(mntmNewMenuItem_2);
+	    mnNewMenu.add(mnNewMenu_1);
+	    
+	    mntmNewMenuItem_2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Crear una instancia de la ventana del paciente y mostrarla
+               VentanaCitaCRUD ventanaCitaCRUD  = new VentanaCitaCRUD();
+               ventanaCitaCRUD.setVisible(true);
+	   
+	    
+            	
+	    	}
+	    });
+	    
+	    
+	    
+	    
+	    
+	    JMenuItem mntmNewMenuItem_3 = new JMenuItem("Material");
+	    mnNewMenu_1.add(mntmNewMenuItem_3);
+	    
+	    JMenuItem mntmNewMenuItem_4 = new JMenuItem("Factura");
+	    mnNewMenu_1.add(mntmNewMenuItem_4);
+	    
+	    JMenuItem mntmNewMenuItem_5 = new JMenuItem("Pedido");
+	    mnNewMenu_1.add(mntmNewMenuItem_5);
+	    
+	    JMenuItem mntmNewMenuItem_6 = new JMenuItem("Stock");
+	    mnNewMenu_1.add(mntmNewMenuItem_6);
+	    
+	    JMenuItem mntmNewMenuItem_7 = new JMenuItem("Tratamiento");
+	    mnNewMenu_1.add(mntmNewMenuItem_7);
+	    
+	    JMenuItem mntmNewMenuItem_8 = new JMenuItem("Especialistas");
+	    mnNewMenu_1.add(mntmNewMenuItem_8);
+	    
+	    JMenuItem mntmNewMenuItem_9 = new JMenuItem("Usuarios");
+	    mnNewMenu_1.add(mntmNewMenuItem_9);
+	    
+	    JMenu mnNewMenu_2 = new JMenu("Opciones");
+	    mnNewMenu.add(mnNewMenu_2);
+	    
+	    JMenuItem mntmNewMenuItem_10 = new JMenuItem("Guardar");
+	    mntmNewMenuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+	    mnNewMenu_2.add(mntmNewMenuItem_10);
+	    
+	    
+	    
+	    
+	    
+	    
+	    JMenuItem mntmNewMenuItem_11 = new JMenuItem("Borrar");
+	    mntmNewMenuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.SHIFT_DOWN_MASK));
+	    mnNewMenu_2.add(mntmNewMenuItem_11);
+	    
+	    JMenuItem mntmNewMenuItem_12 = new JMenuItem("Volver");
+	    mntmNewMenuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
+	    mnNewMenu_2.add(mntmNewMenuItem_12);
 	    
 	            
 	
@@ -96,8 +189,7 @@ public class DoctorConsultar extends JFrame {
 	    contentPane.setLayout(null);
 	    contentPane.setBackground(Color.decode("#008cce"));
      
-	    
-	    // Código de Ventana Principal...
+// Código de Ventana Principal...
 	    
 	    // Logo Fondo azul
     	JLabel logoBlanco = new JLabel("");
@@ -137,6 +229,12 @@ public class DoctorConsultar extends JFrame {
     	Icon icon = new ImageIcon(imgUrl);
     	buttonPanel.setLayout(null);
     	JButton button1 = new JButton(icon);
+    	button1.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			PacienteCRUD pacienteCRUD= new PacienteCRUD();
+    			pacienteCRUD.setVisible(true);
+    		}
+    	});
     	button1.setBounds(0, 18, 98, 40);
     	button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
     	button1.setBackground(Color.WHITE);
@@ -149,6 +247,12 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
     	Icon icon2 = new ImageIcon(imgUrl2);
     	JButton button2 = new JButton(icon2);
+    	button2.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    		DoctorConsultar doctorConsultar= new DoctorConsultar();
+    		doctorConsultar.setVisible(true);
+    		}
+    	});
     	button2.setBounds(0, 77, 98, 40);
     	button2.setPreferredSize(new Dimension(icon2.getIconWidth(), icon2.getIconHeight()));
     	button2.setBackground(Color.WHITE);
@@ -160,6 +264,12 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl3 = getClass().getResource("/consultasIcono.png");
     	Icon icon3 = new ImageIcon(imgUrl3);
     	JButton button3 = new JButton(icon3);
+    	button3.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			VentanaCitaCRUD ventanaCitaCRUD= new VentanaCitaCRUD();
+    			ventanaCitaCRUD.setVisible(true);
+    		}
+    	});
     	button3.setBounds(0, 135, 98, 40);
     	button3.setPreferredSize(new Dimension(icon3.getIconWidth(), icon3.getIconHeight()));
     	button3.setBackground(Color.WHITE);
@@ -194,7 +304,7 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl6 = getClass().getResource("/pedidosIcono.png");
     	Icon icon6 = new ImageIcon(imgUrl6);
     	JButton button6 = new JButton(icon6);
-    	button6.setBounds(-2, 308, 98, 40);
+    	button6.setBounds(-3, 308, 98, 40);
     	button6.setPreferredSize(new Dimension(icon6.getIconWidth(), icon6.getIconHeight()));
     	button6.setBackground(Color.WHITE);
     	buttonPanel.add(button6);
@@ -206,7 +316,7 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl7 = getClass().getResource("/proveedoresIcono.png");
     	Icon icon7 = new ImageIcon(imgUrl7);
     	JButton button7 = new JButton(icon7);
-    	button7.setBounds(0, 365, 98, 40);
+    	button7.setBounds(2, 365, 98, 40);
     	button7.setPreferredSize(new Dimension(icon7.getIconWidth(), icon7.getIconHeight()));
     	button7.setBackground(Color.WHITE);
     	buttonPanel.add(button7);
@@ -218,7 +328,7 @@ public class DoctorConsultar extends JFrame {
     	java.net.URL imgUrl8 = getClass().getResource("/tratamientosIcono.png");
     	Icon icon8 = new ImageIcon(imgUrl8);
     	JButton button8 = new JButton(icon8);
-    	button8.setBounds(0, 420, 98, 40);
+    	button8.setBounds(3, 426, 98, 40);
     	button8.setPreferredSize(new Dimension(icon8.getIconWidth(), icon8.getIconHeight()));
     	button8.setBackground(Color.WHITE);
     	buttonPanel.add(button8);
@@ -243,7 +353,7 @@ public class DoctorConsultar extends JFrame {
     	Icon icon10 = new ImageIcon(imgUrl10);
     	JButton button10 = new JButton(icon10);
     	button10.setContentAreaFilled(false);
-    	button10.setBounds(0, 537, 98, 40);
+    	button10.setBounds(0, 540, 98, 40);
     	button10.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
     	button10.setBackground(Color.WHITE);
     	buttonPanel.add(button10);
@@ -268,7 +378,7 @@ public class DoctorConsultar extends JFrame {
     	
     	JLabel lblFactura = new JLabel("FACTURA");
     	lblFactura.setFont(new Font("Tahoma", Font.BOLD, 11));
-    	lblFactura.setBounds(24, 233, 54, 14);
+    	lblFactura.setBounds(24, 235, 54, 14);
     	buttonPanel.add(lblFactura);
     	
     	JLabel lblSrock = new JLabel("STOCK");
@@ -278,14 +388,28 @@ public class DoctorConsultar extends JFrame {
     	
     	JLabel lblTratamiento = new JLabel("TRATAMIENTO");
     	lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
-    	lblTratamiento.setBounds(10, 470, 88, 14);
+    	lblTratamiento.setBounds(10, 472, 88, 14);
     	buttonPanel.add(lblTratamiento);
     	
     	JLabel lblPedido = new JLabel("PEDIDO");
-    	lblPedido.setBounds(30, 292, 47, 14);
+    	lblPedido.setBounds(28, 292, 47, 14);
     	buttonPanel.add(lblPedido);
     	lblPedido.setFont(new Font("Tahoma", Font.BOLD, 11));
     	
+    	JLabel lblUsuarios = new JLabel("USUARIOS");
+    	lblUsuarios.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblUsuarios.setBounds(23, 528, 88, 14);
+    	buttonPanel.add(lblUsuarios);
+    	
+    	JLabel lblMaterial = new JLabel("MATERIAL");
+    	lblMaterial.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblMaterial.setBounds(23, 176, 88, 14);
+    	buttonPanel.add(lblMaterial);
+    	
+    	JLabel lblEspecialidad = new JLabel("ESPECIALIDAD");
+    	lblEspecialidad.setFont(new Font("Tahoma", Font.BOLD, 11));
+    	lblEspecialidad.setBounds(10, 409, 88, 14);
+    	buttonPanel.add(lblEspecialidad);
     	//BOTON GUARDAR
     	
     	java.net.URL imgUrl11 = getClass().getResource("/save.png");
@@ -585,6 +709,17 @@ public class DoctorConsultar extends JFrame {
 
     	// BOTÓN VOLVER
     	JButton btnVolver = new JButton(icon13);
+    	btnVolver.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			
+    			VentanaDoctorInterna ventanaDoctorInterna= new VentanaDoctorInterna();
+    			ventanaDoctorInterna.setVisible(true);
+    	    			
+    			
+    			
+    			
+    		}
+    	});
     	btnVolver.setBounds(391, 0, 164, 80);
     	panel_1.add(btnVolver);
     	btnVolver.setPreferredSize(new Dimension(96, 96));
@@ -599,7 +734,6 @@ public class DoctorConsultar extends JFrame {
 
 	
 	}
-	
 	}
 
 
