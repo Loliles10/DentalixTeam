@@ -214,7 +214,9 @@ public class pantallaInicial extends JFrame {
 					}
 
 					// Hints de Botones
+					@SuppressWarnings("unused")
 					TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField);
+					@SuppressWarnings("unused")
 					TextPrompt contrasenia = new TextPrompt("Contraseña", contraseniaTextField);
 
 				});
