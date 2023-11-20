@@ -21,7 +21,7 @@ public class ConectorBBDD {
 	// Variables
 	String url = "jdbc:mysql://localhost:3306/dentilax";
 	String usuario = "root";
-	String contrasenia = "pass";
+	String contrasenia = "1234";
 	private Connection conexion; // Conexión
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
@@ -123,8 +123,8 @@ public class ConectorBBDD {
 				// Agregar la fila a la tabla
 				modeloTabla.addRow(new Object[] { nombre, apellidos, idPaciente, ultimaConsulta });
 
-				System.out.println("Nombre Paciente: " + nombre + ", Apellidos: " + apellidos + ", ID Paciente: "
-						+ idPaciente + ", Última Consulta: " + ultimaConsulta);
+//				System.out.println("Nombre Paciente: " + nombre + ", Apellidos: " + apellidos + ", ID Paciente: "
+//						+ idPaciente + ", Última Consulta: " + ultimaConsulta);
 			}
 
 			// Procesar y mostrar los resultados para 'dentilax.doctor'
@@ -137,8 +137,8 @@ public class ConectorBBDD {
 				// Agregar la fila a la tabla
 				modeloTabla.addRow(new Object[] { nombreDoctor, apellidosDoctor, idDoctor, emailDoctor });
 
-				System.out.println("Nombre Doctor: " + nombreDoctor + ", Apellidos: " + apellidosDoctor
-						+ ", ID Doctor: " + idDoctor + ", Email: " + emailDoctor);
+//				System.out.println("Nombre Doctor: " + nombreDoctor + ", Apellidos: " + apellidosDoctor
+//						+ ", ID Doctor: " + idDoctor + ", Email: " + emailDoctor);
 			}
 
 		} catch (SQLException ex) {
@@ -190,12 +190,12 @@ public class ConectorBBDD {
 			modeloTabla.setColumnIdentifiers(columnas);
 
 			// Verifica si la conexión es null antes de utilizarla
-			System.out.println("Conexión a la base de datos: " + (this.conexion != null ? "exitosa" : "fallida"));
+//			System.out.println("Conexión a la base de datos: " + (this.conexion != null ? "exitosa" : "fallida"));
 
 			if (this.conexion != null) {
 				// CONSULTA SQL
 				String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente";
-				System.out.println("Consulta SQL: " + consulta);
+//				System.out.println("Consulta SQL: " + consulta);
 
 				Statement statement = conexion.createStatement();
 				ResultSet resultado = statement.executeQuery(consulta);
@@ -210,9 +210,9 @@ public class ConectorBBDD {
 					modeloTabla.addRow(fila);
 				}
 
-				System.out.println("Filas en la tabla de pacientes: " + modeloTabla.getRowCount());
+//				System.out.println("Filas en la tabla de pacientes: " + modeloTabla.getRowCount());
 			} else {
-				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
+//				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
 			}
 
 			// cerrarConexion(); // Puedes habilitar esto si necesitas cerrar la conexión en
@@ -269,7 +269,7 @@ public class ConectorBBDD {
 					modeloTabla.addRow(fila);
 				}
 			} else {
-				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
+//				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
 			}
 			if (modeloTabla.getRowCount() > 0) {
 				return true; // Devuelve true solo si se cargaron datos
@@ -322,7 +322,7 @@ public class ConectorBBDD {
 					modeloTabla.addRow(fila);
 				}
 			} else {
-				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
+//				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
 			}
 
 			if (modeloTabla.getRowCount() > 0) {
