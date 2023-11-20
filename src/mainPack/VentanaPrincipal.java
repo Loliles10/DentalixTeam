@@ -331,6 +331,7 @@ public class VentanaPrincipal extends JFrame {
 		button2.setBorderPainted(false);
 		buttonPanel.add(button2);
 
+		// Botón de Doctores
 		button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
