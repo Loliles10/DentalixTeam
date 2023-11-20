@@ -99,7 +99,6 @@ public class VentanaCitaCRUD extends JFrame {
 		contentPane.add(logoBlanco);
 		logoBlanco.setOpaque(false);
 
-
 		ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
 		int ancho = imagen.getIconWidth();
 		int alto = imagen.getIconHeight();

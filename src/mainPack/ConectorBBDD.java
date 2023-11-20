@@ -243,10 +243,10 @@ public class ConectorBBDD {
 				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
 			}
 			if (modeloTabla.getRowCount() > 0) {
-	            return true;  // Devuelve true solo si se cargaron datos
-	        } else {
-	            return false; // Devuelve false si no se cargaron datos
-	        }
+				return true; // Devuelve true solo si se cargaron datos
+			} else {
+				return false; // Devuelve false si no se cargaron datos
+			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de doctores", "Error",
@@ -258,13 +258,16 @@ public class ConectorBBDD {
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		} finally {
-            // Indicar que se ha terminado de cargar datos, ya sea con éxito o con error
-            setCargandoDatos(false);
-        }
+			// Indicar que se ha terminado de cargar datos, ya sea con éxito o con error
+			setCargandoDatos(false);
+		}
 	}
 
-	public void cargarDatosCitas(DefaultTableModel modeloTabla) {
+	public boolean cargarDatosCitas(DefaultTableModel modeloTabla) {
 		try {
+			// Indicar que se están cargando datos
+			setCargandoDatos(true);
+
 			Vector<String> columnas = new Vector<>();
 			columnas.add("ID Paciente");
 			columnas.add("Motivo");
@@ -273,29 +276,44 @@ public class ConectorBBDD {
 
 			modeloTabla.setColumnIdentifiers(columnas);
 
-			// CONSULTA SQL
-			String consulta = "SELECT idCita, fecha, hora, motivo, idPaciente_FK, idDoctor_FK FROM dentilax.cita";
-			Statement statement = conexion.createStatement();
-			ResultSet resultado = statement.executeQuery(consulta);
+			// Verifica si la conexión es null antes de utilizarla
+			if (this.conexion != null) {
+				// CONSULTA SQL
+				String consulta = "SELECT idCita, fecha, hora, motivo, idPaciente_FK, idDoctor_FK FROM dentilax.cita";
+				Statement statement = conexion.createStatement();
+				ResultSet resultado = statement.executeQuery(consulta);
 
-			while (modeloTabla.getRowCount() > 0) {
-				modeloTabla.removeRow(0);
+				while (modeloTabla.getRowCount() > 0) {
+					modeloTabla.removeRow(0);
+				}
+
+				while (resultado.next()) {
+					Object[] fila = { resultado.getInt("idPaciente_FK"), resultado.getString("motivo"),
+							resultado.getDate("fecha"), resultado.getString("hora") };
+					modeloTabla.addRow(fila);
+				}
+			} else {
+				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
 			}
 
-			while (resultado.next()) {
-				Object[] fila = { resultado.getInt("idPaciente_FK"), resultado.getString("motivo"),
-						resultado.getDate("fecha"), resultado.getString("hora") };
-				modeloTabla.addRow(fila);
+			if (modeloTabla.getRowCount() > 0) {
+				return true; // Devuelve true solo si se cargaron datos
+			} else {
+				return false; // Devuelve false si no se cargaron datos
 			}
-
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de citas", "Error",
 					JOptionPane.ERROR_MESSAGE);
+			return false;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al cargar los datos de citas", "Error",
 					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} finally {
+			// Indicar que se ha terminado de cargar datos, ya sea con éxito o con error
+			setCargandoDatos(false);
 		}
 	}
 
