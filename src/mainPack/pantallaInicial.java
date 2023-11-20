@@ -44,7 +44,7 @@ public class pantallaInicial extends JFrame {
 			public void run() {
 				try {
 					pantallaInicial frame = new pantallaInicial();
-
+					frame.setResizable(false);
 					frame.setIconImage(
 							Toolkit.getDefaultToolkit().getImage(pantallaInicial.class.getResource("/logoAzul.png")));
 

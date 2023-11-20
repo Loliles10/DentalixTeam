@@ -50,7 +50,6 @@ public class Cita extends JPanel {
 	int separacionVertical = 95;
 	int contadorClics;
 	ImageIcon icono = new ImageIcon("images/nombre_de_tu_imagen.png");
-	JLabel labelCita = new JLabel("New label");
 	
 	/**
 	 * Create the panel.
@@ -257,24 +256,29 @@ public class Cita extends JPanel {
 		// BOTON GUARDAR
 		JButton btnGuardar = new JButton(icon11);
 		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					String idCita = textField_IDCita.getText();
-					String idPaciente = textField_IDPaciente.getText();
-					String idDoctor = textField_IDDoctor.getText();
-					String motivo = textField_Motivo.getText();
-					String fecha = textField_Fecha.getText();
-					String hora = textField_Hora.getText();
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            String idCita = textField_IDCita.getText();
+		            String idPaciente = textField_IDPaciente.getText();
+		            String idDoctor = textField_IDDoctor.getText();
+		            String motivo = textField_Motivo.getText();
+		            String fecha = textField_Fecha.getText();
+		            String hora = textField_Hora.getText();
 
-					// Verificar que todos los campos estén llenos
-					if (idCita.isEmpty() || idPaciente.isEmpty() || idDoctor.isEmpty() || motivo.isEmpty()
-							|| fecha.isEmpty() || hora.isEmpty()) {
-						// Mostrar un mensaje de error si algún campo está vacío
-						JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error",
-								JOptionPane.ERROR_MESSAGE);
-						return; // Salir del método para evitar el segundo mensaje de error
-					}
+		            // Verificar que todos los campos estén llenos
+		            if (idCita.isEmpty() || idPaciente.isEmpty() || idDoctor.isEmpty() || motivo.isEmpty()
+		                    || fecha.isEmpty() || hora.isEmpty()) {
+		                // Mostrar un mensaje de error si algún campo está vacío
+		                JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error",
+		                        JOptionPane.ERROR_MESSAGE);
+		                return; // Salir del método para evitar el segundo mensaje de error
+		            }
 
+		            // Crear una instancia de ConectorBBDD (asegúrate de que sea accesible desde esta
+					
+					
+					
+					
 					// Realizar la lógica de guardar aquí
 
 				} catch (Exception ex) {
@@ -377,10 +381,6 @@ public class Cita extends JPanel {
 
 		btnCambiaColor.setBounds(1063, 11, 89, 38);
 		panel.add(btnCambiaColor);
-		
-		labelCita.setFont(new Font("Montserrat", Font.PLAIN, 20));
-		labelCita.setBounds(125, 55, 279, 50);
-		panel.add(labelCita);
 
 	}
 	

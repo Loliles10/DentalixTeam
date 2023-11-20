@@ -10,6 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import mainPack.ConectorBBDD;
+import mainPack.VentanaPrincipal;
+
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -474,20 +478,27 @@ public class PacienteCRUD extends JFrame {
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Obtener los valores de los campos
-				String nombre = textField_nombre.getText();
-				String apellidos = textField_apellidos.getText();
-				String direccion = textField_direccion.getText();
-				String telefono = textField_tlf.getText();
-				String ultimaConsulta = textField_UltimaConsulta.getText();
-				String id = textField_Id.getText();
+				  String nombre = textField_nombre.getText();
+			        String apellidos = textField_apellidos.getText();
+			        String direccion = textField_direccion.getText();
+			        String telefono = textField_tlf.getText();
+			        String ultimaConsulta = textField_UltimaConsulta.getText();
+			        String id = textField_Id.getText();
 
-				if (nombre.isEmpty() || apellidos.isEmpty() || direccion.isEmpty() || telefono.isEmpty()
-						|| ultimaConsulta.isEmpty() || id.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+			        if (nombre.isEmpty() || apellidos.isEmpty() || direccion.isEmpty() || telefono.isEmpty()
+			                || ultimaConsulta.isEmpty() || id.isEmpty()) {
+			            JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+			        } else {
+			            // Crear una instancia de ConectorBBDD (asegúrate de que sea accesible desde esta clase)
+			            ConectorBBDD conectorBBDD = new ConectorBBDD();
 
-			}
-		});
+			            // Llamar al método para insertar paciente en la base de datos
+			            ((ConectorBBDD) conectorBBDD).insertarPaciente(nombre, apellidos, direccion, telefono, ultimaConsulta, id);
+
+			            // Luego, si es  necesario, puedes actualizar la tabla o realizar otras acciones después de la inserción.
+			        }
+			    }
+			});
 
 		// Establecer el botón como predeterminado para la tecla "Enter"
 		getRootPane().setDefaultButton(btnGuardar);
@@ -507,6 +518,8 @@ public class PacienteCRUD extends JFrame {
 		JButton btnVolver = new JButton(icon13);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				VentanaPrincipal ventanaPrincipal =new VentanaPrincipal();
+				ventanaPrincipal.setVisible(true);
 
 			}
 		});
@@ -517,6 +530,20 @@ public class PacienteCRUD extends JFrame {
 
 		// BOTÓN ELIMINAR
 		JButton btnEliminar = new JButton(icon12);
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				textField_nombre.setText("");
+		       textField_apellidos.setText("");
+		        textField_direccion.setText("");
+		        textField_tlf.setText("");
+		         textField_UltimaConsulta.setText("");
+		         textField_Id.setText("");
+				
+				
+			}
+		});
 		btnEliminar.setBounds(192, 0, 164, 80);
 		panel_1.add(btnEliminar);
 		btnEliminar.setPreferredSize(new Dimension(96, 96));

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +22,7 @@ public class ConectorBBDD {
 	// Variables
 	String url = "jdbc:mysql://localhost:3306/dentilax";
 	String usuario = "root";
-	String contrasenia = "1234";
+	String contrasenia = "pass";
 	private Connection conexion; // Conexión
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
@@ -81,6 +82,9 @@ public class ConectorBBDD {
 	        JOptionPane.showMessageDialog(null, "Error SQL al insertar paciente", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
+	
+	
+	
 
 	public void realizarBusqueda(String criterio, DefaultTableModel modeloTabla) {
 		PreparedStatement statementPaciente = null;
@@ -237,6 +241,36 @@ public class ConectorBBDD {
 			setCargandoDatos(false);
 		}
 	}
+	public void insertarDoctor(String nombre, String apellidos, String telefono, String direccion, int idEspecialidad, int salario, String email) {
+	    try {
+	        if (conectarConBBDD()) {
+	            String consulta = "INSERT INTO doctor (nombre, apellidos, teléfono, dirección, idEspecialidad_FK, salario, email) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	            PreparedStatement statement = conexion.prepareStatement(consulta);
+	            statement.setString(1, nombre);
+	            statement.setString(2, apellidos);
+	            statement.setString(3, telefono);
+	            statement.setString(4, direccion);
+	            statement.setInt(5, idEspecialidad);
+	            statement.setInt(6, salario);
+	            statement.setString(7, email);
+
+	            int filasAfectadas = statement.executeUpdate();
+
+	            if (filasAfectadas > 0) {
+	                JOptionPane.showMessageDialog(null, "Doctor insertado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Error al insertar doctor", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+
+	            cerrarConexion();
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error SQL al insertar doctor", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+
+
 
 	public boolean cargarDatosDoctores(DefaultTableModel modeloTabla) {
 		try {

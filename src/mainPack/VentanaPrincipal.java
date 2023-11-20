@@ -36,6 +36,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import otros.PacienteCRUD;
+import otros.VentanaCitaCRUD;
 
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -62,6 +63,7 @@ public class VentanaPrincipal extends JFrame {
 					frame.setIconImage(Toolkit.getDefaultToolkit()
 							.getImage(pantallaInicial.class.getResource("/logoDentilax.png")));
 					frame.setVisible(true);
+					frame.setResizable(false);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -227,8 +229,8 @@ public class VentanaPrincipal extends JFrame {
 	            dispose();
 
 	            // Instancia y muestra la nueva ventana PacienteCRUD
-	            PacienteCRUD pacienteCRUD = new PacienteCRUD();
-	            pacienteCRUD.setVisible(true);
+	            VentanaCitaCRUD ventanaCitaCRUD  = new VentanaCitaCRUD ();
+	            ventanaCitaCRUD .setVisible(true);
 		    }
 		});
 		
@@ -436,6 +438,7 @@ public class VentanaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 
+					
 					bienvenido.setVisible(false);
 					texto1.setVisible(false);
 					playBoton.setVisible(false);
