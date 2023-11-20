@@ -30,15 +30,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-
-//import mainPack.ColumnaBuscar;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -372,10 +369,27 @@ public class VentanaPrincipal extends JFrame {
 		button3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bienvenido.setVisible(false);
-				texto1.setVisible(false);
-				playBoton.setVisible(false);
+				try {
+					
+					bienvenido.setVisible(false);
+					texto1.setVisible(false);
+					playBoton.setVisible(false);
+					if (conector.conectarConBBDD()) {
+						conector.cargarDatosCitas(modeloTabla);
+						tablasPanel.setVisible(true); 
+					} else {
+						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al conectar con la base de datos",
+								"Error", JOptionPane.ERROR_MESSAGE);
+					}
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al cargar los datos de pacientes",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
+
 		});
 
 		java.net.URL imgUrl4 = getClass().getResource("/materialIcono.png");

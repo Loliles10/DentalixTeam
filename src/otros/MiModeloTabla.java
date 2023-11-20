@@ -1,4 +1,4 @@
-package mainPack;
+package otros;
 
 import javax.swing.table.DefaultTableModel;
 /*

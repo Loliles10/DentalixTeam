@@ -44,13 +44,12 @@ public class pantallaInicial extends JFrame {
 			public void run() {
 				try {
 					pantallaInicial frame = new pantallaInicial();
-					
-					 frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-	                            pantallaInicial.class.getResource("/logoAzul.png")));
 
-					
+					frame.setIconImage(
+							Toolkit.getDefaultToolkit().getImage(pantallaInicial.class.getResource("/logoAzul.png")));
+
 					frame.setVisible(true);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,11 +59,7 @@ public class pantallaInicial extends JFrame {
 	}
 
 	/**
-	 * Autores: 
-	 * David Andrade 
-	 * Pablo Rodriguez 
-	 * Ian Requena 
-	 * 2023
+	 * Autores: David Andrade Pablo Rodriguez Ian Requena 2023
 	 **/
 
 	public pantallaInicial() {
@@ -93,7 +88,9 @@ public class pantallaInicial extends JFrame {
 		timer = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				
 				logoInicio.setVisible(false);
 				contentPane.remove(logoInicio);
 				contentPane.repaint();
@@ -120,6 +117,12 @@ public class pantallaInicial extends JFrame {
 				JPasswordField contraseniaTextField = new JPasswordField();
 				contraseniaTextField.setBounds(770, 300, 200, 30);
 				contentPane.add(contraseniaTextField);
+
+				// Hints de Botones
+				@SuppressWarnings("unused")
+				TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField);
+				@SuppressWarnings("unused")
+				TextPrompt contrasenia = new TextPrompt("Contraseña", contraseniaTextField);
 
 				JToggleButton toggleButton = new JToggleButton();
 				toggleButton.setIcon(new ImageIcon(getClass().getResource("/mostrar.png")));
@@ -212,12 +215,6 @@ public class pantallaInicial extends JFrame {
 						}
 
 					}
-
-					// Hints de Botones
-					@SuppressWarnings("unused")
-					TextPrompt usuario = new TextPrompt("Usuario", usuarioTextField);
-					@SuppressWarnings("unused")
-					TextPrompt contrasenia = new TextPrompt("Contraseña", contraseniaTextField);
 
 				});
 

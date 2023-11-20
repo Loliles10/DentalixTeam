@@ -1,12 +1,11 @@
-package mainPack;
-
-import java.awt.BorderLayout;
+package otros;
+import mainPack.*;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,38 +22,44 @@ import java.io.IOException;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.Icon;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-public class VentanaDoctor extends JFrame {
+import java.awt.Font;
+import javax.swing.JOptionPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import java.awt.Toolkit;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+public class VentanaDoctorInterna extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel bienvenido;
 	private JLabel texto1;
 	private JButton playBoton;
+	private ConectorBBDD conector = new ConectorBBDD();
+	private JTextField textField;
 
 	/**
-	 * Launch the application.
+	 * Autores: David Andrade Pablo Rodriguez Ian Requena 2023
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaPrincipal frame = new VentanaPrincipal();
-					frame.setIconImage(Toolkit.getDefaultToolkit()
-							.getImage(pantallaInicial.class.getResource("/logoDentilax.png")));
+					VentanaDoctorInterna frame = new VentanaDoctorInterna();
 
+					frame.setIconImage(Toolkit.getDefaultToolkit()
+							.getImage(mainPack.pantallaInicial.class.getResource("/logoDentilax.png")));
 					frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -63,64 +68,127 @@ public class VentanaDoctor extends JFrame {
 
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	public VentanaDoctorInterna() {
 
-	public VentanaDoctor() {
+		// asdasd
 
-		// Dimensiones
+		super("Dentilax");
+		VentanaDoctorInterna.this.setLocationRelativeTo(null);
+		setResizable(false);
+		// Icono
+		ImageIcon icono1 = new ImageIcon("/logoDentilax.png");
+		VentanaDoctorInterna.this.setIconImage(icono1.getImage());
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
+		setBounds(100, 100, 1292, 728);
 
-		// Estilos del JPanel
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		// Código de Ventana Principal...
-
-		// Logo Fondo azul
 		JLabel logoBlanco = new JLabel("");
 		logoBlanco.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(logoBlanco);
 
-		ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
-		int ancho = imagen.getIconWidth();
-		int alto = imagen.getIconHeight();
-		logoBlanco.setBounds(0, 0, ancho, alto);
+		ImageIcon imagenLogo = new ImageIcon(getClass().getResource("/logoAzul.png"));
+		int ancho = imagenLogo.getIconWidth();
+		int alto = imagenLogo.getIconHeight();
 
-		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+		logoBlanco.setBounds(0, 0, 100, 100);
+
+		Icon icono = new ImageIcon(imagenLogo.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
 		logoBlanco.setIcon(icono);
 
-		JScrollPane scrollPane = new JScrollPane();
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
+
+		JScrollPane scrollPane = new JScrollPane(buttonPanel);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBackground(Color.decode("#008cce"));
+
 		scrollPane.setBounds(0, 101, 100, 590);
+
 		contentPane.add(scrollPane);
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(10, 1));
-		scrollPane.setViewportView(buttonPanel);
+		// Tablas
+		DefaultTableModel modeloTabla = new DefaultTableModel();
+		mainPack.Tabla table = new mainPack.Tabla(modeloTabla);
 
-		buttonPanel.setBackground(Color.decode("#008cce"));
-		// Botón 1
-		java.net.URL imgUrl = getClass().getResource("/pacientesIcono.png");
-		Icon icon = new ImageIcon(imgUrl);
+		JPanel tablasPanel = new JPanel();
+		tablasPanel.setBackground(new Color(255, 255, 255));
+		tablasPanel.setBounds(99, -1, 1179, 691);
+		contentPane.add(tablasPanel);
+		tablasPanel.setLayout(null);
+		tablasPanel.setVisible(false);
+
+		tablasPanel.add(table);
+
+		JScrollPane scrollPaneT = new JScrollPane(table);
+		scrollPaneT.setBounds(-2, 0, 1180, 691);
+		tablasPanel.add(scrollPaneT);
+		scrollPaneT.setBackground(new Color(255, 255, 255));
+
+		JLabel lblNewLabel = new JLabel("Nuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+		scrollPaneT.setColumnHeaderView(lblNewLabel);
+
+		textField = new JTextField();
+		scrollPaneT.setColumnHeaderView(textField);
+		textField.setColumns(10);
+
+		java.net.URL imgUrl1 = getClass().getResource("/pacientesIcono.png");
+		Icon icon = new ImageIcon(imgUrl1);
 		buttonPanel.setLayout(null);
 		JButton button1 = new JButton(icon);
-		button1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PacienteCRUD pacienteCRUD = new PacienteCRUD();
-				pacienteCRUD.setVisible(true);
-
-			}
-		});
-		button1.setBounds(0, 18, 98, 40);
+		button1.setBounds(0, 0, 0, 0);
 		button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		button1.setBackground(Color.WHITE);
+
 		buttonPanel.add(button1);
-		button1.setContentAreaFilled(false);
+
+		// Acción del botón
+		button1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					bienvenido.setVisible(false);
+					texto1.setVisible(false);
+					playBoton.setVisible(false);
+
+					if (conector.conectarConBBDD()) {
+						conector.cargarDatosPacientes(modeloTabla);
+						tablasPanel.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(VentanaDoctorInterna.this,
+								"Error al conectar con la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					JOptionPane.showMessageDialog(VentanaDoctorInterna.this, "Error al cargar los datos de pacientes",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		JPanel buttonPanel1 = new JPanel();
+		scrollPane.setViewportView(buttonPanel1);
+		buttonPanel1.setBackground(Color.decode("#008cce"));
+
+		JPanel panel = new JPanel(); // PANEL DONDE ESTAN LOS LABELS
+
+		// BOTONES
+
+		// Botón 1
+		java.net.URL imgUrl = getClass().getResource("/pacientesIcono.png");
+		Icon icon1 = new ImageIcon(imgUrl);
+		buttonPanel1.setLayout(null);
+		JButton button11 = new JButton(icon1);
+		button11.setBounds(0, 18, 98, 40);
+		button11.setPreferredSize(new Dimension(icon1.getIconWidth(), icon1.getIconHeight()));
+		button11.setBackground(Color.WHITE);
+		buttonPanel1.add(button11);
+		button11.setContentAreaFilled(false);
 
 		// Botón 2
 		java.net.URL imgUrl2 = getClass().getResource("/doctoresIcono.png");
@@ -135,7 +203,7 @@ public class VentanaDoctor extends JFrame {
 		button2.setBounds(0, 77, 98, 40);
 		button2.setPreferredSize(new Dimension(icon2.getIconWidth(), icon2.getIconHeight()));
 		button2.setBackground(Color.WHITE);
-		buttonPanel.add(button2);
+		buttonPanel1.add(button2);
 		button2.setContentAreaFilled(false);
 
 		// Botón 3
@@ -151,7 +219,7 @@ public class VentanaDoctor extends JFrame {
 		button3.setBounds(0, 135, 98, 40);
 		button3.setPreferredSize(new Dimension(icon3.getIconWidth(), icon3.getIconHeight()));
 		button3.setBackground(Color.WHITE);
-		buttonPanel.add(button3);
+		buttonPanel1.add(button3);
 		button3.setContentAreaFilled(false);
 
 		// Botón 4
@@ -161,7 +229,7 @@ public class VentanaDoctor extends JFrame {
 		button4.setBounds(0, 191, 98, 40);
 		button4.setPreferredSize(new Dimension(icon4.getIconWidth(), icon4.getIconHeight()));
 		button4.setBackground(Color.WHITE);
-		buttonPanel.add(button4);
+		buttonPanel1.add(button4);
 		button4.setContentAreaFilled(false);
 
 		// Botón 5
@@ -171,7 +239,7 @@ public class VentanaDoctor extends JFrame {
 		button5.setBounds(0, 249, 98, 40);
 		button5.setPreferredSize(new Dimension(icon5.getIconWidth(), icon5.getIconHeight()));
 		button5.setBackground(Color.WHITE);
-		buttonPanel.add(button5);
+		buttonPanel1.add(button5);
 		button5.setContentAreaFilled(false);
 
 		// Botón 6
@@ -181,7 +249,7 @@ public class VentanaDoctor extends JFrame {
 		button6.setBounds(-3, 308, 98, 40);
 		button6.setPreferredSize(new Dimension(icon6.getIconWidth(), icon6.getIconHeight()));
 		button6.setBackground(Color.WHITE);
-		buttonPanel.add(button6);
+		buttonPanel1.add(button6);
 		button6.setContentAreaFilled(false);
 
 		// Botón 7
@@ -191,7 +259,7 @@ public class VentanaDoctor extends JFrame {
 		button7.setBounds(2, 365, 98, 40);
 		button7.setPreferredSize(new Dimension(icon7.getIconWidth(), icon7.getIconHeight()));
 		button7.setBackground(Color.WHITE);
-		buttonPanel.add(button7);
+		buttonPanel1.add(button7);
 		button7.setContentAreaFilled(false);
 
 		// Botón 8
@@ -201,7 +269,7 @@ public class VentanaDoctor extends JFrame {
 		button8.setBounds(3, 426, 98, 40);
 		button8.setPreferredSize(new Dimension(icon8.getIconWidth(), icon8.getIconHeight()));
 		button8.setBackground(Color.WHITE);
-		buttonPanel.add(button8);
+		buttonPanel1.add(button8);
 		button8.setContentAreaFilled(false);
 
 		// Botón 9
@@ -211,7 +279,7 @@ public class VentanaDoctor extends JFrame {
 		button9.setBounds(0, 487, 98, 40);
 		button9.setPreferredSize(new Dimension(icon9.getIconWidth(), icon9.getIconHeight()));
 		button9.setBackground(Color.WHITE);
-		buttonPanel.add(button9);
+		buttonPanel1.add(button9);
 		button9.setContentAreaFilled(false);
 
 		// Botón 10
@@ -222,159 +290,102 @@ public class VentanaDoctor extends JFrame {
 		button10.setBounds(0, 540, 98, 40);
 		button10.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
 		button10.setBackground(Color.WHITE);
-		buttonPanel.add(button10);
+		buttonPanel1.add(button10);
 
 		// LABELS DE LOS BOTONES MENÚ
 
-		JLabel lblNewLabel = new JLabel("PACIENTE");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel.setBounds(26, 0, 62, 14);
-		buttonPanel.add(lblNewLabel);
+		JLabel lblNewLabel1 = new JLabel("PACIENTE");
+		lblNewLabel1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel1.setBounds(26, 0, 62, 14);
+		buttonPanel1.add(lblNewLabel1);
 
 		JLabel lblDoctor = new JLabel("DOCTOR");
 		lblDoctor.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblDoctor.setBounds(26, 59, 62, 20);
-		buttonPanel.add(lblDoctor);
+		buttonPanel1.add(lblDoctor);
 
 		JLabel lblCita = new JLabel("CITA");
 		lblCita.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblCita.setBounds(34, 121, 27, 14);
-		buttonPanel.add(lblCita);
+		buttonPanel1.add(lblCita);
 
 		JLabel lblFactura = new JLabel("FACTURA");
 		lblFactura.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblFactura.setBounds(24, 235, 54, 14);
-		buttonPanel.add(lblFactura);
+		buttonPanel1.add(lblFactura);
 
 		JLabel lblSrock = new JLabel("STOCK");
 		lblSrock.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblSrock.setBounds(28, 350, 47, 14);
-		buttonPanel.add(lblSrock);
+		buttonPanel1.add(lblSrock);
 
 		JLabel lblTratamiento = new JLabel("TRATAMIENTO");
 		lblTratamiento.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTratamiento.setBounds(10, 472, 88, 14);
-		buttonPanel.add(lblTratamiento);
+		buttonPanel1.add(lblTratamiento);
 
 		JLabel lblPedido = new JLabel("PEDIDO");
 		lblPedido.setBounds(28, 292, 47, 14);
-		buttonPanel.add(lblPedido);
+		buttonPanel1.add(lblPedido);
 		lblPedido.setFont(new Font("Tahoma", Font.BOLD, 11));
 
 		JLabel lblUsuarios = new JLabel("USUARIOS");
 		lblUsuarios.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblUsuarios.setBounds(23, 528, 88, 14);
-		buttonPanel.add(lblUsuarios);
+		buttonPanel1.add(lblUsuarios);
 
 		JLabel lblMaterial = new JLabel("MATERIAL");
 		lblMaterial.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblMaterial.setBounds(23, 176, 88, 14);
-		buttonPanel.add(lblMaterial);
+		buttonPanel1.add(lblMaterial);
 
 		JLabel lblEspecialidad = new JLabel("ESPECIALIDAD");
 		lblEspecialidad.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEspecialidad.setBounds(10, 409, 88, 14);
-		buttonPanel.add(lblEspecialidad);
-		// Texto de ventana principal
-		bienvenido = new JLabel(
-				"<html><font color='#008CCE'>¡Bienvenido</font> doctor<font color='#008CCE'>!</font></html>");
-		bienvenido.setFont(new Font("Montserrat Medium", Font.BOLD, 60));
-		bienvenido.setBounds(387, 210, 725, 62);
-		contentPane.add(bienvenido);
+		buttonPanel1.add(lblEspecialidad);
 
-		texto1 = new JLabel("<html><div align='center'>No puedes<br>editar nada<br> solo observar :)</div></html>");
-		texto1.setHorizontalAlignment(SwingConstants.CENTER);
-		texto1.setFont(new Font("Montserrat Medium", Font.PLAIN, 20));
-		texto1.setBounds(499, 282, 421, 109);
-		contentPane.add(texto1);
+		// JMENU BAR JITEM ETC
 
-		// Boton de play
-		java.net.URL imgUrl11 = getClass().getResource("/play.png");
-		Icon icon11 = new ImageIcon(imgUrl11);
-		playBoton = new JButton(icon11);
-		playBoton.setBounds(679, 400, 57, 55);
-		playBoton.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
-		playBoton.setBackground(Color.WHITE);
-		contentPane.add(playBoton);
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
 
-		playBoton.addMouseListener(new MouseAdapter() {
+		JMenu mnNewMenu = new JMenu("Menú");
+		menuBar.add(mnNewMenu);
+
+		JMenu mnNewMenu_1 = new JMenu("Clases");
+		mnNewMenu.add(mnNewMenu_1);
+
+		// ME REDIRIGE A CLASE PACIENTE
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
+		mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+		mnNewMenu_1.add(mntmNewMenuItem);
+
+		mntmNewMenuItem.addActionListener(new ActionListener() {
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				setCursor(new Cursor(Cursor.HAND_CURSOR));
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			}
-		});
-
-		playBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String videoPath = "C:\\Users\\ianre\\git\\DentalixTeam\\recursos\\tutorial1.mkv";
+				// Crear una instancia de la ventana del paciente y mostrarla
+				PacienteCRUD ventanaPaciente = new PacienteCRUD();
+				ventanaPaciente.setVisible(true);
 
-				try {
-					Desktop.getDesktop().open(new File(videoPath));
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
 			}
-
 		});
 
-		// Zona de tablas
-		JPanel tablasPanel = new JPanel();
-		tablasPanel.setBackground(new Color(255, 255, 255));
-		tablasPanel.setBounds(99, 0, 1167, 691);
-		contentPane.add(tablasPanel);
+		// ME REDIRIGE A CLASE DOCTOR
 
-		// Unicamente espectador
-
-	}
-
-	private void cargarDatosPacientes() {
-		try {
-			// Conexión a la base de datos
-			String url = "jdbc:mysql://localhost:3306/dentilax?useSSL=false";
-			String usuario = "root";
-			String contrasenia = "1234";
-			Connection conexion = DriverManager.getConnection(url, usuario, contrasenia);
-
-			String consulta = "SELECT * FROM sys.paciente";
-			Statement statement = conexion.createStatement();
-			ResultSet resultado = statement.executeQuery(consulta);
-
-			DefaultTableModel modeloTabla = new DefaultTableModel();
-
-			modeloTabla.addColumn("ID/Documento");
-			modeloTabla.addColumn("Nombre");
-			modeloTabla.addColumn("Apellidos");
-			modeloTabla.addColumn("Dirección");
-			modeloTabla.addColumn("Teléfono");
-
-			while (resultado.next()) {
-
-				Object[] fila = {
-
-						resultado.getInt("idPaciente"), resultado.getString("nombre"), resultado.getString("apellidos"),
-						resultado.getString("dirección"), resultado.getInt("teléfono") };
-				modeloTabla.addRow(fila);
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Doctor");
+		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		mnNewMenu.add(mnNewMenu_1);
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Crear una instancia de la ventana del paciente y mostrarla
+				DoctorConsultar doctorConsultar = new DoctorConsultar();
+				doctorConsultar.setVisible(true);
 
 			}
+		});
 
-			conexion.close();
-
-			JTable tablaPacientes = new JTable(modeloTabla);
-
-			JPanel panel = new JPanel(new BorderLayout());
-			panel.add(new JScrollPane(tablaPacientes), BorderLayout.CENTER);
-
-			JOptionPane.showMessageDialog(this, panel, "Tabla de Pacientes", JOptionPane.INFORMATION_MESSAGE);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(this, "Error al cargar los datos de pacientes", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
 	}
 }

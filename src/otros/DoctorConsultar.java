@@ -1,4 +1,4 @@
-package mainPack;
+package otros;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import java.awt.Dimension;
 
 import javax.print.DocFlavor.URL;
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -29,25 +30,27 @@ import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JMenuBar;
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
 
-public class PacienteCRUD extends JFrame {
+public class DoctorConsultar extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static final Font fuenteLabel = new Font("Montserrat", Font.PLAIN, 20);
 	private static final Font fuenteGrande = new Font("Montserrat", Font.PLAIN, 50);
-	int yPosition = 40;
+	int yPosition = 30;
 	int separacionVertical = 70;
 
-	private JTextField textField_UltimaConsulta;
-	private JTextField textField_Id;
+	private JTextField textField_email;
+	private JTextField textField_Salario;
+	private JTextField textField_especialidad;
+	private JTextField textField_id;
 	private JOptionPane joptionPane;
 
 	/**
@@ -58,7 +61,7 @@ public class PacienteCRUD extends JFrame {
 			public void run() {
 				try {
 
-					PacienteCRUD frame = new PacienteCRUD();
+					DoctorConsultar frame = new DoctorConsultar();
 					frame.setVisible(true);
 					frame.setResizable(false);
 					/*
@@ -77,11 +80,83 @@ public class PacienteCRUD extends JFrame {
 	 * Create the frame.
 	 */
 
-	public PacienteCRUD() {
+	public DoctorConsultar() {
 
 		// Dimensiones
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 748);
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnNewMenu = new JMenu("Menú");
+		menuBar.add(mnNewMenu);
+
+		JMenu mnNewMenu_1 = new JMenu("Clases");
+		mnNewMenu.add(mnNewMenu_1);
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
+		mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+		mnNewMenu_1.add(mntmNewMenuItem);
+
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Crear una instancia de la ventana del paciente y mostrarla
+				PacienteCRUD ventanaPaciente = new PacienteCRUD();
+				ventanaPaciente.setVisible(true);
+
+			}
+		});
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cita");
+		mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
+		mnNewMenu_1.add(mntmNewMenuItem_2);
+		mnNewMenu.add(mnNewMenu_1);
+
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Crear una instancia de la ventana del paciente y mostrarla
+				VentanaCitaCRUD ventanaCitaCRUD = new VentanaCitaCRUD();
+				ventanaCitaCRUD.setVisible(true);
+
+			}
+		});
+
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Material");
+		mnNewMenu_1.add(mntmNewMenuItem_3);
+
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Factura");
+		mnNewMenu_1.add(mntmNewMenuItem_4);
+
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Pedido");
+		mnNewMenu_1.add(mntmNewMenuItem_5);
+
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Stock");
+		mnNewMenu_1.add(mntmNewMenuItem_6);
+
+		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Tratamiento");
+		mnNewMenu_1.add(mntmNewMenuItem_7);
+
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Especialistas");
+		mnNewMenu_1.add(mntmNewMenuItem_8);
+
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Usuarios");
+		mnNewMenu_1.add(mntmNewMenuItem_9);
+
+		JMenu mnNewMenu_2 = new JMenu("Opciones");
+		mnNewMenu.add(mnNewMenu_2);
+
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Guardar");
+		mntmNewMenuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		mnNewMenu_2.add(mntmNewMenuItem_10);
+
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Borrar");
+		mntmNewMenuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.SHIFT_DOWN_MASK));
+		mnNewMenu_2.add(mntmNewMenuItem_11);
+
+		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Volver");
+		mntmNewMenuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
+		mnNewMenu_2.add(mntmNewMenuItem_12);
 
 		// Estilos del JPanel
 		contentPane = new JPanel();
@@ -91,7 +166,7 @@ public class PacienteCRUD extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.setBackground(Color.decode("#008cce"));
 
-		// Código de Ventana Principal...
+// Código de Ventana Principal...
 
 		// Logo Fondo azul
 		JLabel logoBlanco = new JLabel("");
@@ -125,6 +200,12 @@ public class PacienteCRUD extends JFrame {
 		Icon icon = new ImageIcon(imgUrl);
 		buttonPanel.setLayout(null);
 		JButton button1 = new JButton(icon);
+		button1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PacienteCRUD pacienteCRUD = new PacienteCRUD();
+				pacienteCRUD.setVisible(true);
+			}
+		});
 		button1.setBounds(0, 18, 98, 40);
 		button1.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
 		button1.setBackground(Color.WHITE);
@@ -284,7 +365,6 @@ public class PacienteCRUD extends JFrame {
 		lblEspecialidad.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblEspecialidad.setBounds(10, 409, 88, 14);
 		buttonPanel.add(lblEspecialidad);
-
 		// BOTON GUARDAR
 
 		java.net.URL imgUrl11 = getClass().getResource("/save.png");
@@ -312,19 +392,31 @@ public class PacienteCRUD extends JFrame {
 		panel.setBackground(Color.decode("#008cce"));
 
 		// Cargar la imagen desde la carpeta de recursos
-		String rutaImagen = "/paciente.png"; // Ajusta la ruta según la ubicación de tu recurso
+		String rutaImagen = "/doctorIcono.png"; // Ajusta la ruta según la ubicación de tu recurso
 		java.net.URL urlImagen = getClass().getResource(rutaImagen);
 		ImageIcon imagen1 = new ImageIcon(urlImagen);
 		panel.setLayout(null);
 
 		// Añadir la imagen al panel
 		JLabel labelImagen = new JLabel(imagen1);
-		labelImagen.setBounds(0, 124, 544, 512);
+		labelImagen.setBounds(10, 115, 512, 512);
 		panel.add(labelImagen);
+
+		// COLOR DEL PANEL(FONDO)
+
+		// ID
+		JLabel label_ID = new JLabel("ID:");
+		label_ID.setBounds(630, 511, 36, 55);
+		label_ID.setBackground(new Color(0, 128, 192));
+		panel.add(label_ID);
+
+		// Establecemos el tamaño y su fuente
+		label_ID.setFont(fuenteLabel);
+		label_ID.setBackground(Color.decode("#008cce"));
 
 		// L NOMBRE
 		JLabel label_Nombre = new JLabel("Nombre:");
-		label_Nombre.setBounds(591, 92, 85, 65);
+		label_Nombre.setBounds(591, 13, 85, 65);
 		panel.add(label_Nombre);
 
 		label_Nombre.setFont(fuenteLabel);
@@ -333,7 +425,7 @@ public class PacienteCRUD extends JFrame {
 		// APELLIDOS
 
 		JLabel label_Apellidos = new JLabel("Apellidos:");
-		label_Apellidos.setBounds(591, 168, 85, 65);
+		label_Apellidos.setBounds(583, 89, 85, 65);
 		panel.add(label_Apellidos);
 
 		label_Apellidos.setFont(fuenteLabel);
@@ -341,7 +433,7 @@ public class PacienteCRUD extends JFrame {
 		// TELEFONO
 
 		JLabel label_Telefono = new JLabel("Teléfono:");
-		label_Telefono.setBounds(591, 297, 82, 65);
+		label_Telefono.setBounds(591, 223, 82, 65);
 		panel.add(label_Telefono);
 
 		label_Telefono.setFont(fuenteLabel);
@@ -349,26 +441,34 @@ public class PacienteCRUD extends JFrame {
 		// DIRECCION
 
 		JLabel label_Direccion = new JLabel("Dirección:");
-		label_Direccion.setBounds(583, 229, 93, 65);
+		label_Direccion.setBounds(583, 159, 93, 65);
 		panel.add(label_Direccion);
 
 		label_Direccion.setFont(fuenteLabel);
 
+		// ID ESPECIALIDAD
+
+		JLabel label_IDEspecialidad = new JLabel("ID Especialidad:");
+		label_IDEspecialidad.setBounds(526, 435, 150, 65);
+		panel.add(label_IDEspecialidad);
+
+		label_IDEspecialidad.setFont(fuenteLabel);
+
 		// SALARIO
 
-		JLabel lblId = new JLabel("ID:");
-		lblId.setBounds(636, 449, 40, 65);
-		panel.add(lblId);
+		JLabel label_Salario = new JLabel("Salario:");
+		label_Salario.setBounds(602, 359, 74, 65);
+		panel.add(label_Salario);
 
-		lblId.setFont(fuenteLabel);
+		label_Salario.setFont(fuenteLabel);
 
 		// EMAIL
 
-		JLabel lblUltimaConsulta = new JLabel("Ultima Consulta:");
-		lblUltimaConsulta.setBounds(532, 373, 168, 65);
-		panel.add(lblUltimaConsulta);
+		JLabel label_Email = new JLabel("Email:");
+		label_Email.setBounds(606, 299, 62, 65);
+		panel.add(label_Email);
 
-		lblUltimaConsulta.setFont(fuenteLabel);
+		label_Email.setFont(fuenteLabel);
 
 		String rutaImagen2 = "/guardarIcono.png"; // Ajusta la ruta según la ubicación de tu recurso
 		java.net.URL urlImagen2 = getClass().getResource(rutaImagen2);
@@ -376,19 +476,19 @@ public class PacienteCRUD extends JFrame {
 		// TextFields separados equitativamente
 
 		JTextField textField_nombre = new JTextField();
-		textField_nombre.setBounds(673, yPosition + separacionVertical * 1, 379, 38);
+		textField_nombre.setBounds(673, 30, 379, 38);
 		panel.add(textField_nombre);
 
 		JTextField textField_apellidos = new JTextField();
-		textField_apellidos.setBounds(673, yPosition + separacionVertical * 2, 379, 38);
+		textField_apellidos.setBounds(673, 100, 379, 38);
 		panel.add(textField_apellidos);
 
 		JTextField textField_direccion = new JTextField();
-		textField_direccion.setBounds(673, yPosition + separacionVertical * 3, 379, 38);
+		textField_direccion.setBounds(673, 170, 379, 38);
 		panel.add(textField_direccion);
 
 		JTextField textField_tlf = new JTextField();
-		textField_tlf.setBounds(673, yPosition + separacionVertical * 4, 379, 38);
+		textField_tlf.setBounds(673, 240, 379, 38);
 		textField_tlf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -407,34 +507,16 @@ public class PacienteCRUD extends JFrame {
 
 		panel.add(textField_tlf);
 
-		textField_UltimaConsulta = new JTextField();
-		textField_UltimaConsulta.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				char c = e.getKeyChar();
-				if (c == KeyEvent.VK_BACK_SPACE) {
-					return;
-				}
+		textField_email = new JTextField();
+		textField_email.setBounds(673, 310, 379, 38);
+		panel.add(textField_email);
 
-				if (!Character.isDigit(c) && c != ':') {
-					e.consume();
-					JOptionPane.showMessageDialog(null, "Solo se pueden introducir números y ':'", "Advertencia",
-							JOptionPane.WARNING_MESSAGE);
-
-				}
-
-			}
-		});
-		textField_UltimaConsulta.setBounds(673, yPosition + separacionVertical * 5, 379, 38);
-		panel.add(textField_UltimaConsulta);
-
-		textField_Id = new JTextField();
-		textField_Id.setBounds(673, yPosition + separacionVertical * 6, 379, 38);
-		panel.add(textField_Id);
+		textField_Salario = new JTextField();
+		textField_Salario.setBounds(673, 380, 379, 38);
 
 		// ERRORES
 
-		textField_Id.addKeyListener(new KeyAdapter() {
+		textField_Salario.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
@@ -450,9 +532,49 @@ public class PacienteCRUD extends JFrame {
 
 			}
 		});
+		panel.add(textField_Salario);
 
-		JLabel labelDoctor = new JLabel("NOMBRE PACIENTNE");
-		labelDoctor.setBounds(53, 43, 533, 47);
+		textField_especialidad = new JTextField();
+		textField_especialidad.setBounds(673, 450, 379, 38);
+		textField_especialidad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (c == KeyEvent.VK_BACK_SPACE) {
+					return;
+				}
+
+				if (!Character.isDigit(c)) {
+					e.consume();
+					JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia",
+							JOptionPane.WARNING_MESSAGE);
+				}
+
+			}
+		});
+		panel.add(textField_especialidad);
+
+		textField_id = new JTextField();
+		textField_id.setBounds(673, 520, 379, 38);
+		textField_id.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if (c == KeyEvent.VK_BACK_SPACE) {
+					return;
+				}
+
+				if (!Character.isDigit(c)) {
+					e.consume();
+					JOptionPane.showMessageDialog(null, "Solo se pueden introducir números", "Advertencia",
+							JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		panel.add(textField_id);
+
+		JLabel labelDoctor = new JLabel("DR.REQUENA");
+		labelDoctor.setBounds(113, 45, 468, 47);
 		panel.add(labelDoctor);
 		labelDoctor.setFont(fuenteGrande);
 
@@ -476,16 +598,23 @@ public class PacienteCRUD extends JFrame {
 				// Obtener los valores de los campos
 				String nombre = textField_nombre.getText();
 				String apellidos = textField_apellidos.getText();
-				String direccion = textField_direccion.getText();
-				String telefono = textField_tlf.getText();
-				String ultimaConsulta = textField_UltimaConsulta.getText();
-				String id = textField_Id.getText();
+				String telefono = textField_direccion.getText();
+				String direccion = textField_tlf.getText();
+				String salario = textField_email.getText();
+				String idEspecialidad = textField_Salario.getText();
+				String email = textField_especialidad.getText();
+				String id = textField_id.getText();
 
-				if (nombre.isEmpty() || apellidos.isEmpty() || direccion.isEmpty() || telefono.isEmpty()
-						|| ultimaConsulta.isEmpty() || id.isEmpty()) {
+				// Verificar que todos los campos estén llenos
+				if (nombre.isEmpty() || apellidos.isEmpty() || telefono.isEmpty() || direccion.isEmpty()
+						|| salario.isEmpty() || idEspecialidad.isEmpty() || email.isEmpty() || id.isEmpty()) {
+					// Mostrar un mensaje de error si algún campo está vacío
 					JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+				} else if (!email.contains("@")) {
+					// Mostrar un mensaje de error si el correo electrónico no contiene '@'
+					JOptionPane.showMessageDialog(null, "Ingrese un correo electrónico válido", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 
@@ -503,10 +632,15 @@ public class PacienteCRUD extends JFrame {
 			}
 		});
 
+		// Resto del código...
+
 		// BOTÓN VOLVER
 		JButton btnVolver = new JButton(icon13);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				VentanaDoctorInterna ventanaDoctorInterna = new VentanaDoctorInterna();
+				ventanaDoctorInterna.setVisible(true);
 
 			}
 		});
@@ -522,101 +656,5 @@ public class PacienteCRUD extends JFrame {
 		btnEliminar.setPreferredSize(new Dimension(96, 96));
 		btnEliminar.setContentAreaFilled(false);
 
-		// JMENU JITEM ETC
-
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-
-		JMenu mnNewMenu = new JMenu("Menú");
-		menuBar.add(mnNewMenu);
-
-		JMenu mnNewMenu_1 = new JMenu("Clases");
-		mnNewMenu.add(mnNewMenu_1);
-
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Doctor");
-		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
-		mnNewMenu_1.add(mntmNewMenuItem_1);
-		mnNewMenu.add(mnNewMenu_1);
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Crear una instancia de la ventana del paciente y mostrarla
-				DoctorConsultar doctorConsultar = new DoctorConsultar();
-				doctorConsultar.setVisible(true);
-
-			}
-		});
-
-		// ME REDIRIGE A CLASE CITA
-
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Cita");
-		mntmNewMenuItem_2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-		mnNewMenu_1.add(mntmNewMenuItem_2);
-		mnNewMenu.add(mnNewMenu_1);
-
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Crear una instancia de la ventana del paciente y mostrarla
-				VentanaCitaCRUD ventanaCitaCRUD = new VentanaCitaCRUD();
-				ventanaCitaCRUD.setVisible(true);
-
-			}
-		});
-
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Material");
-		mnNewMenu_1.add(mntmNewMenuItem_3);
-
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Factura");
-		mnNewMenu_1.add(mntmNewMenuItem_4);
-
-		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Pedido");
-		mnNewMenu_1.add(mntmNewMenuItem_5);
-
-		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Stock");
-		mnNewMenu_1.add(mntmNewMenuItem_6);
-
-		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Tratamiento");
-		mnNewMenu_1.add(mntmNewMenuItem_7);
-
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Especialistas");
-		mnNewMenu_1.add(mntmNewMenuItem_8);
-
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Usuarios");
-		mnNewMenu_1.add(mntmNewMenuItem_9);
-
-		JMenu mnNewMenu_2 = new JMenu("Opciones");
-		mnNewMenu.add(mnNewMenu_2);
-
-		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Guardar");
-		mntmNewMenuItem_10.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
-		mnNewMenu_2.add(mntmNewMenuItem_10);
-		mntmNewMenuItem_10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Obtener los valores de los campos
-				String nombre = textField_nombre.getText();
-				String apellidos = textField_apellidos.getText();
-				String direccion = textField_direccion.getText();
-				String telefono = textField_tlf.getText();
-				String ultimaConsulta = textField_UltimaConsulta.getText();
-				String id = textField_Id.getText();
-
-				if (nombre.isEmpty() || apellidos.isEmpty() || direccion.isEmpty() || telefono.isEmpty()
-						|| ultimaConsulta.isEmpty() || id.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-
-			}
-		});
-
-		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Borrar");
-		mntmNewMenuItem_11.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.SHIFT_DOWN_MASK));
-		mnNewMenu_2.add(mntmNewMenuItem_11);
-
-		JMenuItem mntmNewMenuItem_12 = new JMenuItem("Volver");
-		mntmNewMenuItem_12.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
-		mnNewMenu_2.add(mntmNewMenuItem_12);
-
 	}
-
 }

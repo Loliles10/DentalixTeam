@@ -1,4 +1,4 @@
-package mainPack;
+package otros;
 
 import java.awt.Color;
 import java.awt.Component;
