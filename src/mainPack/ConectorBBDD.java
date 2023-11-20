@@ -50,54 +50,73 @@ public class ConectorBBDD {
 	}
 
 	public void realizarBusqueda(String criterio, DefaultTableModel modeloTabla) {
-	    PreparedStatement statement = null;
-	    ResultSet resultado = null;
+    PreparedStatement statementPaciente = null;
+    PreparedStatement statementDoctor = null;
+    ResultSet resultadoPaciente = null;
+    ResultSet resultadoDoctor = null;
 
-	    try {
-	        // Verificar si la conexión está cerrada y abrir si es necesario
-	        if (conexion == null || conexion.isClosed()) {
-	            conectarConBBDD();
-	        }
+    try {
+        // Verificar si la conexión está cerrada y abrir si es necesario
+        if (conexion == null || conexion.isClosed()) {
+            conectarConBBDD();
+        }
 
-	        // CONSULTA SQL con criterio de búsqueda
-	        String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente WHERE nombre LIKE ? OR idPaciente LIKE ?";
-	        statement = conexion.prepareStatement(consulta);
-	        statement.setString(1, "%" + criterio + "%");
-	        statement.setString(2, "%" + criterio + "%");
+        // CONSULTA SQL para la tabla 'dentilax.paciente'
+        String consultaPaciente = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente WHERE nombre LIKE ? OR idPaciente LIKE ?";
+        statementPaciente = conexion.prepareStatement(consultaPaciente);
+        statementPaciente.setString(1, "%" + criterio + "%");
+        statementPaciente.setString(2, "%" + criterio + "%");
 
-	        resultado = statement.executeQuery();
+        resultadoPaciente = statementPaciente.executeQuery();
 
-	        // Limpiar la tabla antes de agregar nuevos resultados
-	        modeloTabla.setRowCount(0);
+        // CONSULTA SQL para la tabla 'dentilax.doctor'
+        String consultaDoctor = "SELECT nombre, apellidos, idDoctor, email FROM dentilax.doctor WHERE nombre LIKE ? OR idDoctor LIKE ?";
+        statementDoctor = conexion.prepareStatement(consultaDoctor);
+        statementDoctor.setString(1, "%" + criterio + "%");
+        statementDoctor.setString(2, "%" + criterio + "%");
 
-	        if (!resultado.next()) {
-	            // No se encontraron resultados
-	            System.out.println("No se encontraron resultados para la búsqueda: " + criterio);
-	        } else {
-	            // Procesar y mostrar los resultados
-	            do {
-	                // Procesar y mostrar los resultados, puedes cambiar esto según tus necesidades
-	                String nombre = resultado.getString("nombre");
-	                String apellidos = resultado.getString("apellidos");
-	                int idPaciente = resultado.getInt("idPaciente");
-	                String ultimaConsulta = resultado.getString("ultimaConsulta");
+        resultadoDoctor = statementDoctor.executeQuery();
 
-	                // Agregar la fila a la tabla
-	                modeloTabla.addRow(new Object[]{nombre, apellidos, idPaciente, ultimaConsulta});
+        // Limpiar la tabla antes de agregar nuevos resultados
+        modeloTabla.setRowCount(0);
 
-	                System.out.println("Nombre: " + nombre + ", Apellidos: " + apellidos + ", ID Paciente: "
-	                        + idPaciente + ", Última Consulta: " + ultimaConsulta);
-	            } while (resultado.next());
-	        }
-	        // Resto del código para procesar el resultado...
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	        JOptionPane.showMessageDialog(null, "Error SQL al realizar la búsqueda", "Error",
-	                JOptionPane.ERROR_MESSAGE);
-	    } finally {
-	        cerrarRecursos(resultado, statement);
-	    }
-	}
+        // Procesar y mostrar los resultados para 'dentilax.paciente'
+        while (resultadoPaciente.next()) {
+            String nombre = resultadoPaciente.getString("nombre");
+            String apellidos = resultadoPaciente.getString("apellidos");
+            int idPaciente = resultadoPaciente.getInt("idPaciente");
+            String ultimaConsulta = resultadoPaciente.getString("ultimaConsulta");
+
+            // Agregar la fila a la tabla
+            modeloTabla.addRow(new Object[]{nombre, apellidos, idPaciente, ultimaConsulta});
+
+            System.out.println("Nombre Paciente: " + nombre + ", Apellidos: " + apellidos + ", ID Paciente: "
+                    + idPaciente + ", Última Consulta: " + ultimaConsulta);
+        }
+
+        // Procesar y mostrar los resultados para 'dentilax.doctor'
+        while (resultadoDoctor.next()) {
+            String nombreDoctor = resultadoDoctor.getString("nombre");
+            String apellidosDoctor = resultadoDoctor.getString("apellidos");
+            int idDoctor = resultadoDoctor.getInt("idDoctor");
+            String emailDoctor = resultadoDoctor.getString("email");
+
+            // Agregar la fila a la tabla
+            modeloTabla.addRow(new Object[]{nombreDoctor, apellidosDoctor, idDoctor, emailDoctor});
+
+            System.out.println("Nombre Doctor: " + nombreDoctor + ", Apellidos: " + apellidosDoctor + ", ID Doctor: "
+                    + idDoctor + ", Email: " + emailDoctor);
+        }
+
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error SQL al realizar la búsqueda", "Error",
+                JOptionPane.ERROR_MESSAGE);
+    } finally {
+        cerrarRecursos(resultadoPaciente, statementPaciente);
+        cerrarRecursos(resultadoDoctor, statementDoctor);
+    }
+}
 
 
 	// Método para cerrar los recursos (ResultSet y PreparedStatement)
@@ -151,6 +170,63 @@ public class ConectorBBDD {
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public void cargarDatosDoctores(DefaultTableModel modeloTabla) {
+	    try {
+	        Vector<String> columnas = new Vector<>();
+	        columnas.add("Nombre");
+	        columnas.add("Apellidos");
+	        columnas.add("ID");
+	        columnas.add("Email");
+
+	        modeloTabla.setColumnIdentifiers(columnas);
+
+	        // CONSULTA SQL
+	        String consulta = "SELECT nombre, apellidos, idDoctor, email FROM dentilax.doctor";
+	        Statement statement = conexion.createStatement();
+	        ResultSet resultado = statement.executeQuery(consulta);
+
+	        while (modeloTabla.getRowCount() > 0) {
+	            modeloTabla.removeRow(0);
+	        }
+
+	        while (resultado.next()) {
+	            Object[] fila = {
+	                resultado.getString("nombre"),
+	                resultado.getString("apellidos"),
+	                resultado.getInt("idDoctor"),
+	                resultado.getString("email")
+	            };
+	            modeloTabla.addRow(fila);
+	        }
+
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de doctores", "Error",
+	                JOptionPane.ERROR_MESSAGE);
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error al cargar los datos de doctores", "Error",
+	                JOptionPane.ERROR_MESSAGE);
+	    }
+	}
+
+	private String obtenerEspecialidad(int idEspecialidad) {
+	    try {
+	        String consultaEspecialidad = "SELECT nombre FROM dentilax.especialidad WHERE idEspecialidad = ?";
+	        PreparedStatement statementEspecialidad = conexion.prepareStatement(consultaEspecialidad);
+	        statementEspecialidad.setInt(1, idEspecialidad);
+	        ResultSet resultadoEspecialidad = statementEspecialidad.executeQuery();
+
+	        if (resultadoEspecialidad.next()) {
+	            return resultadoEspecialidad.getString("nombre");
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	    }
+	    return "";
+	}
+
 
 	public boolean verificarCredencialesEnBaseDeDatos(String usuario, String contrasenia) {
 

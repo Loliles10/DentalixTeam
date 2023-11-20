@@ -184,12 +184,12 @@ public class VentanaPrincipal extends JFrame {
 				boolean retrocesoRealizado = true;
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (!criterio.isEmpty()) {
-						System.out.println("\nResultado de la búsqueda:");
 						conector.realizarBusqueda(criterio, modeloTabla);
 						retrocesoRealizado = false;
 					}
 				} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && retrocesoRealizado) {
-					conector.cargarDatosPacientes(modeloTabla);
+					conector.cargarDatosPacientes(modeloTabla); // Falta añadir que no solo vuelva a mostrar esto sino
+																// otra cosa según donde esté
 				}
 			}
 		});
@@ -221,7 +221,8 @@ public class VentanaPrincipal extends JFrame {
 				texto1.setVisible(false);
 				playBoton.setVisible(false);
 				tablasPanel.setVisible(false);
-				ventanaPanel.add(ventanaPaciente);
+				ventanaPanel.add(ventanaPaciente); // Falta que abra la ventanaDoctor cuando cargue la tabla doctor y
+													// eso
 				ventanaPanel.setVisible(true);
 
 				// Obtener la referencia al labelPaciente de la instancia de Paciente
@@ -239,34 +240,38 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// Muestra un cuadro de diálogo de entrada
-				String documento = JOptionPane.showInputDialog("Introduzca el Documento del paciente:");
+				String documento = JOptionPane.showInputDialog("Introduzca el Documento del paciente:"); // Falta que
+																											// también
+																											// se haga
+																											// para
+																											// Doctor
 
 				// Comprueba si se ingresó un documento
-		        if (documento != null && !documento.isEmpty()) {
-		            // Realizar la búsqueda en la base de datos
-		            conector.realizarBusqueda(documento, modeloTabla);
+				if (documento != null && !documento.isEmpty()) {
+					// Realizar la búsqueda en la base de datos
+					conector.realizarBusqueda(documento, modeloTabla);
 
-		            // Obtener el nombre y apellidos del primer resultado
-		            String nombre = "";
-		            String apellidos = "";
+					// Obtener el nombre y apellidos del primer resultado
+					String nombre = "";
+					String apellidos = "";
 
-		            if (modeloTabla.getRowCount() > 0) {
-		                nombre = (String) modeloTabla.getValueAt(0, 0);
-		                apellidos = (String) modeloTabla.getValueAt(0, 1);
-		            }
+					if (modeloTabla.getRowCount() > 0) {
+						nombre = (String) modeloTabla.getValueAt(0, 0);
+						apellidos = (String) modeloTabla.getValueAt(0, 1);
+					}
 
-		            // Actualizar el texto de labelPaciente con el nombre y apellidos
-		            bienvenido.setVisible(false);
+					// Actualizar el texto de labelPaciente con el nombre y apellidos
+					bienvenido.setVisible(false);
 					texto1.setVisible(false);
 					playBoton.setVisible(false);
 					tablasPanel.setVisible(false);
 					ventanaPanel.add(ventanaPaciente);
 					ventanaPanel.setVisible(true);
-		            ventanaPaciente.labelPaciente.setText(nombre + " " + apellidos);
-		        } else {
-		            // Se canceló el ingreso del documento o se dejó en blanco
-		            System.out.println("Operación cancelada");
-		        }
+					ventanaPaciente.labelPaciente.setText(nombre + " " + apellidos);
+				} else {
+					// Se canceló el ingreso del documento o se dejó en blanco
+					System.out.println("Operación cancelada");
+				}
 			}
 		});
 		// Funcionalidad componentes //
@@ -329,9 +334,28 @@ public class VentanaPrincipal extends JFrame {
 		button2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bienvenido.setVisible(false);
-				texto1.setVisible(false);
-				playBoton.setVisible(false);
+				try {
+					// Se oculta lo que estaba antes en el "panel principal", por llamarlo así
+					bienvenido.setVisible(false);
+					texto1.setVisible(false);
+					playBoton.setVisible(false);
+
+					// Si la conexión a la base de datos es correcta, se cargan los datos de la
+					// tabla paciente de la bbdd en nuestra tabla
+					if (conector.conectarConBBDD()) {
+						conector.cargarDatosDoctores(modeloTabla);
+						tablasPanel.setVisible(true); // se muestra la tabla
+					} else {
+						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al conectar con la base de datos",
+								"Error", JOptionPane.ERROR_MESSAGE);
+					}
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al cargar los datos de pacientes",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
 		});
 
