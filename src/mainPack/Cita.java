@@ -83,18 +83,8 @@ public class Cita extends JPanel {
 		// Panel Principal
 
 		JScrollPane editarPanel = new JScrollPane();
-		editarPanel.setBounds(100, 0, 1164, 670);
+		editarPanel.setBounds(0, -1, 1179, 691);
 		this.add(editarPanel);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 101, 100, 590);
-		this.add(scrollPane);
-		
-		// PANEL CON LOS BOTONES DEL MENU
-
-		JPanel buttonPanel = new JPanel();
-		scrollPane.setViewportView(buttonPanel);
-		buttonPanel.setBackground(Color.decode("#008cce"));
 
 		JPanel panel = new JPanel(); // PANEL DONDE ESTAN LOS LABELS
 

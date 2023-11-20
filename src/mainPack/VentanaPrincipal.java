@@ -34,6 +34,9 @@ import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+
+import otros.PacienteCRUD;
+
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
@@ -217,6 +220,10 @@ public class VentanaPrincipal extends JFrame {
 		Cita ventanaCita = new Cita();
 
 		botonAñadir.addActionListener(new ActionListener() {
+			boolean cargadosPacientes = false;
+			boolean cargadosDoctores = false;
+			boolean cargadasCitas = false;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				bienvenido.setVisible(false);
@@ -224,58 +231,57 @@ public class VentanaPrincipal extends JFrame {
 				playBoton.setVisible(false);
 				tablasPanel.setVisible(false);
 
-				String tipoTabla = ""; // Inicializar tipoTabla
-
-				// Verifica si se están cargando datos de pacientes
-				if (conector.cargarDatosPacientes(modeloTabla)) {
-					tipoTabla = "pacientes";
-				} else if (conector.cargarDatosDoctores(modeloTabla)) {
-					tipoTabla = "doctores";
-				} else if (conector.cargarDatosCitas(modeloTabla)) {
-					tipoTabla = "citas";
+				if (!cargadosPacientes) {
+					// Verifica si se están cargando datos de pacientes
+					if (conector.cargarDatosPacientes(modeloTabla)) {
+						// Si se cargaron datos de pacientes, abrir la ventana de pacientes
+						ventanaPanel.add(ventanaPaciente);
+						ventanaPanel.setVisible(true);
+						// Obtener la referencia al labelPaciente de la instancia de Paciente
+						JLabel labelPaciente = ventanaPaciente.getLabelPaciente();
+						System.out.println("Sí funciona PACIENTE");
+						// Cambiar el texto del label
+						if (labelPaciente != null) {
+							labelPaciente.setText("Nuevo Paciente");
+						}
+						cargadosPacientes = true;
+						cargadosDoctores = false; // Resetear la variable de doctores
+					}
+				} else if (!cargadosDoctores) {
+					// Si no se cargaron datos de doctores y se cargaron datos de pacientes,
+					// abrir la ventana de doctores
+					if (conector.cargarDatosDoctores(modeloTabla)) {
+						ventanaPanel.removeAll();
+						ventanaPanel.add(ventanaDoctor);
+						ventanaPanel.setVisible(true);
+						// Obtener la referencia al labelDoctor de la instancia de Doctor
+						JLabel labelDoctor = ventanaDoctor.getLabelDoctor();
+						System.out.println("Sí funciona DOCTOR");
+						// Cambiar el texto del label
+						if (labelDoctor != null) {
+							labelDoctor.setText("Nuevo Doctor");
+						}
+						cargadosDoctores = true;
+					}
+				} else if (!cargadasCitas) {
+					// Si no se cargaron datos de doctores y se cargaron datos de pacientes,
+					// abrir la ventana de doctores
+					if (conector.cargarDatosCitas(modeloTabla)) {
+						ventanaPanel.removeAll();
+						ventanaPanel.add(ventanaCita);
+						ventanaPanel.setVisible(true);
+						// Obtener la referencia al labelDoctor de la instancia de Doctor
+						JLabel labelCita = ventanaCita.getLabelCita();
+						System.out.println("Sí funciona CITA");
+						// Cambiar el texto del label
+						if (labelCita != null) {
+							labelCita.setText("Nueva Cita");
+						}
+						cargadosDoctores = true;
+					} else {
+						System.out.println("Ya se cargaron datos");
+					}
 				}
-
-				if ("pacientes".equals(tipoTabla)) {
-					// Si la tabla actual muestra datos de pacientes, abrir la ventana de pacientes
-					ventanaPanel.add(ventanaPaciente);
-					ventanaPanel.setVisible(true);
-					// Obtener la referencia al labelPaciente de la instancia de Paciente
-					JLabel labelPaciente = ventanaPaciente.getLabelPaciente();
-					System.out.println("Sí funciona PACIENTE");
-					// Cambiar el texto del label
-					if (labelPaciente != null) {
-						labelPaciente.setText("Nuevo Paciente");
-					}
-				} else if ("doctores".equals(tipoTabla)) {
-					// Si la tabla actual muestra datos de doctores, abrir la ventana de doctores
-					ventanaPanel.removeAll();
-					ventanaPanel.add(ventanaDoctor);
-					System.out.println("Sí funciona DOCTOR");
-					// Obtener la referencia al labelDoctor de la instancia de Doctor
-					JLabel labelDoctor = ventanaDoctor.getLabelDoctor();
-
-					// Cambiar el texto del label
-					if (labelDoctor != null) {
-						labelDoctor.setText("Nuevo Doctor");
-					}
-				} else if ("citas".equals(tipoTabla)) {
-					// Si la tabla actual muestra datos de citas, abrir la ventana de citas
-					ventanaPanel.removeAll();
-					ventanaPanel.add(ventanaCita);
-					System.out.println("Sí funciona CITA");
-					// Obtener la referencia al labelCita de la instancia de Cita
-					JLabel labelCita = ventanaCita.getLabelCita();
-
-					// Cambiar el texto del label
-					if (labelCita != null) {
-						labelCita.setText("Nueva Cita");
-					}
-				} else {
-					System.out.println("No funciona :(");
-					System.out.println("Tipo de tabla no reconocido: " + tipoTabla);
-				}
-
-				ventanaPanel.setVisible(true);
 			}
 		});
 
@@ -336,33 +342,59 @@ public class VentanaPrincipal extends JFrame {
 
 		// Cuando se le hace click al botón, se muestra la tabla, se cargan los datos de
 		// la bbdd en la tabla, etc.
+//		button1.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				try {
+//					// Se oculta lo que estaba antes en el "panel principal", por llamarlo así
+//					bienvenido.setVisible(false);
+//					texto1.setVisible(false);
+//					playBoton.setVisible(false);
+//					/*
+//					// Si la conexión a la base de datos es correcta, se cargan los datos de la
+//					// tabla paciente de la bbdd en nuestra tabla*/
+//					if (conector.conectarConBBDD()) {
+//						//conector.cargarDatosPacientes(modeloTabla);
+//						//tablasPanel.setVisible(true); // se muestra la tabla
+//						otros.PacienteCRUD;
+//					} else {
+//						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al conectar con la base de datos",
+//								"Error", JOptionPane.ERROR_MESSAGE);
+//					}
+//
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//					JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al cargar los datos de pacientes",
+//							"Error", JOptionPane.ERROR_MESSAGE);
+//				}
+//
+//			}
+//		});
+		
 		button1.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					// Se oculta lo que estaba antes en el "panel principal", por llamarlo así
-					bienvenido.setVisible(false);
-					texto1.setVisible(false);
-					playBoton.setVisible(false);
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            // Se oculta lo que estaba antes en el "panel principal", por llamarlo así
+		            bienvenido.setVisible(false);
+		            texto1.setVisible(false);
+		            playBoton.setVisible(false);
 
-					// Si la conexión a la base de datos es correcta, se cargan los datos de la
-					// tabla paciente de la bbdd en nuestra tabla
-					if (conector.conectarConBBDD()) {
-						conector.cargarDatosPacientes(modeloTabla);
-						tablasPanel.setVisible(true); // se muestra la tabla
-					} else {
-						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al conectar con la base de datos",
-								"Error", JOptionPane.ERROR_MESSAGE);
-					}
+		            // Cierra la ventana actual (VentanaPrincipal)
+		            dispose();
 
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al cargar los datos de pacientes",
-							"Error", JOptionPane.ERROR_MESSAGE);
-				}
+		            // Instancia y muestra la nueva ventana PacienteCRUD
+		            PacienteCRUD pacienteCRUD = new PacienteCRUD();
+		            pacienteCRUD.setVisible(true);
 
-			}
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al cargar los datos de pacientes",
+		                    "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
 		});
+
 
 		// ...Demás botones
 
