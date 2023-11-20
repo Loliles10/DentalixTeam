@@ -39,6 +39,10 @@ public class ConectorBBDD {
 		}
 	}
 
+	public ConectorBBDD() {
+		conectarConBBDD(); // Llama al método para establecer la conexión al crear una instancia
+	}
+
 	protected void cerrarConexion() {
 		try {
 			if (conexion != null) {
@@ -132,8 +136,22 @@ public class ConectorBBDD {
 		}
 	}
 
-	public void cargarDatosPacientes(DefaultTableModel modeloTabla) {
+	private boolean cargandoDatos = false; // Variable que indica si se están cargando datos
+
+	public boolean isCargandoDatos() {
+		return cargandoDatos;
+	}
+
+	public void setCargandoDatos(boolean cargandoDatos) {
+		this.cargandoDatos = cargandoDatos;
+	}
+
+	public boolean cargarDatosPacientes(DefaultTableModel modeloTabla) {
 		try {
+
+			// Indicar que se están cargando datos
+			setCargandoDatos(true);
+
 			Vector<String> columnas = new Vector<>();
 			columnas.add("Nombre");
 			columnas.add("Apellidos");
@@ -142,46 +160,121 @@ public class ConectorBBDD {
 
 			modeloTabla.setColumnIdentifiers(columnas);
 
-			// CONSULTA SQL
-			String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente";
-			Statement statement = conexion.createStatement();
-			ResultSet resultado = statement.executeQuery(consulta);
+			// Verifica si la conexión es null antes de utilizarla
+			System.out.println("Conexión a la base de datos: " + (this.conexion != null ? "exitosa" : "fallida"));
 
-			while (modeloTabla.getRowCount() > 0) {
-				modeloTabla.removeRow(0);
+			if (this.conexion != null) {
+				// CONSULTA SQL
+				String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente";
+				System.out.println("Consulta SQL: " + consulta);
+
+				Statement statement = conexion.createStatement();
+				ResultSet resultado = statement.executeQuery(consulta);
+
+				while (modeloTabla.getRowCount() > 0) {
+					modeloTabla.removeRow(0);
+				}
+
+				while (resultado.next()) {
+					Object[] fila = { resultado.getString("nombre"), resultado.getString("apellidos"),
+							resultado.getInt("idPaciente"), resultado.getString("ultimaConsulta") };
+					modeloTabla.addRow(fila);
+				}
+
+				System.out.println("Filas en la tabla de pacientes: " + modeloTabla.getRowCount());
+			} else {
+				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
 			}
 
-			while (resultado.next()) {
-				Object[] fila = { resultado.getString("nombre"), resultado.getString("apellidos"),
-						resultado.getInt("idPaciente"), resultado.getString("ultimaConsulta") };
-				modeloTabla.addRow(fila);
+			// cerrarConexion(); // Puedes habilitar esto si necesitas cerrar la conexión en
+			// este punto
+			if (modeloTabla.getRowCount() > 0) {
+				return true; // Devuelve true solo si se cargaron datos
+			} else {
+				return false; // Devuelve false si no se cargaron datos
 			}
-
-			// cerrarConexion();
-
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de pacientes", "Error",
 					JOptionPane.ERROR_MESSAGE);
+			return false;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Error al cargar los datos de pacientes", "Error",
 					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} finally {
+			// Indicar que se ha terminado de cargar datos, ya sea con éxito o con error
+			setCargandoDatos(false);
 		}
 	}
 
-	public void cargarDatosDoctores(DefaultTableModel modeloTabla) {
+	public boolean cargarDatosDoctores(DefaultTableModel modeloTabla) {
+		try {
+
+			// Indicar que se están cargando datos
+			setCargandoDatos(true);
+
+			// Verifica si la conexión es null antes de utilizarla
+			if (this.conexion != null) {
+				Vector<String> columnas = new Vector<>();
+				columnas.add("Nombre");
+				columnas.add("Apellidos");
+				columnas.add("ID");
+				columnas.add("Email");
+
+				modeloTabla.setColumnIdentifiers(columnas);
+
+				// CONSULTA SQL
+				String consulta = "SELECT nombre, apellidos, idDoctor, email FROM dentilax.doctor";
+				Statement statement = conexion.createStatement();
+				ResultSet resultado = statement.executeQuery(consulta);
+
+				while (modeloTabla.getRowCount() > 0) {
+					modeloTabla.removeRow(0);
+				}
+
+				while (resultado.next()) {
+					Object[] fila = { resultado.getString("nombre"), resultado.getString("apellidos"),
+							resultado.getInt("idDoctor"), resultado.getString("email") };
+					modeloTabla.addRow(fila);
+				}
+			} else {
+				System.out.println("La conexión es null. Asegúrate de haber establecido la conexión.");
+			}
+			if (modeloTabla.getRowCount() > 0) {
+	            return true;  // Devuelve true solo si se cargaron datos
+	        } else {
+	            return false; // Devuelve false si no se cargaron datos
+	        }
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de doctores", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al cargar los datos de doctores", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} finally {
+            // Indicar que se ha terminado de cargar datos, ya sea con éxito o con error
+            setCargandoDatos(false);
+        }
+	}
+
+	public void cargarDatosCitas(DefaultTableModel modeloTabla) {
 		try {
 			Vector<String> columnas = new Vector<>();
-			columnas.add("Nombre");
-			columnas.add("Apellidos");
-			columnas.add("ID");
-			columnas.add("Email");
+			columnas.add("ID Paciente");
+			columnas.add("Motivo");
+			columnas.add("Fecha");
+			columnas.add("Hora");
 
 			modeloTabla.setColumnIdentifiers(columnas);
 
 			// CONSULTA SQL
-			String consulta = "SELECT nombre, apellidos, idDoctor, email FROM dentilax.doctor";
+			String consulta = "SELECT idCita, fecha, hora, motivo, idPaciente_FK, idDoctor_FK FROM dentilax.cita";
 			Statement statement = conexion.createStatement();
 			ResultSet resultado = statement.executeQuery(consulta);
 
@@ -190,67 +283,22 @@ public class ConectorBBDD {
 			}
 
 			while (resultado.next()) {
-				Object[] fila = { resultado.getString("nombre"), resultado.getString("apellidos"),
-						resultado.getInt("idDoctor"), resultado.getString("email") };
+				Object[] fila = { resultado.getInt("idPaciente_FK"), resultado.getString("motivo"),
+						resultado.getDate("fecha"), resultado.getString("hora") };
 				modeloTabla.addRow(fila);
 			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de doctores", "Error",
+			JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de citas", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error al cargar los datos de doctores", "Error",
+			JOptionPane.showMessageDialog(null, "Error al cargar los datos de citas", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	public void cargarDatosCitas(DefaultTableModel modeloTabla) {
-	    try {
-	        Vector<String> columnas = new Vector<>();
-	        columnas.add("ID Cita");
-	        columnas.add("Fecha");
-	        columnas.add("Hora");
-	        columnas.add("Motivo");
-	        columnas.add("ID Paciente");
-	        columnas.add("ID Doctor");
-
-	        modeloTabla.setColumnIdentifiers(columnas);
-
-	        // CONSULTA SQL
-	        String consulta = "SELECT idCita, fecha, hora, motivo, idPaciente_FK, idDoctor_FK FROM dentilax.cita";
-	        Statement statement = conexion.createStatement();
-	        ResultSet resultado = statement.executeQuery(consulta);
-
-	        while (modeloTabla.getRowCount() > 0) {
-	            modeloTabla.removeRow(0);
-	        }
-
-	        while (resultado.next()) {
-	            Object[] fila = {
-	                    resultado.getInt("idCita"),
-	                    resultado.getDate("fecha"),
-	                    resultado.getString("hora"),
-	                    resultado.getString("motivo"),
-	                    resultado.getInt("idPaciente_FK"),
-	                    resultado.getString("idDoctor_FK")
-	            };
-	            modeloTabla.addRow(fila);
-	        }
-
-	    } catch (SQLException ex) {
-	        ex.printStackTrace();
-	        JOptionPane.showMessageDialog(null, "Error SQL al cargar los datos de citas", "Error",
-	                JOptionPane.ERROR_MESSAGE);
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	        JOptionPane.showMessageDialog(null, "Error al cargar los datos de citas", "Error",
-	                JOptionPane.ERROR_MESSAGE);
-	    }
-	}
-
-	
 	private String obtenerEspecialidad(int idEspecialidad) {
 		try {
 			String consultaEspecialidad = "SELECT nombre FROM dentilax.especialidad WHERE idEspecialidad = ?";

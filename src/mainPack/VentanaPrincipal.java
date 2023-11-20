@@ -81,7 +81,7 @@ public class VentanaPrincipal extends JFrame {
 		VentanaPrincipal.this.setIconImage(icono1.getImage());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1292, 728);
+		setBounds(100, 100, 1292, 737);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -190,6 +190,7 @@ public class VentanaPrincipal extends JFrame {
 				}
 			}
 		});
+
 		fieldBuscar.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -210,24 +211,55 @@ public class VentanaPrincipal extends JFrame {
 		// Botones
 		// Añadir
 		JPanel ventanaPanel = new JPanel();
+
 		Paciente ventanaPaciente = new Paciente();
+		Doctor ventanaDoctor = new Doctor();
+
 		botonAñadir.addActionListener(new ActionListener() {
+			boolean cargadosPacientes = false;
+			boolean cargadosDoctores = false;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				bienvenido.setVisible(false);
 				texto1.setVisible(false);
 				playBoton.setVisible(false);
 				tablasPanel.setVisible(false);
-				ventanaPanel.add(ventanaPaciente); // Falta que abra la ventanaDoctor cuando cargue la tabla doctor y
-													// eso
-				ventanaPanel.setVisible(true);
 
-				// Obtener la referencia al labelPaciente de la instancia de Paciente
-				JLabel labelPaciente = ventanaPaciente.getLabelPaciente();
-
-				// Cambiar el texto del label
-				if (labelPaciente != null) {
-					labelPaciente.setText("Nuevo Paciente");
+				if (!cargadosPacientes) {
+					// Verifica si se están cargando datos de pacientes
+					if (conector.cargarDatosPacientes(modeloTabla)) {
+						// Si se cargaron datos de pacientes, abrir la ventana de pacientes
+						ventanaPanel.add(ventanaPaciente);
+						ventanaPanel.setVisible(true);
+						// Obtener la referencia al labelPaciente de la instancia de Paciente
+						JLabel labelPaciente = ventanaPaciente.getLabelPaciente();
+						System.out.println("Sí funciona PACIENTE");
+						// Cambiar el texto del label
+						if (labelPaciente != null) {
+							labelPaciente.setText("Nuevo Paciente");
+						}
+						cargadosPacientes = true;
+						cargadosDoctores = false; // Resetear la variable de doctores
+					}
+				} else if (!cargadosDoctores) {
+					// Si no se cargaron datos de doctores y se cargaron datos de pacientes,
+					// abrir la ventana de doctores
+					if (conector.cargarDatosDoctores(modeloTabla)) {
+						ventanaPanel.removeAll();
+						ventanaPanel.add(ventanaDoctor);
+						ventanaPanel.setVisible(true);
+						// Obtener la referencia al labelDoctor de la instancia de Doctor
+						JLabel labelDoctor = ventanaDoctor.getLabelDoctor();
+						System.out.println("Sí funciona DOCTOR");
+						// Cambiar el texto del label
+						if (labelDoctor != null) {
+							labelDoctor.setText("Nuevo Doctor");
+						}
+						cargadosDoctores = true;
+					}
+				} else {
+					System.out.println("Ya se cargaron datos");
 				}
 			}
 		});
@@ -370,13 +402,13 @@ public class VentanaPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
+
 					bienvenido.setVisible(false);
 					texto1.setVisible(false);
 					playBoton.setVisible(false);
 					if (conector.conectarConBBDD()) {
 						conector.cargarDatosCitas(modeloTabla);
-						tablasPanel.setVisible(true); 
+						tablasPanel.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(VentanaPrincipal.this, "Error al conectar con la base de datos",
 								"Error", JOptionPane.ERROR_MESSAGE);
@@ -594,8 +626,6 @@ public class VentanaPrincipal extends JFrame {
 		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
 		mnNewMenu_1.add(mntmNewMenuItem_1);
 		mnNewMenu.add(mnNewMenu_1);
-
-		Doctor ventanaDoctor = new Doctor();
 
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			@Override

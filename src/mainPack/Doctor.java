@@ -53,6 +53,7 @@ public class Doctor extends JPanel {
 	private JTextField textField_especialidad;
 	private JTextField textField_id;
 	private JOptionPane joptionPane;
+	JLabel labelDoctor = new JLabel("NOMBRE DOCTOR");
 
 	/**
 	 * Create the panel.
@@ -275,7 +276,6 @@ public class Doctor extends JPanel {
 		});
 		panel.add(textField_id);
 
-		JLabel labelDoctor = new JLabel("DR.REQUENA");
 		labelDoctor.setBounds(113, 45, 468, 47);
 		panel.add(labelDoctor);
 		labelDoctor.setFont(fuenteGrande);
@@ -356,5 +356,9 @@ public class Doctor extends JPanel {
 		btnEliminar.setPreferredSize(new Dimension(96, 96));
 		btnEliminar.setContentAreaFilled(false);
 
+	}
+
+	public JLabel getLabelDoctor() {
+		return labelDoctor;
 	}
 }

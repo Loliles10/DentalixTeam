@@ -18,7 +18,7 @@ public class Paciente extends JPanel {
 	private JTextField textField_UltimaConsulta;
 	private JTextField textField_Id;
 	JButton btnGuardar;
-	JLabel labelPaciente = new JLabel("NOMBRE PACIENTNE");
+	JLabel labelPaciente = new JLabel("NOMBRE PACIENTE");
 
 	/**
 	 * Create the panel.
