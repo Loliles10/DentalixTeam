@@ -89,7 +89,7 @@ public class PacienteCRUD extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		contentPane.setBackground(Color.decode("#008cce"));
+		contentPane.setBackground(Color.decode("#FFFFFF"));
 
 		// Código de Ventana Principal...
 
@@ -101,7 +101,7 @@ public class PacienteCRUD extends JFrame {
 		ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
 		int ancho = imagen.getIconWidth();
 		int alto = imagen.getIconHeight();
-		logoBlanco.setBounds(0, 0, 116, 107);
+		logoBlanco.setBounds(0, 0, 100, 100);
 
 		Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
 		logoBlanco.setIcon(icono);
@@ -309,7 +309,7 @@ public class PacienteCRUD extends JFrame {
 		// Panel donde están los labels
 
 		editarPanel.setViewportView(panel);
-		panel.setBackground(Color.decode("#008cce"));
+		panel.setBackground(new Color(255, 255, 255));
 
 		// Cargar la imagen desde la carpeta de recursos
 		String rutaImagen = "/paciente.png"; // Ajusta la ruta según la ubicación de tu recurso
@@ -376,19 +376,19 @@ public class PacienteCRUD extends JFrame {
 		// TextFields separados equitativamente
 
 		JTextField textField_nombre = new JTextField();
-		textField_nombre.setBounds(673, yPosition + separacionVertical * 1, 379, 38);
+		textField_nombre.setBounds(673, 110, 379, 38);
 		panel.add(textField_nombre);
 
 		JTextField textField_apellidos = new JTextField();
-		textField_apellidos.setBounds(673, yPosition + separacionVertical * 2, 379, 38);
+		textField_apellidos.setBounds(673, 180, 379, 38);
 		panel.add(textField_apellidos);
 
 		JTextField textField_direccion = new JTextField();
-		textField_direccion.setBounds(673, yPosition + separacionVertical * 3, 379, 38);
+		textField_direccion.setBounds(673, 250, 379, 38);
 		panel.add(textField_direccion);
 
 		JTextField textField_tlf = new JTextField();
-		textField_tlf.setBounds(673, yPosition + separacionVertical * 4, 379, 38);
+		textField_tlf.setBounds(673, 320, 379, 38);
 		textField_tlf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -408,6 +408,7 @@ public class PacienteCRUD extends JFrame {
 		panel.add(textField_tlf);
 
 		textField_UltimaConsulta = new JTextField();
+		textField_UltimaConsulta.setBounds(673, 390, 379, 38);
 		textField_UltimaConsulta.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -425,11 +426,10 @@ public class PacienteCRUD extends JFrame {
 
 			}
 		});
-		textField_UltimaConsulta.setBounds(673, yPosition + separacionVertical * 5, 379, 38);
 		panel.add(textField_UltimaConsulta);
 
 		textField_Id = new JTextField();
-		textField_Id.setBounds(673, yPosition + separacionVertical * 6, 379, 38);
+		textField_Id.setBounds(673, 460, 379, 38);
 		panel.add(textField_Id);
 
 		// ERRORES
@@ -451,19 +451,14 @@ public class PacienteCRUD extends JFrame {
 			}
 		});
 
-		JLabel labelDoctor = new JLabel("NOMBRE PACIENTNE");
-		labelDoctor.setBounds(53, 43, 533, 47);
-		panel.add(labelDoctor);
-		labelDoctor.setFont(fuenteGrande);
-
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(591, 593, 592, 75);
 		panel_1.setForeground(Color.BLACK);
 		panel_1.setBorder(null);
-		panel_1.setBackground(new Color(70, 130, 180));
+		panel_1.setBackground(new Color(255, 255, 255));
 		panel.add(panel_1);
 		panel_1.setLayout(null);
-		panel_1.setBackground(Color.decode("#008cce"));
+		panel_1.setBackground(Color.decode("#FFFFFF"));
 
 		// BOTÓN GUARDAR
 		JButton btnGuardar = new JButton(icon11);
@@ -521,6 +516,17 @@ public class PacienteCRUD extends JFrame {
 		panel_1.add(btnEliminar);
 		btnEliminar.setPreferredSize(new Dimension(96, 96));
 		btnEliminar.setContentAreaFilled(false);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(0, 0, 1162, 99);
+		panel_2.setBackground(Color.decode("#008cce"));
+		panel.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblNombrePaciente = new JLabel("NOMBRE PACIENTE");
+		lblNombrePaciente.setBounds(34, 11, 517, 64);
+		lblNombrePaciente.setFont(new Font("Dialog", Font.PLAIN, 50));
+		panel_2.add(lblNombrePaciente);
 
 		// JMENU JITEM ETC
 
@@ -618,5 +624,4 @@ public class PacienteCRUD extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem_12);
 
 	}
-
 }

@@ -54,7 +54,7 @@ public class Paciente extends JPanel {
 		// Panel donde están los labels
 		JPanel panel = new JPanel(); // PANEL DONDE ESTAN LOS LABELS
 		editarPanel.setViewportView(panel);
-		panel.setBackground(Color.decode("#008cce"));
+		panel.setBackground(Color.decode("#FFFFFF"));
 
 		// Cargar la imagen desde la carpeta de recursos
 		String rutaImagen = "/paciente.png"; // Ajusta la ruta según la ubicación de tu recurso
@@ -73,7 +73,7 @@ public class Paciente extends JPanel {
 		panel.add(label_Nombre);
 
 		label_Nombre.setFont(fuenteLabel);
-		label_Nombre.setBackground(Color.decode("#008cce"));
+		label_Nombre.setBackground(Color.decode("#F"));
 
 		// APELLIDOS
 
@@ -207,7 +207,7 @@ public class Paciente extends JPanel {
 		panel_1.setBackground(new Color(70, 130, 180));
 		panel.add(panel_1);
 		panel_1.setLayout(null);
-		panel_1.setBackground(Color.decode("#008cce"));
+		panel_1.setBackground(Color.decode("#FFFFFF"));
 
 		// BOTÓN GUARDAR
 		btnGuardar = new JButton(icon11);

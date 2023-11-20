@@ -88,7 +88,7 @@ public class Doctor extends JPanel {
 		// Panel donde están los labels
 		JPanel panel = new JPanel(); // PANEL DONDE ESTAN LOS LABELS
 		editarPanel.setViewportView(panel);
-		panel.setBackground(Color.decode("#008cce"));
+		panel.setBackground(Color.decode("#FFFFFF"));
 
 		// Cargar la imagen desde la carpeta de recursos
 		String rutaImagen = "/doctorIcono.png"; // Ajusta la ruta según la ubicación de tu recurso
@@ -190,6 +190,7 @@ public class Doctor extends JPanel {
 		textField_tlf.setBounds(673, 240, 379, 38);
 		textField_tlf.addKeyListener(new KeyAdapter() {
 			@Override
+			//
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
 				if (c == KeyEvent.VK_BACK_SPACE) {
@@ -284,7 +285,7 @@ public class Doctor extends JPanel {
 		panel_1.setBackground(new Color(70, 130, 180));
 		panel.add(panel_1);
 		panel_1.setLayout(null);
-		panel_1.setBackground(Color.decode("#008cce"));
+		panel_1.setBackground(Color.decode("#FFFFFF"));
 
 		// BOTÓN GUARDAR
 		JButton btnGuardar = new JButton(icon11);
