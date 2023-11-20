@@ -9,13 +9,10 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -24,21 +21,22 @@ import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 //import mainPack.ColumnaBuscar;
 
@@ -174,33 +172,33 @@ public class VentanaPrincipal extends JFrame {
 		botonEditar.setFont(new Font("Montserrat", Font.BOLD, 12));
 		fieldBuscar.setBackground(Color.WHITE);
 		fieldBuscar.setForeground(Color.GRAY);
-		fieldBuscar.setFont(new Font("Montserrat", Font.PLAIN, 12)); // Ajusta el tamaño de la fuente según tus
-																		// necesidades
+		fieldBuscar.setFont(new Font("Montserrat", Font.PLAIN, 12));
 		fieldBuscar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		// Estilos componentes //
 		// Funcionalidad componentes //
+		// Campo de búsqueda
 		fieldBuscar.addKeyListener(new KeyAdapter() {
-		    @Override
-		    public void keyPressed(KeyEvent e) {
-		        String criterio = fieldBuscar.getText().trim();
-        		boolean retrocesoRealizado = true;
-		        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-		            if (!criterio.isEmpty()) {
-		                System.out.println("\nResultado de la búsqueda:");
-		                conector.realizarBusqueda(criterio, modeloTabla);
-		                retrocesoRealizado = false;
-		            }
-		        } else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && retrocesoRealizado) {
-		            conector.cargarDatosPacientes(modeloTabla);
-		        }
-		    }
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String criterio = fieldBuscar.getText().trim();
+				boolean retrocesoRealizado = true;
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (!criterio.isEmpty()) {
+						System.out.println("\nResultado de la búsqueda:");
+						conector.realizarBusqueda(criterio, modeloTabla);
+						retrocesoRealizado = false;
+					}
+				} else if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && retrocesoRealizado) {
+					conector.cargarDatosPacientes(modeloTabla);
+				}
+			}
 		});
 		fieldBuscar.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				if (fieldBuscar.getText().equals("Buscar...")) {
 					fieldBuscar.setText("");
-					fieldBuscar.setForeground(Color.BLACK); // Cambia el color del texto cuando se borra "Buscar..."
+					fieldBuscar.setForeground(Color.BLACK);
 				}
 			}
 
@@ -208,11 +206,69 @@ public class VentanaPrincipal extends JFrame {
 			public void focusLost(FocusEvent e) {
 				if (fieldBuscar.getText().isEmpty()) {
 					fieldBuscar.setText("Buscar...");
-					fieldBuscar.setForeground(Color.GRAY); // Restaura el color del texto si no se ha ingresado nada
+					fieldBuscar.setForeground(Color.GRAY);
+				}
+			}
+		});
+		// Botones
+		// Añadir
+		JPanel ventanaPanel = new JPanel();
+		Paciente ventanaPaciente = new Paciente();
+		botonAñadir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bienvenido.setVisible(false);
+				texto1.setVisible(false);
+				playBoton.setVisible(false);
+				tablasPanel.setVisible(false);
+				ventanaPanel.add(ventanaPaciente);
+				ventanaPanel.setVisible(true);
+
+				// Obtener la referencia al labelPaciente de la instancia de Paciente
+				JLabel labelPaciente = ventanaPaciente.getLabelPaciente();
+
+				// Cambiar el texto del label
+				if (labelPaciente != null) {
+					labelPaciente.setText("Nuevo Paciente");
 				}
 			}
 		});
 
+		// Editar
+		botonEditar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Muestra un cuadro de diálogo de entrada
+				String documento = JOptionPane.showInputDialog("Introduzca el Documento del paciente:");
+
+				// Comprueba si se ingresó un documento
+		        if (documento != null && !documento.isEmpty()) {
+		            // Realizar la búsqueda en la base de datos
+		            conector.realizarBusqueda(documento, modeloTabla);
+
+		            // Obtener el nombre y apellidos del primer resultado
+		            String nombre = "";
+		            String apellidos = "";
+
+		            if (modeloTabla.getRowCount() > 0) {
+		                nombre = (String) modeloTabla.getValueAt(0, 0);
+		                apellidos = (String) modeloTabla.getValueAt(0, 1);
+		            }
+
+		            // Actualizar el texto de labelPaciente con el nombre y apellidos
+		            bienvenido.setVisible(false);
+					texto1.setVisible(false);
+					playBoton.setVisible(false);
+					tablasPanel.setVisible(false);
+					ventanaPanel.add(ventanaPaciente);
+					ventanaPanel.setVisible(true);
+		            ventanaPaciente.labelPaciente.setText(nombre + " " + apellidos);
+		        } else {
+		            // Se canceló el ingreso del documento o se dejó en blanco
+		            System.out.println("Operación cancelada");
+		        }
+			}
+		});
 		// Funcionalidad componentes //
 		// ---- Componentes ---- //
 		// --------------------------------------------- //
@@ -461,6 +517,82 @@ public class VentanaPrincipal extends JFrame {
 		playBoton.setPreferredSize(new Dimension(icon10.getIconWidth(), icon10.getIconHeight()));
 		playBoton.setBackground(Color.WHITE);
 		contentPane.add(playBoton);
+
+		// JMENU BAR JITEM ETC
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu mnNewMenu = new JMenu("Menú");
+		menuBar.add(mnNewMenu);
+
+		JMenu mnNewMenu_1 = new JMenu("Clases");
+		mnNewMenu.add(mnNewMenu_1);
+
+		JMenuItem mntmNewMenuItem = new JMenuItem("Paciente");
+		mntmNewMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
+		mnNewMenu_1.add(mntmNewMenuItem);
+
+		ventanaPanel.setBackground(new Color(255, 255, 255));
+		ventanaPanel.setBounds(99, -1, 1179, 691);
+		contentPane.add(ventanaPanel);
+		ventanaPanel.setLayout(null);
+		ventanaPanel.setVisible(false);
+
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bienvenido.setVisible(false);
+				texto1.setVisible(false);
+				playBoton.setVisible(false);
+				tablasPanel.setVisible(false);
+				ventanaPanel.add(ventanaPaciente);
+				ventanaPanel.setVisible(true);
+			}
+		});
+
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Doctor");
+		mntmNewMenuItem_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		mnNewMenu.add(mnNewMenu_1);
+
+		Doctor ventanaDoctor = new Doctor();
+
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				bienvenido.setVisible(false);
+				texto1.setVisible(false);
+				playBoton.setVisible(false);
+				tablasPanel.setVisible(false);
+				ventanaPanel.add(ventanaDoctor);
+				ventanaPanel.setVisible(true);
+			}
+		});
+
+		logoBlanco.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				bienvenido.setVisible(true);
+				texto1.setVisible(true);
+				playBoton.setVisible(true);
+				ventanaPanel.setVisible(false);
+				tablasPanel.setVisible(false);
+			}
+		});
+
+		logoBlanco.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+		});
 
 		playBoton.addMouseListener(new MouseAdapter() {
 			@Override

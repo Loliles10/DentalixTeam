@@ -50,52 +50,55 @@ public class ConectorBBDD {
 	}
 
 	public void realizarBusqueda(String criterio, DefaultTableModel modeloTabla) {
-		PreparedStatement statement = null;
-		ResultSet resultado = null;
+	    PreparedStatement statement = null;
+	    ResultSet resultado = null;
 
-		try {
-			// Verificar si la conexión está cerrada y abrir si es necesario
-			if (conexion == null || conexion.isClosed()) {
-				conectarConBBDD();
-			}
-			// CONSULTA SQL con criterio de búsqueda
-			String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente WHERE nombre LIKE ?";
-			statement = conexion.prepareStatement(consulta);
-			statement.setString(1, "%" + criterio + "%");
+	    try {
+	        // Verificar si la conexión está cerrada y abrir si es necesario
+	        if (conexion == null || conexion.isClosed()) {
+	            conectarConBBDD();
+	        }
 
-			resultado = statement.executeQuery();
+	        // CONSULTA SQL con criterio de búsqueda
+	        String consulta = "SELECT nombre, apellidos, idPaciente, ultimaConsulta FROM dentilax.paciente WHERE nombre LIKE ? OR idPaciente LIKE ?";
+	        statement = conexion.prepareStatement(consulta);
+	        statement.setString(1, "%" + criterio + "%");
+	        statement.setString(2, "%" + criterio + "%");
 
-			// Limpiar la tabla antes de agregar nuevos resultados
-			modeloTabla.setRowCount(0);
+	        resultado = statement.executeQuery();
 
-			if (!resultado.next()) {
-				// No se encontraron resultados
-				System.out.println("No se encontraron resultados para la búsqueda: " + criterio);
-			} else {
-				// Procesar y mostrar los resultados
-				do {
-					// Procesar y mostrar los resultados, puedes cambiar esto según tus necesidades
-					String nombre = resultado.getString("nombre");
-					String apellidos = resultado.getString("apellidos");
-					int idPaciente = resultado.getInt("idPaciente");
-					String ultimaConsulta = resultado.getString("ultimaConsulta");
+	        // Limpiar la tabla antes de agregar nuevos resultados
+	        modeloTabla.setRowCount(0);
 
-					// Agregar la fila a la tabla
-					modeloTabla.addRow(new Object[] { nombre, apellidos, idPaciente, ultimaConsulta });
+	        if (!resultado.next()) {
+	            // No se encontraron resultados
+	            System.out.println("No se encontraron resultados para la búsqueda: " + criterio);
+	        } else {
+	            // Procesar y mostrar los resultados
+	            do {
+	                // Procesar y mostrar los resultados, puedes cambiar esto según tus necesidades
+	                String nombre = resultado.getString("nombre");
+	                String apellidos = resultado.getString("apellidos");
+	                int idPaciente = resultado.getInt("idPaciente");
+	                String ultimaConsulta = resultado.getString("ultimaConsulta");
 
-					System.out.println("Nombre: " + nombre + ", Apellidos: " + apellidos + ", ID Paciente: "
-							+ idPaciente + ", Última Consulta: " + ultimaConsulta);
-				} while (resultado.next());
-			}
-			// Resto del código para procesar el resultado...
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error SQL al realizar la búsqueda", "Error",
-					JOptionPane.ERROR_MESSAGE);
-		} finally {
-			cerrarRecursos(resultado, statement);
-		}
+	                // Agregar la fila a la tabla
+	                modeloTabla.addRow(new Object[]{nombre, apellidos, idPaciente, ultimaConsulta});
+
+	                System.out.println("Nombre: " + nombre + ", Apellidos: " + apellidos + ", ID Paciente: "
+	                        + idPaciente + ", Última Consulta: " + ultimaConsulta);
+	            } while (resultado.next());
+	        }
+	        // Resto del código para procesar el resultado...
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error SQL al realizar la búsqueda", "Error",
+	                JOptionPane.ERROR_MESSAGE);
+	    } finally {
+	        cerrarRecursos(resultado, statement);
+	    }
 	}
+
 
 	// Método para cerrar los recursos (ResultSet y PreparedStatement)
 	private void cerrarRecursos(ResultSet rs, PreparedStatement stmt) {
