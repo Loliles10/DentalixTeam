@@ -21,7 +21,7 @@ public class ConectorBBDD {
 	// Variables
 	String url = "jdbc:mysql://localhost:3306/dentilax";
 	String usuario = "root";
-	String contrasenia = "1234";
+	String contrasenia = "pass";
 	private Connection conexion; // Conexión
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
@@ -51,6 +51,35 @@ public class ConectorBBDD {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public void insertarPaciente(String nombre, String apellidos, String direccion, String telefono, String ultimaConsulta, String id) {
+	    try {
+	        if (conectarConBBDD()) {
+	            String consulta = "INSERT INTO paciente (nombre, apellidos, dirección, teléfono, ultimaConsulta) VALUES (?, ?, ?, ?, ?)";
+	            PreparedStatement statement = conexion.prepareStatement(consulta);
+	            statement.setString(1, nombre);
+	            statement.setString(2, apellidos);
+	            statement.setString(3, direccion);
+	            statement.setString(4, telefono);
+	            statement.setString(5, ultimaConsulta);
+
+	            // Si id es un campo autoincremental, no es necesario incluirlo en la consulta
+
+	            int filasAfectadas = statement.executeUpdate();
+
+	            if (filasAfectadas > 0) {
+	                JOptionPane.showMessageDialog(null, "Paciente insertado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Error al insertar paciente", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+
+	            cerrarConexion();
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error SQL al insertar paciente", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
 
 	public void realizarBusqueda(String criterio, DefaultTableModel modeloTabla) {
@@ -394,4 +423,32 @@ public class ConectorBBDD {
 		return credencialesValidas;
 	}
 
+	public void insertarPaciente1(String nombre, String apellidos, String direccion, String telefono, String ultimaConsulta, String id) {
+	    try {
+	        if (conectarConBBDD()) {
+	            String consulta = "INSERT INTO paciente (nombre, apellidos, dirección, teléfono, ultimaConsulta) VALUES (?, ?, ?, ?, ?)";
+	            PreparedStatement statement = conexion.prepareStatement(consulta);
+	            statement.setString(1, nombre);
+	            statement.setString(2, apellidos);
+	            statement.setString(3, direccion);
+	            statement.setString(4, telefono);
+	            statement.setString(5, ultimaConsulta);
+
+	            // Si id es un campo autoincremental, no es necesario incluirlo en la consulta
+
+	            int filasAfectadas = statement.executeUpdate();
+
+	            if (filasAfectadas > 0) {
+	                JOptionPane.showMessageDialog(null, "Paciente insertado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Error al insertar paciente", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+
+	            cerrarConexion();
+	        }
+	    } catch (SQLException ex) {
+	        ex.printStackTrace();
+	        JOptionPane.showMessageDialog(null, "Error SQL al insertar paciente", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
 }
