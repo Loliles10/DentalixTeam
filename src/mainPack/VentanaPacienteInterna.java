@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
+//pruebaPablooooo
 
 public class VentanaPacienteInterna extends JFrame {
 
