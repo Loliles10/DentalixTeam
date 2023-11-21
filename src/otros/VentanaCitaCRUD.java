@@ -1,4 +1,4 @@
-package mainPack;
+package otros;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,6 +33,9 @@ import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
+
+import mainPack.ConectorBBDD;
+
 import javax.swing.JTable;
 import java.awt.Toolkit;
 import javax.swing.JTextField;
@@ -63,8 +66,10 @@ public class VentanaCitaCRUD extends JFrame {
 				try {
 
 					VentanaCitaCRUD frame = new VentanaCitaCRUD();
+					
 					frame.setVisible(true);
 					frame.setResizable(false);
+				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -98,7 +103,6 @@ public class VentanaCitaCRUD extends JFrame {
 		logoBlanco.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(logoBlanco);
 		logoBlanco.setOpaque(false);
-
 
 		ImageIcon imagen = new ImageIcon(getClass().getResource("/logoAzul.png"));
 		int ancho = imagen.getIconWidth();
@@ -515,17 +519,26 @@ public class VentanaCitaCRUD extends JFrame {
 		                    || fecha.isEmpty() || hora.isEmpty()) {
 		                // Mostrar un mensaje de error si algún campo está vacío
 		                JOptionPane.showMessageDialog(null, "Rellena todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-		                return;  // Salir del método para evitar el segundo mensaje de error
+		            } else {
+		                // Crear una instancia de ConectorBBDD (asegúrate de que sea accesible desde esta clase)
+		                ConectorBBDD conectorBBDD = new ConectorBBDD();
+
+		                // Llamar al método para insertar cita en la base de datos
+		               
+
+		                // Luego, si es necesario, puedes actualizar la tabla o realizar otras acciones después de la inserción.
+		                // ...
 		            }
-
-		            // Realizar la lógica de guardar aquí
-
 		        } catch (Exception ex) {
-		            // Capturar cualquier excepción no manejada
-		            JOptionPane.showMessageDialog(null, "Error al procesar la información", "Error", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "Error al procesar la cita", "Error", JOptionPane.ERROR_MESSAGE);
 		        }
 		    }
 		});
+
+
+		            // Realizar la lógica de guardar aquí
+
 
 		// Agrega el botón al panel_1
 		btnGuardar.setBounds(28, 11, 76, 59);
@@ -602,7 +615,7 @@ public class VentanaCitaCRUD extends JFrame {
 		        Color color;
 		        switch (contadorClics % 3) {
 		            case 1:
-		                color = Color.GREEN;
+		                color = Color.WHITE;
 		                break;
 		            case 2:
 		                color = Color.RED;

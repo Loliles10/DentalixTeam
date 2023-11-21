@@ -59,7 +59,7 @@ public class Tabla extends JTable {
 		
 		// Configuración del renderizador personalizado para los encabezados
         JTableHeader header = getTableHeader();
-        header.setDefaultRenderer(new CustomTableHeaderRenderer());
+        header.setDefaultRenderer(new HeaderTablasPers());
 		getTableHeader().setPreferredSize(new java.awt.Dimension(30, 100));
 
 	}

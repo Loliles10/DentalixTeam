@@ -9,14 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class CustomTableHeaderRenderer extends DefaultTableCellRenderer {
+public class HeaderTablasPers extends DefaultTableCellRenderer {
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CustomTableHeaderRenderer() {
+	public HeaderTablasPers() {
         setHorizontalAlignment(JLabel.LEFT); // Ajusta la alineación del texto en el encabezado
     }
 
